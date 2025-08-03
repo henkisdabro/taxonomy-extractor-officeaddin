@@ -26,7 +26,10 @@
       "Bash(npx office-addin-debugging start:*)",
       "Bash(npx:*)",
       "Bash(curl:*)",
-      "Bash(rm:*)"
+      "Bash(rm:*)",
+      "mcp__cloudflare-documentation__search_cloudflare_documentation",
+      "Bash(cp:*)",
+      "Bash(wrangler deploy:*)"
     ],
     "deny": []
   }

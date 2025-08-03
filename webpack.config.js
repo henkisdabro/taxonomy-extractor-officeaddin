@@ -70,6 +70,10 @@ const addinConfig = async (env, options) => {
             from: "manifest*.xml",
             to: "[name]" + (dev ? ".dev" : "") + "[ext]",
           },
+          {
+            from: "assets",
+            to: "assets",
+          },
         ],
       }),
     ],

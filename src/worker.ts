@@ -1,11 +1,14 @@
+interface Env {
+  ASSETS: Fetcher;
+}
+
 export default {
-  async fetch(request: Request, env: any, ctx: any): Promise<Response> {
-    // This is a basic pass-through worker.
-    // Cloudflare's `[site]` configuration will handle serving static assets from the `dist` directory.
-    // You can add custom logic here for things like API endpoints or modifying headers.
+  async fetch(request: Request, env: Env, ctx: ExecutionContext): Promise<Response> {
+    // This worker uses Cloudflare Workers Static Assets to serve files from the dist directory.
+    // The ASSETS binding provides access to static assets configured in wrangler.toml
     try {
-      // This will pass the request to the static asset handler.
-      return await env.__STATIC_CONTENT.fetch(request);
+      // Serve static assets using the new Workers Static Assets API
+      return await env.ASSETS.fetch(request);
     } catch (e) {
       let pathname = new URL(request.url).pathname;
       return new Response(`"${pathname}" not found`, {
