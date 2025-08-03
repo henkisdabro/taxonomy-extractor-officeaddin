@@ -5,7 +5,7 @@ export default {
     // You can add custom logic here for things like API endpoints or modifying headers.
     try {
       // This will pass the request to the static asset handler.
-      return await env.ASSETS.fetch(request);
+      return await env.__STATIC_CONTENT.fetch(request);
     } catch (e) {
       let pathname = new URL(request.url).pathname;
       return new Response(`"${pathname}" not found`, {
