@@ -202,7 +202,7 @@ body {
 
 /* Modern button styles - enhanced */
 .segment-btn {
-  min-height: 44px;
+  min-height: 38px;
   border-radius: 4px;
   border: 1px solid var(--border-default);
   background-color: var(--btn-default-bg);
@@ -214,8 +214,8 @@ body {
   align-items: center;
   justify-content: flex-start;
   text-align: left;
-  font-size: 14px;
-  padding: 12px 16px;
+  font-size: 13px;
+  padding: 10px 14px;
   position: relative;
   overflow: hidden;
   width: 100%;
@@ -285,8 +285,8 @@ body {
 }
 
 .ms-Button--compound {
-  min-height: 48px;
-  padding: 16px 20px;
+  min-height: 42px;
+  padding: 14px 18px;
   text-align: left;
   border-radius: 4px;
   border: 1px solid var(--border-default);
@@ -307,7 +307,7 @@ body {
 
 .ms-Button--compound .ms-Button-label {
   font-weight: 600;
-  font-size: 14px;
+  font-size: 13px;
   color: var(--text-primary);
   margin-bottom: 2px;
   white-space: nowrap;
@@ -363,12 +363,12 @@ body {
 
 #btnUndo {
   width: 100%;
-  min-height: 44px;
+  min-height: 38px;
   border-radius: 4px;
   font-weight: 500;
   transition: all 0.08s cubic-bezier(0.4, 0, 0.2, 1);
-  padding: 12px 16px;
-  font-size: 14px;
+  padding: 10px 14px;
+  font-size: 13px;
 }
 
 #btnUndo:not(:disabled) {
