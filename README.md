@@ -4,9 +4,12 @@
 ![Office.js](https://img.shields.io/badge/Office.js-1.12+-green)
 ![Node.js](https://img.shields.io/badge/Node.js-16+-brightgreen)
 ![License](https://img.shields.io/badge/License-MIT-yellow)
-![Status](https://img.shields.io/badge/Status-Production--Ready-brightgreen)
+![Status](https://img.shields.io/badge/Status-Deployed-brightgreen)
+![Cloudflare](https://img.shields.io/badge/Cloudflare-Workers-orange)
 
-A modern, production-ready Office Add-in that ports the functionality of the [VBA-based IPG Taxonomy Extractor](https://github.com/henkisdabro/excel-taxonomy-cleaner) to work seamlessly across Excel Online, Windows, and Mac platforms with enhanced features and 2024/2025 compliance standards.
+A modern, production-ready Office Add-in that ports the functionality of the [VBA-based IPG Taxonomy Extractor](https://github.com/henkisdabro/excel-taxonomy-cleaner) to work seamlessly across Excel Online, Windows, and Mac platforms. Currently deployed on **Cloudflare Workers** with enhanced features and 2024/2025 compliance standards.
+
+**🚀 Live Deployment:** [https://ipg-taxonomy-extractor-addin.wookstar.com](https://ipg-taxonomy-extractor-addin.wookstar.com)
 
 ## 🌟 Features
 
@@ -164,6 +167,26 @@ const hasTargeting = /\^[^^]+\^ ?/.test(cellText);
 
 ## 🚀 Deployment
 
+### 🌐 Production Deployment (Current)
+
+**Status: LIVE ON CLOUDFLARE WORKERS** ✅
+
+The Office Add-in is currently deployed and fully functional at:
+- **Main URL**: `https://ipg-taxonomy-extractor-addin.wookstar.com`
+- **Task Pane**: `https://ipg-taxonomy-extractor-addin.wookstar.com/taskpane`
+- **Commands**: `https://ipg-taxonomy-extractor-addin.wookstar.com/commands`
+
+**Deployment Architecture:**
+- **Platform**: Cloudflare Workers with Static Assets
+- **Auto-Deploy**: GitHub → Cloudflare integration
+- **Build Time**: ~12 seconds
+- **Global CDN**: Automatic worldwide distribution
+
+**To use the deployed add-in:**
+1. Download the production `manifest.xml` from the repository
+2. In Excel: Insert → Add-ins → Upload My Add-in → Select `manifest.xml`
+3. The add-in will load from the live Cloudflare deployment
+
 ### Development Testing
 1. **Install dependencies**: `npm install`
 2. **Start development server**: `npm start`
@@ -187,12 +210,28 @@ const hasTargeting = /\^[^^]+\^ ?/.test(cellText);
    - Targeting acronym removal
    - Multi-step undo system
 
-### Production Deployment
+### Manual Production Deployment (Alternative)
+If you want to deploy to your own infrastructure:
 1. **Build for production**: `npm run build`
 2. **Host on secure server**: Upload `dist` folder to HTTPS-enabled hosting
-3. **Update manifest**: Change localhost URLs to production URLs in `manifest.xml`
+3. **Update manifest**: Change URLs in `manifest.xml` to your domain
 4. **Deploy via Office 365 Admin Center** (Centralized Deployment) or distribute manifest file
 5. **Validate deployment**: Use `npm run validate` to check manifest compliance
+
+### Cloudflare Workers Deployment (Current Setup)
+The project uses modern **Cloudflare Workers Static Assets** for optimal performance:
+```toml
+[assets]
+directory = "./dist"
+binding = "ASSETS"
+```
+
+**Deployment Process:**
+1. Push changes to GitHub `master` branch
+2. Cloudflare automatically detects changes
+3. Runs `npm run build` in cloud environment
+4. Deploys worker with static assets globally
+5. Updates are live within 1-2 minutes
 
 ## 📈 Performance
 
