@@ -6,7 +6,8 @@
   "scripts": {
     "build": "npm run clean && npm run build:addin && npm run build:worker",
     "build:addin": "webpack --mode production --config webpack.config.js",
-    "build:worker": "webpack --mode production --config webpack.worker.config.js && cd dist && wrangler deploy --dry-run",
+    "build:worker": "tsc --project tsconfig.worker.json && wrangler deploy --dry-run",
+
     "build:dev": "webpack --mode development",
     "build:prod": "webpack --mode production --analyze",
     "dev-server": "webpack serve --mode development",
