@@ -1,3 +1,18 @@
+## 🔄 IMPORTANT: File Synchronization Requirements
+
+**CRITICAL:** This file must be kept identical to `CLAUDE.md` at all times.
+
+### **Synchronization Rules:**
+1. **Any updates to this file** must be immediately copied to `CLAUDE.md`
+2. **Any updates from other AI applications** to `CLAUDE.md` must be copied here
+3. **Both files must contain identical content** for consistency across AI assistants
+4. **Before making changes:** Always check both files are synchronized
+5. **After making changes:** Always update both files simultaneously
+
+**Purpose:** Ensures all AI assistants (Claude, Gemini, etc.) have access to the same project knowledge and context.
+
+---
+
 ## ✅ RESOLVED: Cloudflare Worker Static File Serving Issue
 
 **Status: COMPLETED SUCCESSFULLY** ✅
@@ -320,3 +335,122 @@ if (isDevEnvironment) {
 **Design Phase Status: COMPLETED SUCCESSFULLY** ✅  
 **Development Workflow: OPTIMIZED** 🛠️  
 **User Experience: SIGNIFICANTLY IMPROVED** 🎨
+
+---
+
+## 📋 Office Add-in Manifest Validation Requirements
+
+**Status: VALIDATED SUCCESSFULLY** ✅
+
+### **Critical Version Format Requirements**
+
+**Office Add-in manifest.xml requires specific version formatting:**
+
+```xml
+<!-- CORRECT: Four-part version format (required by Microsoft schema) -->
+<Version>2.0.0.0</Version>
+
+<!-- INCORRECT: Semantic versioning format will fail validation -->
+<Version>v2.0.0</Version>  <!-- Results in XML Schema validation error -->
+```
+
+**Validation Error Details:**
+- **Error**: XML Schema Validation Error - Pattern constraint failed
+- **Cause**: Office Add-in schema requires exactly four numeric parts separated by dots
+- **Solution**: Always use format `X.Y.Z.W` (e.g., `2.0.0.0`)
+
+### **Version Management Strategy**
+
+| File | Format | Example | Purpose |
+|------|--------|---------|---------|
+| `manifest.xml` | Four-part | `2.0.0.0` | Microsoft schema compliance |
+| `package.json` | Semantic | `v2.0.0` | NPM/development workflow |
+
+### **Validation Commands**
+```bash
+# Validate manifest
+npm run validate
+# OR
+npx office-addin-manifest validate manifest.xml
+
+# Expected success output
+"The manifest is valid."
+```
+
+### **Common Validation Errors to Avoid**
+1. **Version format**: Must be four numeric parts (X.Y.Z.W)
+2. **URL structure**: Ensure all URLs use HTTPS and proper formatting
+3. **Icon requirements**: High resolution icons must be present
+4. **Schema compliance**: Use correct XML namespaces and structure
+
+This validation ensures Office Add-in compatibility across all Microsoft Office platforms.
+
+---
+
+## 📊 Excel API Version Management (August 2025)
+
+**Current Setting: ExcelApi 1.12** ✅
+
+### **API Version Status**
+
+**Current Configuration:**
+```xml
+<Requirements>
+  <Sets>
+    <Set Name="ExcelApi" MinVersion="1.12"/>
+  </Sets>
+</Requirements>
+```
+
+**Available Versions (as of August 2025):**
+- **ExcelApi 1.19**: Latest available version with cutting-edge features
+- **ExcelApi 1.18**: Advanced filtering and formula functions
+- **ExcelApi 1.17**: Enhanced data types and performance improvements
+- **ExcelApi 1.14-1.16**: Various incremental feature additions
+- **ExcelApi 1.12**: Current choice - stable and well-supported
+
+### **Version Selection Rationale**
+
+**Why We Stay with ExcelApi 1.12:**
+1. **Broad Compatibility**: Works across all major Office platforms
+   - Web: Full support
+   - Windows (Microsoft 365): Supported
+   - Mac: 16.40+ supported
+   - iPad: 16.0+ supported
+
+2. **Stable Foundation**: Provides all core functionality needed for taxonomy extraction
+3. **Production Ready**: Well-tested and reliable for current use case
+4. **Risk Mitigation**: Avoids potential compatibility issues with older Office installations
+
+### **Future Upgrade Strategy**
+
+**Consider upgrading to ExcelApi 1.17+ when needing:**
+- Advanced data manipulation features
+- Newer Excel formula functions  
+- Enhanced performance optimizations
+- Cutting-edge Excel capabilities
+
+**Safe Upgrade Paths:**
+```xml
+<!-- Conservative upgrade -->
+<Set Name="ExcelApi" MinVersion="1.14"/>
+
+<!-- Aggressive upgrade for latest features -->
+<Set Name="ExcelApi" MinVersion="1.19"/>
+```
+
+### **Runtime Feature Detection**
+
+**Best Practice for Maximum Compatibility:**
+```javascript
+// Check for newer API support at runtime
+if (Office.context.requirements.isSetSupported('ExcelApi', '1.19')) {
+    // Use latest ExcelApi 1.19 functionality
+} else if (Office.context.requirements.isSetSupported('ExcelApi', '1.17')) {
+    // Use ExcelApi 1.17 features
+} else {
+    // Fallback to ExcelApi 1.12 baseline functionality
+}
+```
+
+**Current Status: ExcelApi 1.12 remains optimal** for the IPG Taxonomy Extractor's current functionality and compatibility requirements.
