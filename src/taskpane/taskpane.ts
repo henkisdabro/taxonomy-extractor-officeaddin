@@ -362,15 +362,15 @@ class TaxonomyExtractor {
   private nextOperationId = 1;
 
   // UI elements
-  private lblInstructions: HTMLElement;
-  private lblCellCount: HTMLElement;
-  private segmentButtons: HTMLButtonElement[];
-  private btnActivationID: HTMLButtonElement;
-  private btnTargeting: HTMLButtonElement;
-  private btnUndo: HTMLButtonElement;
-  private lblUndoWarning: HTMLElement;
-  private statusBar: HTMLElement;
-  private statusText: HTMLElement;
+  private lblInstructions!: HTMLElement;
+  private lblCellCount!: HTMLElement;
+  private segmentButtons!: HTMLButtonElement[];
+  private btnActivationID!: HTMLButtonElement;
+  private btnTargeting!: HTMLButtonElement;
+  private btnUndo!: HTMLButtonElement;
+  private lblUndoWarning!: HTMLElement;
+  private statusBar!: HTMLElement;
+  private statusText!: HTMLElement;
 
   constructor() {
     this.initializeUI();
