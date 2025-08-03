@@ -42,7 +42,7 @@
   --warning-text: #8a4600;
 }
 
-/* Dark Theme Colors */
+/* Dark Theme Colors - only applied when user prefers dark mode */
 @media (prefers-color-scheme: dark) {
   :root {
     --bg-primary: #1e1e1e;
@@ -119,7 +119,7 @@ body {
 
 /* Header section - improved design */
 .app-header {
-  padding: 24px 20px 20px 20px;
+  padding: 16px 20px 14px 20px;
   background: linear-gradient(135deg, #0078d4 0%, #106ebe 100%);
   color: white;
   border-bottom: 1px solid var(--border-subtle);
@@ -128,15 +128,15 @@ body {
 
 .app-header .ms-font-xl {
   font-weight: 600;
-  margin-bottom: 6px;
-  font-size: 20px;
+  margin-bottom: 4px;
+  font-size: 16px;
   letter-spacing: -0.02em;
 }
 
 .app-header .ms-font-m {
   opacity: 0.9;
   font-weight: 400;
-  font-size: 14px;
+  font-size: 12px;
 }
 
 /* Main content area */
@@ -146,7 +146,7 @@ body {
 }
 
 .ms-Grid-row:first-of-type {
-  margin-top: 20px;
+  margin-top: 16px;
 }
 
 /* Instructions callout - enhanced */
@@ -154,8 +154,8 @@ body {
   background-color: var(--bg-accent);
   border: 1px solid var(--border-accent);
   border-radius: 4px;
-  padding: 20px;
-  margin-bottom: 24px;
+  padding: 14px;
+  margin-bottom: 16px;
   box-shadow: 0 1px 3px var(--shadow-light);
 }
 
@@ -164,10 +164,10 @@ body {
 }
 
 .ms-Callout #lblInstructions {
-  font-size: 14px;
+  font-size: 12px;
   font-weight: 500;
   color: var(--text-on-accent);
-  margin-bottom: 8px;
+  margin-bottom: 6px;
   line-height: 1.4;
   word-wrap: break-word;
   overflow-wrap: break-word;
@@ -175,19 +175,19 @@ body {
 }
 
 .ms-Callout #lblCellCount {
-  font-size: 13px;
+  font-size: 11px;
   color: var(--text-secondary);
   opacity: 0.8;
 }
 
 /* Section headers */
 .section-header {
-  font-size: 16px;
+  font-size: 13px;
   font-weight: 600;
   color: var(--text-primary);
-  margin-bottom: 16px;
-  margin-top: 8px;
-  padding-bottom: 8px;
+  margin-bottom: 12px;
+  margin-top: 6px;
+  padding-bottom: 6px;
   border-bottom: 1px solid var(--border-subtle);
   opacity: 0.9;
 }
@@ -196,13 +196,13 @@ body {
 .button-row {
   display: flex;
   flex-direction: column;
-  gap: 8px;
-  margin-bottom: 16px;
+  gap: 6px;
+  margin-bottom: 12px;
 }
 
 /* Modern button styles - enhanced */
 .segment-btn {
-  min-height: 38px;
+  min-height: 32px;
   border-radius: 4px;
   border: 1px solid var(--border-default);
   background-color: var(--btn-default-bg);
@@ -214,8 +214,8 @@ body {
   align-items: center;
   justify-content: flex-start;
   text-align: left;
-  font-size: 13px;
-  padding: 10px 14px;
+  font-size: 12px;
+  padding: 8px 12px;
   position: relative;
   overflow: hidden;
   width: 100%;
@@ -232,12 +232,10 @@ body {
 .segment-btn:hover:not(:disabled) {
   background-color: var(--btn-default-hover);
   border-color: var(--border-accent);
-  transform: translateY(-3px);
-  box-shadow: 0 6px 20px var(--shadow-medium);
+  box-shadow: 0 2px 8px var(--shadow-light);
 }
 
 .segment-btn:active:not(:disabled) {
-  transform: translateY(0);
   box-shadow: 0 1px 3px var(--shadow-light);
   transition: all 0.05s cubic-bezier(0.4, 0, 0.2, 1);
 }
@@ -260,56 +258,57 @@ body {
   color: var(--btn-disabled-text);
   cursor: not-allowed;
   opacity: 0.6;
-  transform: none;
 }
 
 /* Special buttons section */
 .special-buttons {
-  margin-top: 24px;
-  margin-bottom: 20px;
-  padding-top: 16px;
-  border-top: 1px solid var(--border-subtle);
+  margin-top: 16px;
+  margin-bottom: 14px;
+  padding-top: 0px;
 }
 
 /* Activation ID section - redesigned */
 .activation-section {
-  margin-bottom: 16px;
+  margin-bottom: 12px;
 }
 
 .activation-info {
-  font-size: 12px;
+  font-size: 10px;
   color: var(--text-secondary);
-  margin-bottom: 8px;
+  margin-bottom: 6px;
   padding-left: 4px;
   font-style: italic;
 }
 
 .ms-Button--compound {
-  min-height: 42px;
-  padding: 14px 18px;
+  min-height: 32px;
+  padding: 8px 12px;
   text-align: left;
   border-radius: 4px;
   border: 1px solid var(--border-default);
   background-color: var(--btn-default-bg);
+  color: var(--btn-default-text);
+  font-weight: 500;
   transition: all 0.08s cubic-bezier(0.4, 0, 0.2, 1);
+  cursor: pointer;
   width: 100%;
   display: flex;
-  flex-direction: column;
-  align-items: flex-start;
+  align-items: center;
+  justify-content: flex-start;
+  position: relative;
+  overflow: hidden;
 }
 
 .ms-Button--compound:hover:not(:disabled) {
   background-color: var(--btn-default-hover);
   border-color: var(--border-accent);
-  transform: translateY(-3px);
-  box-shadow: 0 8px 24px var(--shadow-medium);
+  box-shadow: 0 2px 8px var(--shadow-light);
 }
 
 .ms-Button--compound .ms-Button-label {
-  font-weight: 600;
-  font-size: 13px;
-  color: var(--text-primary);
-  margin-bottom: 2px;
+  font-weight: 500;
+  font-size: 12px;
+  color: var(--btn-default-text);
   white-space: nowrap;
   overflow: hidden;
   text-overflow: ellipsis;
@@ -321,7 +320,7 @@ body {
   border-color: var(--border-subtle);
   color: var(--btn-disabled-text);
   cursor: not-allowed;
-  transform: none;
+  opacity: 0.6;
 }
 
 .ms-Button--compound:disabled .ms-Button-label {
@@ -344,51 +343,88 @@ body {
   border-color: #c13b00;
 }
 
-/* Undo section - enhanced spacing and design */
-.undo-section {
-  background-color: var(--bg-secondary);
-  border: 1px solid var(--border-subtle);
+/* Development section - only visible in dev mode */
+.dev-section {
+  margin: 20px 0px 16px 0px;
+  background-color: #fff3cd;
+  border: 1px solid #ffeaa7;
   border-radius: 4px;
-  padding: 24px 20px;
-  margin: 32px 20px 20px 20px;
-  box-shadow: 0 1px 3px var(--shadow-light);
+  padding: 16px 20px;
+  display: none; /* Hidden by default in production */
+}
+
+/* Show dev section only when body has dev-mode class */
+body.dev-mode .dev-section {
+  display: block;
+}
+
+.dev-section .ms-font-m {
+  margin: 0px 0px 12px 0px;
+  padding-bottom: 6px;
+  border-bottom: 1px solid #ffeaa7;
+  font-weight: 600;
+  color: #856404;
+  font-size: 13px;
+  opacity: 0.9;
+}
+
+.dev-section .segment-btn {
+  margin-bottom: 6px;
+}
+
+.dev-section .segment-btn:last-child {
+  margin-bottom: 0px;
+}
+
+/* Undo section - simplified design with separator */
+.undo-section {
+  margin: 28px 0px 16px 0px;
 }
 
 .undo-section .ms-font-m {
-  margin-bottom: 16px;
+  margin: 6px 20px 12px 20px;
+  padding-bottom: 6px;
+  border-bottom: 1px solid var(--border-subtle);
   font-weight: 600;
   color: var(--text-primary);
-  font-size: 16px;
+  font-size: 13px;
+  opacity: 0.9;
 }
 
 #btnUndo {
-  width: 100%;
-  min-height: 38px;
+  margin: 0px 20px;
+  width: calc(100% - 40px);
+  min-height: 32px;
   border-radius: 4px;
+  border: 1px solid var(--border-default);
+  background-color: var(--btn-default-bg);
+  color: var(--btn-default-text);
   font-weight: 500;
   transition: all 0.08s cubic-bezier(0.4, 0, 0.2, 1);
-  padding: 10px 14px;
-  font-size: 13px;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: flex-start;
+  text-align: left;
+  font-size: 12px;
+  padding: 8px 12px;
+  position: relative;
+  overflow: hidden;
 }
 
-#btnUndo:not(:disabled) {
-  background-color: var(--warning-bg);
-  border-color: var(--warning-border);
-  color: var(--warning-text);
-}
 
 #btnUndo:hover:not(:disabled) {
-  background-color: var(--warning-bg);
-  border-color: var(--warning-border);
-  transform: translateY(-3px);
-  box-shadow: 0 8px 24px rgba(247, 147, 14, 0.25);
-  filter: brightness(0.95);
+  background-color: var(--btn-default-hover);
+  border-color: var(--border-accent);
+  box-shadow: 0 2px 8px var(--shadow-light);
 }
 
 #btnUndo:disabled {
   background-color: var(--btn-disabled-bg);
   border-color: var(--border-subtle);
   color: var(--btn-disabled-text);
+  cursor: not-allowed;
+  opacity: 0.6;
 }
 
 /* Status and warning messages */
@@ -438,35 +474,35 @@ body {
   }
   
   .app-header {
-    padding: 20px 16px;
+    padding: 14px 16px;
   }
   
   .undo-section {
     margin-left: 16px;
     margin-right: 16px;
-    padding: 20px 16px;
+    padding: 14px 16px;
   }
   
   .button-row {
-    gap: 6px;
+    gap: 4px;
   }
   
   .segment-btn {
-    min-height: 40px;
-    font-size: 13px;
-    padding: 10px 14px;
+    min-height: 28px;
+    font-size: 11px;
+    padding: 6px 10px;
   }
 }
 
 @media (max-width: 320px) {
   .segment-btn {
-    min-height: 38px;
-    font-size: 12px;
-    padding: 8px 12px;
+    min-height: 26px;
+    font-size: 10px;
+    padding: 5px 8px;
   }
   
   .app-header {
-    padding: 16px 12px;
+    padding: 12px 12px;
   }
   
   .ms-Grid-row {
@@ -476,7 +512,7 @@ body {
   .undo-section {
     margin-left: 12px;
     margin-right: 12px;
-    padding: 18px 12px;
+    padding: 12px;
   }
 }
 
@@ -541,24 +577,33 @@ body {
 .segment-btn:active:not(:disabled),
 .ms-Button--compound:active:not(:disabled),
 #btnUndo:active:not(:disabled) {
-  scale: 0.96;
+  opacity: 0.8;
+}
+
+/* Conditional visibility for targeting mode */
+.targeting-mode .section-header {
+  display: none;
+}
+
+.targeting-mode .special-buttons {
+  display: none;
 }
 
 /* Improved typography */
 .ms-font-xl {
-  font-size: 20px;
+  font-size: 16px;
   font-weight: 600;
   line-height: 1.3;
 }
 
 .ms-font-m {
-  font-size: 14px;
+  font-size: 12px;
   font-weight: 400;
   line-height: 1.4;
 }
 
 .ms-font-s {
-  font-size: 12px;
+  font-size: 11px;
   font-weight: 400;
   line-height: 1.4;
 }

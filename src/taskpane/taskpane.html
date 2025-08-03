@@ -15,10 +15,6 @@
 </head>
 
 <body class="ms-font-m ms-welcome ms-Fabric">
-    <!-- Header Section -->
-    <div class="app-header">
-        <div class="ms-font-m">Extract specific segments from pipe-delimited taxonomy data</div>
-    </div>
 
     <div class="ms-Grid" dir="ltr">
 
@@ -92,6 +88,19 @@
                     </button>
                 </div>
             </div>
+        </div>
+
+        <!-- Development Mode Buttons (only visible in dev) -->
+        <div class="dev-section" id="devSection">
+            <div class="ms-font-m">Development Mode:</div>
+            
+            <button class="ms-Button ms-Button--default segment-btn" id="btnDevSimulate">
+                <span class="ms-Button-label">Simulate: Product|Category|Brand:12345|Target:ABC</span>
+            </button>
+            
+            <button class="ms-Button ms-Button--default segment-btn" id="btnDevClear">
+                <span class="ms-Button-label">Clear Selection</span>
+            </button>
         </div>
 
         <!-- Undo Section -->

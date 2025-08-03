@@ -51,12 +51,18 @@ A modern, production-ready Office Add-in that ports the functionality of the [VB
 
 3. **Start development server**
    ```bash
+   # HTTP development server (recommended for local development)
+   npx webpack serve --mode development --config webpack.dev.config.js
+   
+   # Or use the standard SSL server
    npm start
    ```
-   This will:
-   - Generate SSL certificates for localhost
-   - Start the webpack development server
-   - Open your browser to the add-in URL
+   
+   **Development server features:**
+   - Hot reloading for instant CSS/TypeScript changes
+   - HTTP server on `http://localhost:3001/taskpane.html` (avoids certificate issues)
+   - Development simulation buttons for testing interface states
+   - Production-safe (dev features only visible on localhost)
 
 4. **Sideload in Excel**
    - Open Excel (Desktop or Online)

@@ -513,8 +513,96 @@ class TaxonomyExtractor {
     } else {
       Logger.error('Undo button not found');
     }
+
+    // Development mode buttons (only show in dev environment)
+    this.setupDevelopmentMode();
     
     Logger.info('Event handlers setup complete');
+  }
+
+  // Setup development mode (only visible in development environment)
+  private setupDevelopmentMode(): void {
+    // Only enable development mode in local development (localhost)
+    const isDevEnvironment = window.location.hostname === 'localhost' || window.location.hostname === '127.0.0.1';
+    
+    if (isDevEnvironment) {
+      // Add dev-mode class to body to show dev section
+      document.body.classList.add('dev-mode');
+      
+      // Setup dev simulation button
+      const btnDevSimulate = document.getElementById('btnDevSimulate') as HTMLButtonElement;
+      if (btnDevSimulate) {
+        btnDevSimulate.addEventListener('click', () => {
+          Logger.info('Dev simulation button clicked');
+          this.simulateSelection('Product|Category|Brand:12345|Target:ABC');
+        });
+        Logger.debug('Dev simulate button event handler registered');
+      }
+      
+      // Setup dev clear button  
+      const btnDevClear = document.getElementById('btnDevClear') as HTMLButtonElement;
+      if (btnDevClear) {
+        btnDevClear.addEventListener('click', () => {
+          Logger.info('Dev clear button clicked');
+          this.clearSelection();
+        });
+        Logger.debug('Dev clear button event handler registered');
+      }
+      
+      Logger.info('Development mode enabled');
+    } else {
+      Logger.debug('Production mode - development features hidden');
+    }
+  }
+
+  // Simulate cell selection with sample data (dev mode only)
+  private simulateSelection(sampleData: string): void {
+    // Create mock parsed data
+    const mockData: ParsedCellData = {
+      originalText: sampleData,
+      truncatedDisplay: sampleData,
+      selectedCellCount: 1,
+      segment1: 'Product',
+      segment2: 'Category', 
+      segment3: 'Brand',
+      segment4: 'Target',
+      segment5: '',
+      segment6: '',
+      segment7: '',
+      segment8: '',
+      segment9: '',
+      activationId: '12345',
+      hasTargetingPattern: true,
+      targetingText: 'ABC'
+    };
+    
+    // Update UI with mock data
+    this.updateInterface(mockData);
+    Logger.info('Simulated selection with sample data');
+  }
+
+  // Clear selection (dev mode only)
+  private clearSelection(): void {
+    const emptyData: ParsedCellData = {
+      originalText: '',
+      truncatedDisplay: '',
+      selectedCellCount: 0,
+      segment1: '',
+      segment2: '', 
+      segment3: '',
+      segment4: '',
+      segment5: '',
+      segment6: '',
+      segment7: '',
+      segment8: '',
+      segment9: '',
+      activationId: '',
+      hasTargetingPattern: false,
+      targetingText: ''
+    };
+    
+    this.updateInterface(emptyData);
+    Logger.info('Cleared selection simulation');
   }
 
   // Parse cell data (replicates VBA ParseFirstCellData function)

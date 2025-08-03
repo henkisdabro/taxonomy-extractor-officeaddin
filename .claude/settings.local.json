@@ -35,7 +35,9 @@
       "Bash(python3:*)",
       "Bash(pip3 install:*)",
       "Bash(diff:*)",
-      "Bash(cmp:*)"
+      "Bash(cmp:*)",
+      "Bash(git config:*)",
+      "Bash(pkill:*)"
     ],
     "deny": []
   }
