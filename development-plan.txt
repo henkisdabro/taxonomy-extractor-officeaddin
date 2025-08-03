@@ -1,0 +1,104 @@
+Part 1: How to Start the Project (GitHub Strategy)
+First, let's address your question about where to work. You should not work inside a branch of the existing project. The new Office Add-in is a completely different technology stack (web-based vs. VBA) with a different file structure.
+Recommendation: Create a New GitHub Repository.
+Create a New Repo: Name it something like excel-taxonomy-extractor-addin or ipg-taxonomy-extractor-modern.
+Preserve the Original: Keep your excel-taxonomy-cleaner repository as a historical artifact and the canonical source for the VBA version. The new repo's README should link back to the original to acknowledge its history.
+Benefits of a New Repo:
+Clean History: You start with a fresh Git history relevant to a web project.
+Correct Structure: The project root will contain package.json, webpack.config.js, etc., which makes no sense in the VBA repo.
+Clear Separation: It makes it clear to anyone visiting that these are two distinct versions of the tool based on different technologies.
+Part 2: The Development Plan
+This plan is broken into four major phases (Epics), each containing smaller, actionable tickets.
+EPIC 1: Foundation & Core Functionality (MVP)
+Goal: Create a working, basic add-in that proves the core concept and replicates the most essential functionality.
+Ticket 1.1: Setup Development Environment & Scaffolding
+Task: Use the official Yeoman generator to create the starter project for a new Excel Office Add-in.
+Steps:
+Install Node.js and npm.
+Install the Yeoman generator: npm install -g yo generator-office.
+Run yo office in your new project folder.
+Choose the options: Office Add-in project using TypeScript, Excel, give it your add-in name.
+Run npm install to get all dependencies.
+Run npm start to test the default add-in. Ensure it sideloads correctly in Excel (desktop or web).
+Ticket 1.2: Replicate the UI Layout (HTML/CSS)
+Task: Convert the VBA UserForm layout into an HTML structure in taskpane.html and style it with CSS.
+Steps:
+In taskpane.html, remove the default content.
+Add label elements for lblInstructions and lblCellCount.
+Add button elements for all 10 extraction actions (btn1..btn9, btnActivationID) and the btnUndo button. Use a CSS grid or flexbox to arrange them.
+Use a UI framework like Fluent UI (which is included by default) to make it look like a native Microsoft product.
+Success Criteria: The task pane displays a static but accurate visual replica of your v1.6.0 tool. Buttons don't need to work yet.
+Ticket 1.3: Implement Real-Time Selection Handling
+Task: Replicate the modeless, real-time update functionality. The add-in must react when the user selects different cells.
+Steps:
+In taskpane.ts, register an onSelectionChanged event handler.
+Inside the handler, get the selected range and its values.
+Update the lblInstructions and lblCellCount labels with the content and count from the selection.
+Implement a TypeScript version of your ParseFirstCellData function.
+Use the parsed data to update the button captions (e.g., 1: FY24_26 or 2: N/A) and their disabled state.
+Success Criteria: When you select a cell in Excel, the task pane instantly updates to show the correct preview, just like the VBA version.
+Ticket 1.4: Implement Core Extraction Logic for One Button
+Task: Make a single button (e.g., "Segment 1") functional from end-to-end.
+Steps:
+In taskpane.ts, create a function extractPipeSegment(segmentNumber: number).
+Inside this function, get the selected range and its values.
+Loop through the values, perform the string splitting logic (in TypeScript), and create a new 2D array of results.
+Write this new array back to the selected range using range.values = newValues;.
+Attach this function to the onclick event of the "Segment 1" button.
+Success Criteria: Selecting a range and clicking the "Segment 1" button correctly overwrites the cells with the extracted segment.
+EPIC 2: Full Feature Parity with VBA v1.6.0
+Goal: Implement all remaining features from your mature VBA tool to make the add-in a complete replacement.
+Ticket 2.1: Implement All Extraction Buttons
+Task: Wire up the remaining segment buttons (2-9) and the btnActivationID.
+Steps:
+Create the extractActivationID function.
+Attach the correct functions to the onclick events of all buttons.
+Ensure the logic correctly handles edge cases (missing segments, no colon, etc.).
+Ticket 2.2: Implement the Multi-Step Undo System
+Task: Replicate the LIFO undo stack.
+Steps:
+Declare a global array in taskpane.ts: let undoStack: any[] = [];.
+Before performing any extraction, push the current state (range address and values) onto the stack: undoStack.push({ address: range.address, values: range.values });.
+Implement the undoLastOperation function. It should pop the last state from the stack and write the old values back to the correct range address.
+Update the btnUndo button text and disabled state after every push/pop, e.g., Undo (${undoStack.length}).
+Ticket 2.3: Implement Smart Targeting Acronym (^ABC^) Trimming
+Task: Replicate the feature from v1.5.0 that handles non-pipe delimited strings with ^...^ patterns.
+Steps:
+Create a separate button for this in the HTML (id="btnCleanAcronyms").
+In the onSelectionChange handler, add logic to check if the selected cell value contains pipes.
+If it does not, check for the ^...^ pattern using a regular expression.
+Control the visibility of the regular extraction buttons vs. the acronym button. Hide the segment buttons and show the acronym button when a pattern is detected (and vice-versa).
+EPIC 3: New "Outside the Box" Features
+Goal: Go beyond the original tool by adding the new usability features we discussed.
+Ticket 3.1: Implement Non-Destructive Output Options
+Task: Allow the user to output results to an adjacent column instead of overwriting.
+Steps:
+Add radio buttons to taskpane.html: (o) Overwrite and () Output to Adjacent Column.
+In the extraction functions, check which option is selected.
+If "adjacent" is chosen, use the range.getOffsetRange(0, 1) method to get a reference to the column to the right and write the results there.
+Ticket 3.2: Implement "Multi-Select & Combine" Mode
+Task: Allow users to select multiple segments and join them together.
+Steps:
+Add a "Combine Mode" toggle/checkbox to the UI.
+When active, change the button onclick behavior to toggle a "selected" CSS class and add/remove the segment number from a state array (e.g., let combinedSegments = [3, 5];).
+Add a text input for the separator and a new "Extract Combined" button.
+The function for this button will read the combinedSegments array, perform the multiple extractions, join them with the separator, and output the result.
+Ticket 3.3: Implement Post-Extraction Cleaning Options
+Task: Add checkboxes for common string manipulations.
+Steps:
+Add checkboxes to taskpane.html: [ ] Trim Whitespace, [ ] To UPPERCASE, etc.
+In the extraction logic, after you get the extracted segment string, apply these additional transformations based on whether the boxes are checked before placing the string in the newValues array.
+EPIC 4: Finalization & Deployment
+Goal: Prepare the add-in for production release and create documentation.
+Ticket 4.1: Finalize Manifest and Prepare for Deployment
+Task: Update the manifest.xml file with final production details.
+Steps:
+Create official icons (16x16, 32x32, 80x80) for the add-in and ribbon button.
+Host the web application files (HTML, CSS, JS) on a secure server (e.g., Azure Web App, or even GitHub Pages for a public project).
+Update all URLs in the manifest to point to the production server instead of localhost.
+Fill in the provider name, descriptions, and support URLs.
+Ticket 4.2: Create User and Admin Documentation
+Task: Write a new README.md for the modern add-in and a short guide for administrators.
+Steps:
+In the README.md, explain what the add-in does, show screenshots, and link back to the original VBA project for historical context.
+Create a DEPLOYMENT.md file explaining how a Microsoft 365 administrator can deploy the add-in via Centralized Deployment using the manifest file.

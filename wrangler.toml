@@ -1,0 +1,7 @@
+# wrangler.toml
+name = "ipg-taxonomy-extractor-addin"
+main = "src/worker.ts"
+compatibility_date = "2025-08-03" # Corrected to the current date
+
+[site]
+bucket = "./dist"
