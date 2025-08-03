@@ -41,51 +41,84 @@
                 
                 <!-- Segment Buttons 1-9 -->
                 <div class="button-row">
-                    <button class="ms-Button ms-Button--default segment-btn" id="btn1" data-segment="1" disabled>
-                        <span class="ms-Button-label">1: N/A</span>
-                    </button>
-                    <button class="ms-Button ms-Button--default segment-btn" id="btn2" data-segment="2" disabled>
-                        <span class="ms-Button-label">2: N/A</span>
-                    </button>
-                    <button class="ms-Button ms-Button--default segment-btn" id="btn3" data-segment="3" disabled>
-                        <span class="ms-Button-label">3: N/A</span>
-                    </button>
-                    <button class="ms-Button ms-Button--default segment-btn" id="btn4" data-segment="4" disabled>
-                        <span class="ms-Button-label">4: N/A</span>
-                    </button>
-                    <button class="ms-Button ms-Button--default segment-btn" id="btn5" data-segment="5" disabled>
-                        <span class="ms-Button-label">5: N/A</span>
-                    </button>
-                    <button class="ms-Button ms-Button--default segment-btn" id="btn6" data-segment="6" disabled>
-                        <span class="ms-Button-label">6: N/A</span>
-                    </button>
-                    <button class="ms-Button ms-Button--default segment-btn" id="btn7" data-segment="7" disabled>
-                        <span class="ms-Button-label">7: N/A</span>
-                    </button>
-                    <button class="ms-Button ms-Button--default segment-btn" id="btn8" data-segment="8" disabled>
-                        <span class="ms-Button-label">8: N/A</span>
-                    </button>
-                    <button class="ms-Button ms-Button--default segment-btn" id="btn9" data-segment="9" disabled>
-                        <span class="ms-Button-label">9: N/A</span>
-                    </button>
+                    <div class="button-with-prefix">
+                        <span class="button-prefix">1:</span>
+                        <button class="ms-Button ms-Button--default segment-btn" id="btn1" data-segment="1" disabled>
+                            <span class="ms-Button-label">N/A</span>
+                        </button>
+                    </div>
+                    <div class="button-with-prefix">
+                        <span class="button-prefix">2:</span>
+                        <button class="ms-Button ms-Button--default segment-btn" id="btn2" data-segment="2" disabled>
+                            <span class="ms-Button-label">N/A</span>
+                        </button>
+                    </div>
+                    <div class="button-with-prefix">
+                        <span class="button-prefix">3:</span>
+                        <button class="ms-Button ms-Button--default segment-btn" id="btn3" data-segment="3" disabled>
+                            <span class="ms-Button-label">N/A</span>
+                        </button>
+                    </div>
+                    <div class="button-with-prefix">
+                        <span class="button-prefix">4:</span>
+                        <button class="ms-Button ms-Button--default segment-btn" id="btn4" data-segment="4" disabled>
+                            <span class="ms-Button-label">N/A</span>
+                        </button>
+                    </div>
+                    <div class="button-with-prefix">
+                        <span class="button-prefix">5:</span>
+                        <button class="ms-Button ms-Button--default segment-btn" id="btn5" data-segment="5" disabled>
+                            <span class="ms-Button-label">N/A</span>
+                        </button>
+                    </div>
+                    <div class="button-with-prefix">
+                        <span class="button-prefix">6:</span>
+                        <button class="ms-Button ms-Button--default segment-btn" id="btn6" data-segment="6" disabled>
+                            <span class="ms-Button-label">N/A</span>
+                        </button>
+                    </div>
+                    <div class="button-with-prefix">
+                        <span class="button-prefix">7:</span>
+                        <button class="ms-Button ms-Button--default segment-btn" id="btn7" data-segment="7" disabled>
+                            <span class="ms-Button-label">N/A</span>
+                        </button>
+                    </div>
+                    <div class="button-with-prefix">
+                        <span class="button-prefix">8:</span>
+                        <button class="ms-Button ms-Button--default segment-btn" id="btn8" data-segment="8" disabled>
+                            <span class="ms-Button-label">N/A</span>
+                        </button>
+                    </div>
+                    <div class="button-with-prefix">
+                        <span class="button-prefix">9:</span>
+                        <button class="ms-Button ms-Button--default segment-btn" id="btn9" data-segment="9" disabled>
+                            <span class="ms-Button-label">N/A</span>
+                        </button>
+                    </div>
                 </div>
 
                 <!-- Activation ID Section -->
                 <div class="special-buttons">
                     <div class="activation-section">
                         <div class="activation-info">Extract Activation ID (text after colon)</div>
-                        <button class="ms-Button ms-Button--compound" id="btnActivationID" disabled>
-                            <span class="ms-Button-label">ID: N/A</span>
-                        </button>
+                        <div class="button-with-prefix">
+                            <span class="button-prefix">ID:</span>
+                            <button class="ms-Button ms-Button--compound" id="btnActivationID" disabled>
+                                <span class="ms-Button-label">N/A</span>
+                            </button>
+                        </div>
                     </div>
                 </div>
 
                 <!-- Targeting Acronym Button (Hidden by default) -->
                 <div class="activation-section" style="display: none;" id="targetingSection">
                     <div class="activation-info">Remove targeting acronym pattern</div>
-                    <button class="ms-Button ms-Button--compound" id="btnTargeting" disabled>
-                        <span class="ms-Button-label">Trim: N/A</span>
-                    </button>
+                    <div class="button-with-prefix">
+                        <span class="button-prefix">Trim:</span>
+                        <button class="ms-Button ms-Button--compound" id="btnTargeting" disabled>
+                            <span class="ms-Button-label">N/A</span>
+                        </button>
+                    </div>
                 </div>
             </div>
         </div>

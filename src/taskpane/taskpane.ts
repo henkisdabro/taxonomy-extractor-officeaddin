@@ -799,12 +799,12 @@ class TaxonomyExtractor {
       const buttonLabel = button.querySelector('.ms-Button-label')!;
       
       if (segment && parsedData.originalText.includes('|')) {
-        buttonLabel.textContent = `${index + 1}: ${segment.length > 20 ? segment.substring(0, 20) + '...' : segment}`;
+        buttonLabel.textContent = segment.length > 20 ? segment.substring(0, 20) + '...' : segment;
         button.disabled = false;
         button.classList.remove('ms-Button--default');
         button.classList.add('ms-Button--primary');
       } else {
-        buttonLabel.textContent = `${index + 1}: N/A`;
+        buttonLabel.textContent = 'N/A';
         button.disabled = true;
         button.classList.remove('ms-Button--primary');
         button.classList.add('ms-Button--default');
@@ -814,10 +814,10 @@ class TaxonomyExtractor {
     // Update activation ID button
     const activationLabel = this.btnActivationID.querySelector('.ms-Button-label')!;
     if (parsedData.activationId) {
-      activationLabel.textContent = `ID: ${parsedData.activationId}`;
+      activationLabel.textContent = parsedData.activationId;
       this.btnActivationID.disabled = false;
     } else {
-      activationLabel.textContent = 'ID: N/A';
+      activationLabel.textContent = 'N/A';
       this.btnActivationID.disabled = true;
     }
 
@@ -828,7 +828,7 @@ class TaxonomyExtractor {
     const specialButtons = document.querySelector('.special-buttons') as HTMLElement;
     
     if (parsedData.hasTargetingPattern) {
-      targetingLabel.textContent = `Trim: ${parsedData.targetingText}`;
+      targetingLabel.textContent = parsedData.targetingText;
       targetingSection.style.display = 'block';
       this.btnTargeting.disabled = false;
       
@@ -840,6 +840,7 @@ class TaxonomyExtractor {
       if (sectionHeader) sectionHeader.style.display = 'none';
       if (specialButtons) specialButtons.style.display = 'none';
     } else {
+      targetingLabel.textContent = 'N/A';
       targetingSection.style.display = 'none';
       
       // Show segment buttons
@@ -929,10 +930,12 @@ class TaxonomyExtractor {
     if (this.undoStack.length === 0) {
       undoLabel.textContent = 'Undo Last';
       this.btnUndo.disabled = true;
+      this.btnUndo.classList.remove('undo-available');
       this.lblUndoWarning.style.display = 'none';
     } else {
       undoLabel.textContent = this.undoStack.length === 1 ? 'Undo Last' : `Undo Last (${this.undoStack.length})`;
       this.btnUndo.disabled = false;
+      this.btnUndo.classList.add('undo-available');
       
       // Show warning when at capacity
       if (this.undoStack.length >= TaxonomyExtractor.MAX_UNDO_OPERATIONS) {

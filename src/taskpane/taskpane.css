@@ -17,15 +17,20 @@
   --shadow-light: rgba(0, 0, 0, 0.1);
   --shadow-medium: rgba(0, 0, 0, 0.15);
   
-  /* Button Colors - improved contrast for light mode */
-  --btn-primary-bg: #0078d4;
-  --btn-primary-hover: #106ebe;
-  --btn-primary-text: #ffffff;
+  /* Button Colors - Excel-like neutral styling */
+  --btn-primary-bg: #ffffff;
+  --btn-primary-hover: #f3f2f1;
+  --btn-primary-text: #323130;
   --btn-default-bg: #ffffff;
-  --btn-default-hover: #e1dfdd;
-  --btn-default-text: #201f1e;
+  --btn-default-hover: #f3f2f1;
+  --btn-default-text: #323130;
   --btn-disabled-bg: #f8f6f4;
   --btn-disabled-text: #8a8886;
+  
+  /* Undo button orange state */
+  --btn-undo-active-bg: #f7630c;
+  --btn-undo-active-hover: #d85200;
+  --btn-undo-active-text: #ffffff;
   
   /* Status Colors */
   --success-bg: #dff6dd;
@@ -160,6 +165,27 @@ body {
   margin-bottom: 12px;
 }
 
+/* Button with prefix layout */
+.button-with-prefix {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.button-prefix {
+  font-size: 12px;
+  font-weight: 600;
+  color: var(--text-secondary);
+  min-width: 20px;
+  text-align: right;
+  flex-shrink: 0;
+}
+
+.button-with-prefix .segment-btn,
+.button-with-prefix .ms-Button--compound {
+  flex: 1;
+}
+
 /* Modern button styles - enhanced */
 .segment-btn {
   min-height: 32px;
@@ -191,7 +217,7 @@ body {
 
 .segment-btn:hover:not(:disabled) {
   background-color: var(--btn-default-hover);
-  border-color: var(--border-accent);
+  border-color: #8a8886;
   box-shadow: 0 2px 8px var(--shadow-light);
 }
 
@@ -202,14 +228,16 @@ body {
 
 .segment-btn.ms-Button--primary {
   background-color: var(--btn-primary-bg);
-  border-color: var(--btn-primary-bg);
+  border-color: #8a8886;
   color: var(--btn-primary-text);
-  font-weight: 600;
+  font-weight: 500;
+  box-shadow: 0 1px 2px rgba(0, 0, 0, 0.04);
 }
 
 .segment-btn.ms-Button--primary:hover:not(:disabled) {
   background-color: var(--btn-primary-hover);
-  border-color: var(--btn-primary-hover);
+  border-color: #605e5c;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.08);
 }
 
 .segment-btn:disabled {
@@ -247,6 +275,44 @@ body {
   border-radius: 4px;
   border: 1px solid var(--border-default);
   background-color: var(--btn-default-bg);
+  color: var(--btn-default-text);
+  font-weight: 500;
+  transition: all 0.08s cubic-bezier(0.4, 0, 0.2, 1);
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: flex-start;
+  font-size: 12px;
+  position: relative;
+  overflow: hidden;
+  width: 100%;
+}
+
+.ms-Button--compound .ms-Button-label {
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  max-width: 100%;
+  font-weight: 500;
+}
+
+.ms-Button--compound:hover:not(:disabled) {
+  background-color: var(--btn-default-hover);
+  border-color: #8a8886;
+  box-shadow: 0 2px 8px var(--shadow-light);
+}
+
+.ms-Button--compound:active:not(:disabled) {
+  box-shadow: 0 1px 3px var(--shadow-light);
+  transition: all 0.05s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.ms-Button--compound:disabled {
+  background-color: var(--btn-disabled-bg);
+  border-color: var(--border-subtle);
+  color: var(--btn-disabled-text);
+  cursor: not-allowed;
+  opacity: 0.6;
   color: var(--btn-default-text);
   font-weight: 500;
   transition: all 0.08s cubic-bezier(0.4, 0, 0.2, 1);
@@ -338,7 +404,7 @@ body.dev-mode .dev-section {
 
 /* Undo section - simplified design with separator */
 .undo-section {
-  margin: 28px 0px 16px 0px;
+  margin: 16px 0px 16px 0px;
 }
 
 .undo-section .ms-font-m {
@@ -372,10 +438,9 @@ body.dev-mode .dev-section {
   overflow: hidden;
 }
 
-
 #btnUndo:hover:not(:disabled) {
   background-color: var(--btn-default-hover);
-  border-color: var(--border-accent);
+  border-color: #8a8886;
   box-shadow: 0 2px 8px var(--shadow-light);
 }
 
@@ -385,6 +450,19 @@ body.dev-mode .dev-section {
   color: var(--btn-disabled-text);
   cursor: not-allowed;
   opacity: 0.6;
+}
+
+/* Undo button active state - orange when operations available */
+#btnUndo.undo-available {
+  background-color: var(--btn-undo-active-bg);
+  border-color: var(--btn-undo-active-bg);
+  color: var(--btn-undo-active-text);
+  font-weight: 600;
+}
+
+#btnUndo.undo-available:hover:not(:disabled) {
+  background-color: var(--btn-undo-active-hover);
+  border-color: var(--btn-undo-active-hover);
 }
 
 /* Status and warning messages */
