@@ -102,29 +102,4 @@ const addinConfig = async (env, options) => {
   };
 };
 
-const workerConfig = (env, options) => ({
-  entry: {
-    worker: "./src/worker.ts",
-  },
-  target: "webworker",
-  mode: options.mode,
-  output: {
-    filename: "[name].js",
-    path: path.resolve(__dirname, "dist"),
-    clean: true,
-  },
-  resolve: {
-    extensions: [".ts", ".js"],
-  },
-  module: {
-    rules: [
-      {
-        test: /\.ts$/,
-        exclude: /node_modules/,
-        use: "ts-loader",
-      },
-    ],
-  },
-});
-
 module.exports = [addinConfig];
