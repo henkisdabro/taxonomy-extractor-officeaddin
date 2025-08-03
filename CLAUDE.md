@@ -316,3 +316,29 @@ http://localhost:3001/taskpane.html
 5. **Accessibility audit**: WCAG 2.1 AA compliance verification
 
 **These UI improvements create a modern, efficient, and developer-friendly Office Add-in experience while maintaining full Microsoft Office integration.**
+
+### **Outstanding Development Tasks**
+
+#### **Development Mode Button Event Handlers** 🔧
+**Status: IN PROGRESS** 
+
+**Issue:** Development simulation buttons are visible but non-functional due to TypeScript event handler attachment issues.
+
+**Current State:**
+- ✅ Development section properly hidden in production
+- ✅ Buttons visible in development environment (localhost)
+- ❌ Event handlers not attaching (`window.devSimulate is not a function`)
+- ❌ Cannot test interface states without manual Excel interaction
+
+**Technical Challenge:**
+- Event listeners not being properly registered in `setupDevelopmentMode()`
+- HTML onclick handlers cannot access TypeScript class methods
+- Global function exposure to window object not working correctly
+
+**Next Steps for Resolution:**
+1. Debug TypeScript class method exposure to global scope
+2. Implement alternative event binding approach (direct DOM manipulation)
+3. Consider inline script approach within webpack dev server context
+4. Test event handler timing vs DOM loading sequence
+
+**Impact:** Development workflow requires manual Excel cell selection for testing interface states, reducing iteration speed for UI/UX improvements.

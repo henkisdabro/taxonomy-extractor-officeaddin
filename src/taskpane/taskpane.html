@@ -94,11 +94,15 @@
         <div class="dev-section" id="devSection">
             <div class="ms-font-m">Development Mode:</div>
             
-            <button class="ms-Button ms-Button--default segment-btn" id="btnDevSimulate">
-                <span class="ms-Button-label">Simulate: Product|Category|Brand:12345|Target:ABC</span>
+            <button class="ms-Button ms-Button--default segment-btn" id="btnDevSimulate" onclick="window.devSimulate()">
+                <span class="ms-Button-label">Simulate: FY24_26|Q1-4|Tourism WA|WA|Always On Remarketing|4LAOSO|SOC|Facebook_Instagram|Conversions:DJTDOM060725</span>
             </button>
             
-            <button class="ms-Button ms-Button--default segment-btn" id="btnDevClear">
+            <button class="ms-Button ms-Button--default segment-btn" id="btnDevTargeting" onclick="window.devTargeting()">
+                <span class="ms-Button-label">Simulate Targeting: ^ABC^ test string</span>
+            </button>
+            
+            <button class="ms-Button ms-Button--default segment-btn" id="btnDevClear" onclick="window.devClear()">
                 <span class="ms-Button-label">Clear Selection</span>
             </button>
         </div>

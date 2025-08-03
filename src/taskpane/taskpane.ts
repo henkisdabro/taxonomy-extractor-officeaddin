@@ -378,7 +378,8 @@ class TaxonomyExtractor {
   constructor() {
     this.initializeUI();
     this.setupEventHandlers();
-    this.initializeDarkMode();
+    // Dark mode disabled - using CSS-only light mode default
+    // this.initializeDarkMode();
   }
   
   private initializeDarkMode(): void {
@@ -515,28 +516,77 @@ class TaxonomyExtractor {
     }
 
     // Development mode buttons (only show in dev environment)
-    this.setupDevelopmentMode();
+    // Add delay to ensure DOM is fully loaded
+    setTimeout(() => {
+      this.setupDevelopmentMode();
+    }, 100);
+    
+    // Expose dev functions globally for HTML onclick handlers
+    (window as any).devSimulate = () => {
+      console.log('devSimulate called from HTML');
+      this.simulateSelection('FY24_26|Q1-4|Tourism WA|WA |Always On Remarketing| 4LAOSO | SOC|Facebook_Instagram|Conversions:DJTDOM060725');
+    };
+    
+    (window as any).devTargeting = () => {
+      console.log('devTargeting called from HTML');
+      this.simulateTargeting('^ABC^ test string');
+    };
+    
+    (window as any).devClear = () => {
+      console.log('devClear called from HTML');
+      this.clearSelection();
+    };
     
     Logger.info('Event handlers setup complete');
   }
 
   // Setup development mode (only visible in development environment)
   private setupDevelopmentMode(): void {
-    // Only enable development mode in local development (localhost)
-    const isDevEnvironment = window.location.hostname === 'localhost' || window.location.hostname === '127.0.0.1';
+    // Only enable development mode in local development (localhost or dev server)
+    const isDevEnvironment = window.location.hostname === 'localhost' || 
+                             window.location.hostname === '127.0.0.1' ||
+                             window.location.port === '3001';
+    
+    Logger.info(`Development mode check: hostname=${window.location.hostname}, port=${window.location.port}, isDev=${isDevEnvironment}`);
     
     if (isDevEnvironment) {
       // Add dev-mode class to body to show dev section
       document.body.classList.add('dev-mode');
+      Logger.info('Added dev-mode class to body');
       
       // Setup dev simulation button
       const btnDevSimulate = document.getElementById('btnDevSimulate') as HTMLButtonElement;
+      Logger.info('Looking for btnDevSimulate:', btnDevSimulate);
       if (btnDevSimulate) {
-        btnDevSimulate.addEventListener('click', () => {
+        Logger.info('Found btnDevSimulate, adding event listener');
+        btnDevSimulate.addEventListener('click', (e) => {
+          e.preventDefault();
+          e.stopPropagation();
+          console.log('DEV SIMULATE CLICKED!');
           Logger.info('Dev simulation button clicked');
-          this.simulateSelection('Product|Category|Brand:12345|Target:ABC');
+          this.simulateSelection('FY24_26|Q1-4|Tourism WA|WA |Always On Remarketing| 4LAOSO | SOC|Facebook_Instagram|Conversions:DJTDOM060725');
         });
+        
+        // Also add onclick directly as backup
+        btnDevSimulate.onclick = (e) => {
+          e.preventDefault();
+          console.log('DEV SIMULATE ONCLICK!');
+          this.simulateSelection('FY24_26|Q1-4|Tourism WA|WA |Always On Remarketing| 4LAOSO | SOC|Facebook_Instagram|Conversions:DJTDOM060725');
+        };
+        
         Logger.debug('Dev simulate button event handler registered');
+      } else {
+        Logger.error('btnDevSimulate not found!');
+      }
+      
+      // Setup dev targeting button
+      const btnDevTargeting = document.getElementById('btnDevTargeting') as HTMLButtonElement;
+      if (btnDevTargeting) {
+        btnDevTargeting.addEventListener('click', () => {
+          Logger.info('Dev targeting button clicked');
+          this.simulateTargeting('^ABC^ test string');
+        });
+        Logger.debug('Dev targeting button event handler registered');
       }
       
       // Setup dev clear button  
@@ -557,28 +607,66 @@ class TaxonomyExtractor {
 
   // Simulate cell selection with sample data (dev mode only)
   private simulateSelection(sampleData: string): void {
-    // Create mock parsed data
+    // Parse the sample data using the same logic as real data
+    const segments = sampleData.split('|');
+    const lastSegment = segments[segments.length - 1] || '';
+    const colonIndex = lastSegment.indexOf(':');
+    let activationId = '';
+    
+    // Extract activation ID if present
+    if (colonIndex !== -1) {
+      activationId = lastSegment.substring(colonIndex + 1);
+      segments[segments.length - 1] = lastSegment.substring(0, colonIndex);
+    }
+    
+    // Create mock parsed data with actual segment parsing
     const mockData: ParsedCellData = {
       originalText: sampleData,
       truncatedDisplay: sampleData,
       selectedCellCount: 1,
-      segment1: 'Product',
-      segment2: 'Category', 
-      segment3: 'Brand',
-      segment4: 'Target',
+      segment1: segments[0]?.trim() || '',
+      segment2: segments[1]?.trim() || '', 
+      segment3: segments[2]?.trim() || '',
+      segment4: segments[3]?.trim() || '',
+      segment5: segments[4]?.trim() || '',
+      segment6: segments[5]?.trim() || '',
+      segment7: segments[6]?.trim() || '',
+      segment8: segments[7]?.trim() || '',
+      segment9: segments[8]?.trim() || '',
+      activationId: activationId.trim(),
+      hasTargetingPattern: false, // Set to false so we can see the segment buttons
+      targetingText: ''
+    };
+    
+    // Update UI with mock data
+    this.updateInterface(mockData);
+    Logger.info('Simulated selection with sample data:', mockData);
+  }
+
+  // Simulate targeting pattern selection (dev mode only)
+  private simulateTargeting(sampleData: string): void {
+    // Create mock targeting data
+    const mockData: ParsedCellData = {
+      originalText: sampleData,
+      truncatedDisplay: sampleData,
+      selectedCellCount: 1,
+      segment1: '',
+      segment2: '', 
+      segment3: '',
+      segment4: '',
       segment5: '',
       segment6: '',
       segment7: '',
       segment8: '',
       segment9: '',
-      activationId: '12345',
+      activationId: '',
       hasTargetingPattern: true,
-      targetingText: 'ABC'
+      targetingText: '^ABC^'
     };
     
-    // Update UI with mock data
+    // Update UI with targeting data
     this.updateInterface(mockData);
-    Logger.info('Simulated selection with sample data');
+    Logger.info('Simulated targeting pattern with sample data:', mockData);
   }
 
   // Clear selection (dev mode only)
@@ -736,6 +824,9 @@ class TaxonomyExtractor {
     // Handle targeting button visibility (VBA overlay behavior)
     const targetingLabel = this.btnTargeting.querySelector('.ms-Button-label')!;
     const targetingSection = document.getElementById('targetingSection')!;
+    const sectionHeader = document.querySelector('.section-header') as HTMLElement;
+    const specialButtons = document.querySelector('.special-buttons') as HTMLElement;
+    
     if (parsedData.hasTargetingPattern) {
       targetingLabel.textContent = `Trim: ${parsedData.targetingText}`;
       targetingSection.style.display = 'block';
@@ -744,12 +835,20 @@ class TaxonomyExtractor {
       // Hide segment buttons when targeting pattern detected
       this.segmentButtons.forEach(btn => btn.style.display = 'none');
       this.btnActivationID.style.display = 'none';
+      
+      // Hide Extract Segments header and activation ID section when targeting
+      if (sectionHeader) sectionHeader.style.display = 'none';
+      if (specialButtons) specialButtons.style.display = 'none';
     } else {
       targetingSection.style.display = 'none';
       
       // Show segment buttons
       this.segmentButtons.forEach(btn => btn.style.display = 'block');
       this.btnActivationID.style.display = 'block';
+      
+      // Show Extract Segments header and activation ID section
+      if (sectionHeader) sectionHeader.style.display = 'block';
+      if (specialButtons) specialButtons.style.display = 'block';
     }
   }
 

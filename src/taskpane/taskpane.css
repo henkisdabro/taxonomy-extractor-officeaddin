@@ -11,21 +11,21 @@
   --text-secondary: #605e5c;
   --text-muted: #a19f9d;
   --text-on-accent: #003a6b;
-  --border-default: #d2d0ce;
+  --border-default: #c8c6c4;
   --border-accent: #0078d4;
-  --border-subtle: #e1dfdd;
+  --border-subtle: #d2d0ce;
   --shadow-light: rgba(0, 0, 0, 0.1);
   --shadow-medium: rgba(0, 0, 0, 0.15);
   
-  /* Button Colors */
+  /* Button Colors - improved contrast for light mode */
   --btn-primary-bg: #0078d4;
   --btn-primary-hover: #106ebe;
   --btn-primary-text: #ffffff;
   --btn-default-bg: #ffffff;
-  --btn-default-hover: #f3f2f1;
-  --btn-default-text: #323130;
-  --btn-disabled-bg: #f3f2f1;
-  --btn-disabled-text: #a19f9d;
+  --btn-default-hover: #e1dfdd;
+  --btn-default-text: #201f1e;
+  --btn-disabled-bg: #f8f6f4;
+  --btn-disabled-text: #8a8886;
   
   /* Status Colors */
   --success-bg: #dff6dd;
@@ -42,48 +42,8 @@
   --warning-text: #8a4600;
 }
 
-/* Dark Theme Colors - only applied when user prefers dark mode */
-@media (prefers-color-scheme: dark) {
-  :root {
-    --bg-primary: #1e1e1e;
-    --bg-secondary: #2d2d2d;
-    --bg-tertiary: #404040;
-    --bg-accent: #1a2f3d;
-    --text-primary: #ffffff;
-    --text-secondary: #cccccc;
-    --text-muted: #a0a0a0;
-    --text-on-accent: #b3d9ff;
-    --border-default: #404040;
-    --border-accent: #0078d4;
-    --border-subtle: #555555;
-    --shadow-light: rgba(0, 0, 0, 0.3);
-    --shadow-medium: rgba(0, 0, 0, 0.5);
-    
-    /* Button Colors */
-    --btn-primary-bg: #0078d4;
-    --btn-primary-hover: #106ebe;
-    --btn-primary-text: #ffffff;
-    --btn-default-bg: #2d2d2d;
-    --btn-default-hover: #404040;
-    --btn-default-text: #ffffff;
-    --btn-disabled-bg: #252525;
-    --btn-disabled-text: #666666;
-    
-    /* Status Colors */
-    --success-bg: #1a3d17;
-    --success-border: #92c353;
-    --success-text: #c3f0c0;
-    --error-bg: #3d1f1a;
-    --error-border: #d13438;
-    --error-text: #ffcccc;
-    --info-bg: #1a2f3d;
-    --info-border: #0078d4;
-    --info-text: #b3d9ff;
-    --warning-bg: #3d2f1f;
-    --warning-border: #f7930e;
-    --warning-text: #ffb84d;
-  }
-}
+/* Dark mode disabled - forcing light mode for better Office Add-in experience */
+/* @media (prefers-color-scheme: dark) { ... } - commented out to force light mode */
 
 /* Reset and base styles */
 * {
