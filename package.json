@@ -18,7 +18,8 @@
     "validate": "npx office-addin-manifest validate manifest.xml",
     "stop": "npx office-addin-debugging stop manifest.xml",
     "lint": "echo 'Linting not configured yet'",
-    "test": "echo 'Tests not configured yet'"
+    "test": "echo 'Tests not configured yet'",
+    "clean": "rimraf dist"
   },
   "keywords": [
     "Office Add-in",
