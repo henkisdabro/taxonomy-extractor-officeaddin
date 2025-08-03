@@ -167,6 +167,42 @@ npm run build  # Verify ASSETS binding appears in output
 
 **This migration resolves all static file serving issues and provides a solid foundation for future Cloudflare Workers development.**
 
+## 🔧 Critical Webpack Configuration for Workers
+
+**IMPORTANT**: Cloudflare Workers requires specific webpack configuration to deploy successfully. The following settings are MANDATORY:
+
+### webpack.worker.config.js Requirements:
+```javascript
+output: {
+  library: { type: "module" },     // ESSENTIAL: Enables ES module output
+},
+experiments: {
+  outputModule: true,              // REQUIRED: ES module support
+}
+```
+
+### tsconfig.worker.json Requirements:
+```json
+{
+  "compilerOptions": {
+    "target": "es2022",           // Must be es2022, not esnext
+    "module": "es2022"            // Must match target
+  }
+}
+```
+
+**Without these configurations:**
+- worker.js builds as 0 bytes (empty file)
+- Deployment fails with "No event handlers were registered" (code 10021)
+- Cloudflare Workers cannot execute the fetch handler
+
+**Success Indicators:**
+- worker.js builds to ~388 bytes
+- Deployment log shows "Total Upload: 0.77 KiB"
+- Worker has access to env.ASSETS binding
+
+See `CLOUDFLARE-WORKER-REQUIREMENTS.md` for complete configuration details.
+
 ---
 
 ## 🎨 UI/UX Design Improvements (August 2025)
