@@ -29,7 +29,13 @@
       "Bash(rm:*)",
       "mcp__cloudflare-documentation__search_cloudflare_documentation",
       "Bash(cp:*)",
-      "Bash(wrangler deploy:*)"
+      "Bash(wrangler deploy:*)",
+      "Bash(sudo apt:*)",
+      "Bash(sudo apt install:*)",
+      "Bash(python3:*)",
+      "Bash(pip3 install:*)",
+      "Bash(diff:*)",
+      "Bash(cmp:*)"
     ],
     "deny": []
   }
