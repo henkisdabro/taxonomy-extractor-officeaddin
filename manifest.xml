@@ -25,7 +25,7 @@
     </Sets>
   </Requirements>
   <DefaultSettings>
-    <SourceLocation DefaultValue="https://ipg-taxonomy-extractor-addin.wookstar.com/taskpane.html"/>
+    <SourceLocation DefaultValue="https://ipg-taxonomy-extractor-addin.wookstar.com/taskpane"/>
   </DefaultSettings>
   <Permissions>ReadWriteDocument</Permissions>
   <VersionOverrides xmlns="http://schemas.microsoft.com/office/taskpaneappversionoverrides" xsi:type="VersionOverridesV1_0">
@@ -77,8 +77,8 @@
       </bt:Images>
       <bt:Urls>
         <bt:Url id="GetStarted.LearnMoreUrl" DefaultValue="https://go.microsoft.com/fwlink/?LinkId=276812"/>
-        <bt:Url id="Commands.Url" DefaultValue="https://ipg-taxonomy-extractor-addin.wookstar.com/commands.html"/>
-        <bt:Url id="Taskpane.Url" DefaultValue="https://ipg-taxonomy-extractor-addin.wookstar.com/taskpane.html"/>
+        <bt:Url id="Commands.Url" DefaultValue="https://ipg-taxonomy-extractor-addin.wookstar.com/commands"/>
+        <bt:Url id="Taskpane.Url" DefaultValue="https://ipg-taxonomy-extractor-addin.wookstar.com/taskpane"/>
       </bt:Urls>
       <bt:ShortStrings>
         <bt:String id="GetStarted.Title" DefaultValue="Get started with IPG Taxonomy Extractor"/>
