@@ -28,6 +28,11 @@ When deploying via Cloudflare Pages (connected to GitHub):
 
 Cloudflare Pages will automatically run the build command, and then execute the deploy command, using `wrangler.toml` to understand how to deploy the `dist` folder contents and the `worker.js` script.
 
+### Static Asset Serving (ASSETS Binding)
+
+-   The Cloudflare Worker serves static assets (HTML, CSS, JS) from the `dist` directory. The worker code (`src/worker.ts`) uses `env.__STATIC_CONTENT.fetch(request)` to access these assets.
+-   **Important Note**: Cloudflare Pages automatically binds the static content to a KV Namespace variable named `__STATIC_CONTENT`. Ensure your worker code references this variable name (e.g., `env.__STATIC_CONTENT`) to correctly serve your static files. If your worker code uses `env.ASSETS`, you would need to manually configure an `ASSETS` binding in the Cloudflare dashboard pointing to the correct KV Namespace for your Workers Site.
+
 ### File Cleanup:
 
 -   The redundant `src/worker.js` file (a leftover from previous configurations) has been removed. The compiled worker is now exclusively generated in `dist/worker.js`.
