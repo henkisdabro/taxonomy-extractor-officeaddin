@@ -7,7 +7,6 @@
     "build": "npm run clean && npm run build:addin && npm run build:worker",
     "build:addin": "webpack --mode production --config webpack.config.js",
     "build:worker": "tsc --project tsconfig.worker.json && wrangler deploy --dry-run",
-
     "build:dev": "webpack --mode development",
     "build:prod": "webpack --mode production --analyze",
     "dev-server": "webpack serve --mode development",
@@ -39,8 +38,10 @@
   "devDependencies": {
     "@cloudflare/workers-types": "^4.20250803.0",
     "@types/office-js": "^1.0.374",
+    "canvas": "^3.1.2",
     "clean-webpack-plugin": "^4.0.0",
-        "copy-webpack-plugin": "^12.0.2",
+    "copy-webpack-plugin": "^12.0.2",
+    "css-loader": "^7.1.2",
     "esbuild-loader": "^4.3.0",
     "file-loader": "^6.2.0",
     "glob": "^10.0.0",
@@ -49,6 +50,7 @@
     "office-addin-dev-certs": "^1.13.5",
     "rimraf": "^5.0.0",
     "source-map-loader": "^5.0.0",
+    "style-loader": "^4.0.0",
     "ts-loader": "^9.5.1",
     "typescript": "^5.3.3",
     "webpack": "^5.90.3",

@@ -11,6 +11,9 @@
  * - Comprehensive error handling and logging
  */
 
+// Import styles
+import './taskpane.css';
+
 // Enhanced logging system
 class Logger {
   private static readonly LOG_LEVELS = {
@@ -535,7 +538,7 @@ class TaxonomyExtractor {
 
     const result: ParsedCellData = {
       originalText: firstTextCell,
-      truncatedDisplay: firstTextCell.length > 50 ? firstTextCell.substring(0, 50) + '...' : firstTextCell,
+      truncatedDisplay: firstTextCell, // Show full text without truncation
       selectedCellCount: cellCount,
       segment1: '',
       segment2: '',
@@ -620,7 +623,7 @@ class TaxonomyExtractor {
       const buttonLabel = button.querySelector('.ms-Button-label')!;
       
       if (segment && parsedData.originalText.includes('|')) {
-        buttonLabel.textContent = `${index + 1}: ${segment.length > 12 ? segment.substring(0, 12) + '...' : segment}`;
+        buttonLabel.textContent = `${index + 1}: ${segment.length > 20 ? segment.substring(0, 20) + '...' : segment}`;
         button.disabled = false;
         button.classList.remove('ms-Button--default');
         button.classList.add('ms-Button--primary');
@@ -644,16 +647,17 @@ class TaxonomyExtractor {
 
     // Handle targeting button visibility (VBA overlay behavior)
     const targetingLabel = this.btnTargeting.querySelector('.ms-Button-label')!;
+    const targetingSection = document.getElementById('targetingSection')!;
     if (parsedData.hasTargetingPattern) {
       targetingLabel.textContent = `Trim: ${parsedData.targetingText}`;
-      this.btnTargeting.style.display = 'block';
+      targetingSection.style.display = 'block';
       this.btnTargeting.disabled = false;
       
       // Hide segment buttons when targeting pattern detected
       this.segmentButtons.forEach(btn => btn.style.display = 'none');
       this.btnActivationID.style.display = 'none';
     } else {
-      this.btnTargeting.style.display = 'none';
+      targetingSection.style.display = 'none';
       
       // Show segment buttons
       this.segmentButtons.forEach(btn => btn.style.display = 'block');

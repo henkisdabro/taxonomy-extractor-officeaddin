@@ -45,6 +45,10 @@ const addinConfig = async (env, options) => {
           use: "ts-loader",
         },
         {
+          test: /\.css$/i,
+          use: ["style-loader", "css-loader"],
+        },
+        {
           test: /\.(png|jpg|jpeg|gif|ico)$/,
           type: "asset/resource",
           generator: {

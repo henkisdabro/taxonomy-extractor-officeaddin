@@ -42,7 +42,7 @@
         <!-- Segment Extraction Buttons -->
         <div class="ms-Grid-row">
             <div class="ms-Grid-col ms-sm12">
-                <div class="ms-font-m ms-fontWeight-semibold" style="margin-bottom: 12px;">Extract Segments:</div>
+                <div class="section-header">Extract Segments:</div>
                 
                 <!-- Buttons 1-3 -->
                 <div class="button-row">
@@ -83,24 +83,22 @@
                     </button>
                 </div>
 
-                <!-- Activation ID Button -->
-                <div class="ms-Grid-row" style="margin-bottom: 8px;">
-                    <div class="ms-Grid-col ms-sm12">
-                        <button class="ms-Button ms-Button--compound" id="btnActivationID" style="width: 100%;" disabled>
+                <!-- Activation ID Section -->
+                <div class="special-buttons">
+                    <div class="activation-section">
+                        <div class="activation-info">Extract Activation ID (text after colon)</div>
+                        <button class="ms-Button ms-Button--compound" id="btnActivationID" disabled>
                             <span class="ms-Button-label">ID: N/A</span>
-                            <span class="ms-Button-description">Extract Activation ID (text after colon)</span>
                         </button>
                     </div>
                 </div>
 
                 <!-- Targeting Acronym Button (Hidden by default) -->
-                <div class="ms-Grid-row" style="margin-bottom: 8px;">
-                    <div class="ms-Grid-col ms-sm12">
-                        <button class="ms-Button ms-Button--compound" id="btnTargeting" style="width: 100%; display: none;" disabled>
-                            <span class="ms-Button-label">Trim: N/A</span>
-                            <span class="ms-Button-description">Remove targeting acronym pattern</span>
-                        </button>
-                    </div>
+                <div class="activation-section" style="display: none;" id="targetingSection">
+                    <div class="activation-info">Remove targeting acronym pattern</div>
+                    <button class="ms-Button ms-Button--compound" id="btnTargeting" disabled>
+                        <span class="ms-Button-label">Trim: N/A</span>
+                    </button>
                 </div>
             </div>
         </div>
