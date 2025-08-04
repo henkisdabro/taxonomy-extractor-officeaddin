@@ -54,18 +54,19 @@ A modern, production-ready Office Add-in that ports the functionality of the [VB
 
 3. **Start development server**
    ```bash
-   # HTTP development server (recommended for local development)
-   npx webpack serve --mode development --config webpack.dev.config.js
+   # Primary development server (hot-reloading, easy setup)
+   npm run dev-server
    
-   # Or use the standard SSL server
+   # Alternative HTTPS server (if certificates needed)
    npm start
    ```
    
    **Development server features:**
-   - Hot reloading for instant CSS/TypeScript changes
-   - HTTP server on `http://localhost:3001/taskpane.html` (avoids certificate issues)
-   - Development simulation buttons for testing interface states
-   - Production-safe (dev features only visible on localhost)
+   - **Hot reloading**: Instant CSS/TypeScript updates without refresh
+   - **HTTPS server**: `https://localhost:3000/taskpane.html` with auto-generated certificates
+   - **Development simulation**: Yellow dev section with test buttons (localhost only)
+   - **Interface testing**: Simulate taxonomy data, targeting patterns, and selection states
+   - **Production-safe**: Dev features automatically hidden in production environments
 
 4. **Sideload in Excel**
    - Open Excel For Web (usually not possible on desktop)
@@ -127,7 +128,8 @@ FY24_26|Q1-4|Tourism WA|WA |Always On Remarketing| 4LAOSO | SOC|Facebook_Instagr
 
 ```bash
 # Development
-npm start              # Start dev server with auto-reload
+npm run dev-server     # Primary dev server with hot-reloading (HTTPS, port 3000)
+npm start              # Alternative dev server with auto-reload
 npm run start:desktop  # Start for Excel Desktop
 npm run start:web      # Start for Excel Online
 
@@ -145,6 +147,22 @@ npm run test           # Run tests (when configured)
 npm run clean          # Clean dist folder
 npm run stop           # Stop debugging session
 ```
+
+### 🧪 Development Testing Features
+
+The development server includes powerful testing capabilities:
+
+**Dev Simulation Buttons** (visible only on localhost):
+- **Simulate Taxonomy Data**: Test interface with sample pipe-delimited data
+- **Simulate Targeting Pattern**: Test `^ABC^` pattern detection and processing
+- **Clear Selection**: Reset interface to initial state
+
+**Hot Development Workflow**:
+1. Run `npm run dev-server`
+2. Open `https://localhost:3000/taskpane.html` in browser
+3. Use yellow dev section to test different interface states
+4. Make code changes - see updates instantly without refresh
+5. Test all extraction and targeting functionality without Excel
 
 ## 📊 Architecture
 

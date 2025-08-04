@@ -397,7 +397,7 @@ body.dev-mode .dev-section {
 
 /* Undo section - simplified design with separator */
 .undo-section {
-  margin: 16px 0px 16px 0px;
+  margin: 0px 8px;
 }
 
 .undo-section .ms-font-m {

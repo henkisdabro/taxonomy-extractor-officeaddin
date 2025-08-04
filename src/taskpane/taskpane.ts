@@ -365,7 +365,6 @@ class TaxonomyExtractor {
   private nextOperationId = 1;
 
   // UI elements
-  private lblInstructions!: HTMLElement;
   private lblCellCount!: HTMLElement;
   private segmentButtons!: HTMLButtonElement[];
   private btnActivationID!: HTMLButtonElement;
@@ -433,7 +432,6 @@ class TaxonomyExtractor {
     Logger.info('Initializing UI elements...');
     
     // Get UI elements
-    this.lblInstructions = document.getElementById('lblInstructions')!;
     this.lblCellCount = document.getElementById('lblCellCount')!;
     this.btnActivationID = document.getElementById('btnActivationID') as HTMLButtonElement;
     this.btnTargeting = document.getElementById('btnTargeting') as HTMLButtonElement;
@@ -444,7 +442,6 @@ class TaxonomyExtractor {
     this.statusText = document.getElementById('statusText')!;
 
     // Verify critical elements
-    if (!this.lblInstructions) Logger.error('lblInstructions not found');
     if (!this.lblCellCount) Logger.error('lblCellCount not found'); 
     if (!this.btnActivationID) Logger.error('btnActivationID not found');
     if (!this.btnTargeting) Logger.error('btnTargeting not found');
@@ -848,18 +845,14 @@ class TaxonomyExtractor {
 
   // Update UI based on parsed data (replicates VBA UserForm behavior)
   private updateInterface(parsedData: ParsedCellData): void {
-    // Update instructions and cell count
+    // Update cell count with status
     if (parsedData.selectedCellCount === 0) {
-      this.lblInstructions.textContent = 'Select cells containing pipe-delimited taxonomy data to begin extraction.';
       this.lblCellCount.textContent = 'No cells selected';
     } else if (parsedData.hasTargetingPattern) {
-      this.lblInstructions.textContent = `Targeting pattern detected: ${parsedData.targetingText}`;
-      this.lblCellCount.textContent = `${parsedData.selectedCellCount} cell(s) selected`;
+      this.lblCellCount.textContent = `${parsedData.selectedCellCount} cell(s) selected - Targeting pattern detected`;
     } else if (parsedData.originalText.includes('|')) {
-      this.lblInstructions.textContent = parsedData.truncatedDisplay;
       this.lblCellCount.textContent = `${parsedData.selectedCellCount} cell(s) selected - Taxonomy data detected`;
     } else {
-      this.lblInstructions.textContent = 'Selected cells do not contain pipe-delimited taxonomy data.';
       this.lblCellCount.textContent = `${parsedData.selectedCellCount} cell(s) selected`;
     }
 
