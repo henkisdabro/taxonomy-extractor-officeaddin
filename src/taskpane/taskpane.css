@@ -165,6 +165,14 @@ body {
   margin-bottom: 12px;
 }
 
+/* Targeting button row - same spacing as segment buttons */
+.targeting-button-row {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  margin-bottom: 12px;
+}
+
 /* Button with prefix layout */
 .button-with-prefix {
   display: flex;
@@ -181,6 +189,12 @@ body {
   flex-shrink: 0;
 }
 
+/* Targeting button prefixes need consistent width for proper alignment */
+.targeting-button-row .button-prefix {
+  min-width: 40px;
+  text-align: right;
+}
+
 .button-with-prefix .segment-btn,
 .button-with-prefix .ms-Button--compound {
   flex: 1;
@@ -194,7 +208,7 @@ body {
   background-color: var(--btn-default-bg);
   color: var(--btn-default-text);
   font-weight: 500;
-  transition: all 0.08s cubic-bezier(0.4, 0, 0.2, 1);
+  transition: all 0.03s cubic-bezier(0.4, 0, 0.2, 1);
   cursor: pointer;
   display: flex;
   align-items: center;
@@ -223,7 +237,7 @@ body {
 
 .segment-btn:active:not(:disabled) {
   box-shadow: 0 1px 3px var(--shadow-light);
-  transition: all 0.05s cubic-bezier(0.4, 0, 0.2, 1);
+  transition: all 0.02s cubic-bezier(0.4, 0, 0.2, 1);
 }
 
 .segment-btn.ms-Button--primary {
@@ -260,13 +274,6 @@ body {
   margin-bottom: 12px;
 }
 
-.activation-info {
-  font-size: 10px;
-  color: var(--text-secondary);
-  margin-bottom: 6px;
-  padding-left: 4px;
-  font-style: italic;
-}
 
 .ms-Button--compound {
   min-height: 32px;
@@ -277,7 +284,7 @@ body {
   background-color: var(--btn-default-bg);
   color: var(--btn-default-text);
   font-weight: 500;
-  transition: all 0.08s cubic-bezier(0.4, 0, 0.2, 1);
+  transition: all 0.03s cubic-bezier(0.4, 0, 0.2, 1);
   cursor: pointer;
   display: flex;
   align-items: center;
@@ -304,7 +311,7 @@ body {
 
 .ms-Button--compound:active:not(:disabled) {
   box-shadow: 0 1px 3px var(--shadow-light);
-  transition: all 0.05s cubic-bezier(0.4, 0, 0.2, 1);
+  transition: all 0.02s cubic-bezier(0.4, 0, 0.2, 1);
 }
 
 .ms-Button--compound:disabled {
@@ -315,7 +322,7 @@ body {
   opacity: 0.6;
   color: var(--btn-default-text);
   font-weight: 500;
-  transition: all 0.08s cubic-bezier(0.4, 0, 0.2, 1);
+  transition: all 0.03s cubic-bezier(0.4, 0, 0.2, 1);
   cursor: pointer;
   width: 100%;
   display: flex;
@@ -353,21 +360,7 @@ body {
   color: var(--btn-disabled-text);
 }
 
-/* Targeting button special styling */
-#btnTargeting {
-  background: linear-gradient(135deg, #da3b01 0%, #c13b00 100%);
-  border-color: #da3b01;
-  color: white;
-}
-
-#btnTargeting .ms-Button-label {
-  color: white;
-}
-
-#btnTargeting:hover:not(:disabled) {
-  background: linear-gradient(135deg, #c13b00 0%, #a33100 100%);
-  border-color: #c13b00;
-}
+/* Targeting buttons now use standard button styling - removed special orange styling */
 
 /* Development section - only visible in dev mode */
 .dev-section {
@@ -426,7 +419,7 @@ body.dev-mode .dev-section {
   background-color: var(--btn-default-bg);
   color: var(--btn-default-text);
   font-weight: 500;
-  transition: all 0.08s cubic-bezier(0.4, 0, 0.2, 1);
+  transition: all 0.03s cubic-bezier(0.4, 0, 0.2, 1);
   cursor: pointer;
   display: flex;
   align-items: center;
@@ -521,7 +514,8 @@ body.dev-mode .dev-section {
     padding: 14px 16px;
   }
   
-  .button-row {
+  .button-row,
+  .targeting-button-row {
     gap: 4px;
   }
   
@@ -567,7 +561,7 @@ body.dev-mode .dev-section {
 }
 
 .ms-MessageBar {
-  animation: slideIn 0.12s cubic-bezier(0.4, 0, 0.2, 1);
+  animation: slideIn 0.06s cubic-bezier(0.4, 0, 0.2, 1);
 }
 
 /* Focus indicators for accessibility */
@@ -596,7 +590,7 @@ body.dev-mode .dev-section {
   border: 2px solid transparent;
   border-top: 2px solid var(--border-accent);
   border-radius: 50%;
-  animation: spin 0.8s linear infinite;
+  animation: spin 0.4s linear infinite;
 }
 
 @keyframes spin {
@@ -619,11 +613,21 @@ body.dev-mode .dev-section {
 }
 
 /* Conditional visibility for targeting mode */
-.targeting-mode .section-header {
+.targeting-mode #extractSegmentsHeader {
+  display: none;
+}
+
+.targeting-mode .button-row {
   display: none;
 }
 
 .targeting-mode .special-buttons {
+  display: none;
+}
+
+/* Hide segment button prefixes in targeting mode, but keep targeting button prefixes visible */
+.targeting-mode .button-row .button-prefix,
+.targeting-mode .special-buttons .button-prefix {
   display: none;
 }
 
@@ -664,5 +668,5 @@ body.dev-mode .dev-section {
 
 /* Smooth transitions for theme switching */
 * {
-  transition: background-color 0.08s ease, color 0.08s ease, border-color 0.08s ease;
+  transition: background-color 0.03s ease, color 0.03s ease, border-color 0.03s ease;
 }

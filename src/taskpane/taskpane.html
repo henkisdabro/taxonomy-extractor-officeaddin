@@ -37,7 +37,7 @@
         <!-- Segment Extraction Buttons -->
         <div class="ms-Grid-row">
             <div class="ms-Grid-col ms-sm12">
-                <div class="section-header">Extract Segments:</div>
+                <div class="section-header" id="extractSegmentsHeader">Extract Segments:</div>
                 
                 <!-- Segment Buttons 1-9 -->
                 <div class="button-row">
@@ -100,7 +100,7 @@
                 <!-- Activation ID Section -->
                 <div class="special-buttons">
                     <div class="activation-section">
-                        <div class="activation-info">Extract Activation ID (text after colon)</div>
+                        <div class="section-header">Extract Activation ID:</div>
                         <div class="button-with-prefix">
                             <span class="button-prefix">ID:</span>
                             <button class="ms-Button ms-Button--compound" id="btnActivationID" disabled>
@@ -110,14 +110,22 @@
                     </div>
                 </div>
 
-                <!-- Targeting Acronym Button (Hidden by default) -->
+                <!-- Targeting Acronym Buttons (Hidden by default) -->
                 <div class="activation-section" style="display: none;" id="targetingSection">
-                    <div class="activation-info">Remove targeting acronym pattern</div>
-                    <div class="button-with-prefix">
-                        <span class="button-prefix">Trim:</span>
-                        <button class="ms-Button ms-Button--compound" id="btnTargeting" disabled>
-                            <span class="ms-Button-label">N/A</span>
-                        </button>
+                    <div class="section-header">Acronym Pattern:</div>
+                    <div class="targeting-button-row">
+                        <div class="button-with-prefix">
+                            <span class="button-prefix">Trim:</span>
+                            <button class="ms-Button ms-Button--compound" id="btnTargeting" disabled>
+                                <span class="ms-Button-label">N/A</span>
+                            </button>
+                        </div>
+                        <div class="button-with-prefix">
+                            <span class="button-prefix">Keep:</span>
+                            <button class="ms-Button ms-Button--compound" id="btnKeepPattern" disabled>
+                                <span class="ms-Button-label">N/A</span>
+                            </button>
+                        </div>
                     </div>
                 </div>
             </div>
@@ -127,15 +135,15 @@
         <div class="dev-section" id="devSection">
             <div class="ms-font-m">Development Mode:</div>
             
-            <button class="ms-Button ms-Button--default segment-btn" id="btnDevSimulate" onclick="window.devSimulate()">
+            <button class="ms-Button ms-Button--default segment-btn" id="btnDevSimulate">
                 <span class="ms-Button-label">Simulate: FY24_26|Q1-4|Tourism WA|WA|Always On Remarketing|4LAOSO|SOC|Facebook_Instagram|Conversions:DJTDOM060725</span>
             </button>
             
-            <button class="ms-Button ms-Button--default segment-btn" id="btnDevTargeting" onclick="window.devTargeting()">
+            <button class="ms-Button ms-Button--default segment-btn" id="btnDevTargeting">
                 <span class="ms-Button-label">Simulate Targeting: ^ABC^ test string</span>
             </button>
             
-            <button class="ms-Button ms-Button--default segment-btn" id="btnDevClear" onclick="window.devClear()">
+            <button class="ms-Button ms-Button--default segment-btn" id="btnDevClear">
                 <span class="ms-Button-label">Clear Selection</span>
             </button>
         </div>

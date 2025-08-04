@@ -13,12 +13,14 @@ A modern, production-ready Office Add-in that ports the functionality of the [VB
 
 ## 🌟 Features
 
-### ✅ **Complete VBA Feature Parity**
+### ✅ **Complete VBA Feature Parity + Enhanced Features**
 - **9 Segment Extraction**: Extract any of the first 9 pipe-delimited segments
 - **Activation ID Extraction**: Extract unique identifiers after colon characters
 - **Multi-Step Undo System**: LIFO stack supporting up to 10 operations with dynamic button captions
 - **Real-time Updates**: Instant UI updates when selecting different cells
-- **Targeting Acronym Removal**: Smart detection and removal of `^ABC^` patterns
+- **Enhanced Acronym Pattern Processing**: Smart detection of `^ABC^` patterns with dual functionality:
+  - **Trim**: Remove `^ABC^` patterns while keeping surrounding text
+  - **Keep**: Extract only `^ABC^` patterns while removing everything else
 - **Batch Processing**: Process multiple selected cells efficiently
 
 ### 🚀 **Modern Enhancements**
@@ -27,7 +29,8 @@ A modern, production-ready Office Add-in that ports the functionality of the [VB
 - **Enhanced Error Handling**: Comprehensive logging and error recovery
 - **Performance Monitoring**: Built-in performance tracking and optimization
 - **Responsive Design**: Adapts to different task pane sizes
-- **Dark Mode Support**: Automatic theme adaptation
+- **Snappy UI Animations**: Ultra-fast transitions (30ms) for responsive feel
+- **Smart Interface States**: Context-aware UI that adapts based on data patterns
 
 ## 🛠️ Development Setup
 
@@ -65,8 +68,8 @@ A modern, production-ready Office Add-in that ports the functionality of the [VB
    - Production-safe (dev features only visible on localhost)
 
 4. **Sideload in Excel**
-   - Open Excel (Desktop or Online)
-   - Go to Insert → Add-ins → Upload My Add-in
+   - Open Excel For Web (usually not possible on desktop)
+   - Go to Home → Add-ins → More Add-ins → My Add-ins → Upload My Add-in
    - Select the `manifest.xml` file from the project root
    - The add-in will appear in the "IPG Tools" group on the Home tab
 
@@ -112,9 +115,13 @@ FY24_26|Q1-4|Tourism WA|WA |Always On Remarketing| 4LAOSO | SOC|Facebook_Instagr
 ### Workflow
 1. **Select cells** containing pipe-delimited taxonomy data
 2. **Task pane updates** automatically showing segment previews
-3. **Click segment buttons** (1-9) or "Activation ID" to extract
-4. **Use "Undo Last"** to reverse operations (up to 10 steps)
-5. **Continue processing** different ranges without closing the task pane
+3. **Extract segments** by clicking numbered buttons (1-9) or "Activation ID"
+4. **Process acronym patterns** when `^ABC^` patterns are detected:
+   - Interface automatically switches to "Acronym Pattern" mode
+   - **Trim**: Remove `^ABC^` patterns, keep surrounding text
+   - **Keep**: Extract only `^ABC^` patterns, remove everything else
+5. **Use "Undo Last"** to reverse operations (up to 10 steps)
+6. **Continue processing** different ranges without closing the task pane
 
 ## 🔧 Development Commands
 
@@ -190,8 +197,11 @@ The Office Add-in is currently deployed and fully functional at:
 
 **To use the deployed add-in:**
 1. Download the production `manifest.xml` from the repository
-2. In Excel: Insert → Add-ins → Upload My Add-in → Select `manifest.xml`
+2. In Excel For Web: Home → Add-ins → More Add-ins → My Add-ins → Upload My Add-in → Select `manifest.xml`
 3. The add-in will load from the live Cloudflare deployment
+
+**Future Deployment Plans:**
+- **Organization Add-ins Repository**: Plans are underway to deploy this add-in through the organization's centralized add-ins repository for automatic installation across all user accounts, eliminating the need for manual sideloading
 
 ### Development Testing
 1. **Install dependencies**: `npm install`
@@ -200,8 +210,8 @@ The Office Add-in is currently deployed and fully functional at:
    - Opens browser with dev server URL
    - Enables hot reload for development
 3. **Sideload in Excel**:
-   - **Desktop Excel**: Insert → Add-ins → Upload My Add-in → Select `manifest.xml`
-   - **Excel Online**: Insert → Office Add-ins → Upload My Add-in → Select `manifest.xml`
+   - **Excel For Web**: Home → Add-ins → More Add-ins → My Add-ins → Upload My Add-in → Select `manifest.xml`
+   - **Desktop Excel**: Usually not possible for custom add-ins
    - **Mac Excel**: Insert → Add-ins → My Add-ins → Upload My Add-in → Select `manifest.xml`
 4. **Test with sample data**:
    ```

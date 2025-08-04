@@ -370,6 +370,7 @@ class TaxonomyExtractor {
   private segmentButtons!: HTMLButtonElement[];
   private btnActivationID!: HTMLButtonElement;
   private btnTargeting!: HTMLButtonElement;
+  private btnKeepPattern!: HTMLButtonElement;
   private btnUndo!: HTMLButtonElement;
   private lblUndoWarning!: HTMLElement;
   private statusBar!: HTMLElement;
@@ -436,6 +437,7 @@ class TaxonomyExtractor {
     this.lblCellCount = document.getElementById('lblCellCount')!;
     this.btnActivationID = document.getElementById('btnActivationID') as HTMLButtonElement;
     this.btnTargeting = document.getElementById('btnTargeting') as HTMLButtonElement;
+    this.btnKeepPattern = document.getElementById('btnKeepPattern') as HTMLButtonElement;
     this.btnUndo = document.getElementById('btnUndo') as HTMLButtonElement;
     this.lblUndoWarning = document.getElementById('lblUndoWarning')!;
     this.statusBar = document.getElementById('statusBar')!;
@@ -446,6 +448,7 @@ class TaxonomyExtractor {
     if (!this.lblCellCount) Logger.error('lblCellCount not found'); 
     if (!this.btnActivationID) Logger.error('btnActivationID not found');
     if (!this.btnTargeting) Logger.error('btnTargeting not found');
+    if (!this.btnKeepPattern) Logger.error('btnKeepPattern not found');
     if (!this.btnUndo) Logger.error('btnUndo not found');
     if (!this.statusBar) Logger.error('statusBar not found');
     if (!this.statusText) Logger.error('statusText not found');
@@ -493,7 +496,7 @@ class TaxonomyExtractor {
       Logger.error('Activation ID button not found');
     }
 
-    // Targeting button
+    // Targeting button (Trim)
     if (this.btnTargeting) {
       this.btnTargeting.addEventListener('click', () => {
         Logger.info('Targeting button clicked');
@@ -502,6 +505,17 @@ class TaxonomyExtractor {
       Logger.debug('Targeting button event handler registered');
     } else {
       Logger.error('Targeting button not found');
+    }
+
+    // Keep Pattern button
+    if (this.btnKeepPattern) {
+      this.btnKeepPattern.addEventListener('click', () => {
+        Logger.info('Keep Pattern button clicked');
+        this.keepTargetingPattern();
+      });
+      Logger.debug('Keep Pattern button event handler registered');
+    } else {
+      Logger.error('Keep Pattern button not found');
     }
 
     // Undo button
@@ -523,19 +537,27 @@ class TaxonomyExtractor {
     
     // Expose dev functions globally for HTML onclick handlers
     (window as any).devSimulate = () => {
-      console.log('devSimulate called from HTML');
+      console.log('🚀 devSimulate called from HTML');
       this.simulateSelection('FY24_26|Q1-4|Tourism WA|WA |Always On Remarketing| 4LAOSO | SOC|Facebook_Instagram|Conversions:DJTDOM060725');
     };
     
     (window as any).devTargeting = () => {
-      console.log('devTargeting called from HTML');
+      console.log('🎯 devTargeting called from HTML');
       this.simulateTargeting('^ABC^ test string');
     };
     
     (window as any).devClear = () => {
-      console.log('devClear called from HTML');
+      console.log('🧹 devClear called from HTML');
       this.clearSelection();
     };
+
+    // Alternative names that the robust handler expects
+    (window as any).devSimulateData = (window as any).devSimulate;
+    (window as any).devSimulateTargeting = (window as any).devTargeting;
+    (window as any).devClearData = (window as any).devClear;
+    
+    console.log('✅ Global dev functions available: devSimulate(), devTargeting(), devClear()');
+    console.log('✅ Also available: devSimulateData(), devSimulateTargeting(), devClearData()');
     
     Logger.info('Event handlers setup complete');
   }
@@ -545,63 +567,117 @@ class TaxonomyExtractor {
     // Only enable development mode in local development (localhost or dev server)
     const isDevEnvironment = window.location.hostname === 'localhost' || 
                              window.location.hostname === '127.0.0.1' ||
-                             window.location.port === '3001';
+                             window.location.port === '3001' ||
+                             window.location.href.includes('localhost') ||
+                             window.location.href.includes('3001');
     
-    Logger.info(`Development mode check: hostname=${window.location.hostname}, port=${window.location.port}, isDev=${isDevEnvironment}`);
+    Logger.info(`Development mode check: hostname=${window.location.hostname}, port=${window.location.port}, href=${window.location.href}, isDev=${isDevEnvironment}`);
     
-    if (isDevEnvironment) {
+    // Force dev mode for localhost testing - this ensures dev buttons are always visible during development
+    const forceDevForLocalhost = window.location.hostname === 'localhost' || window.location.hostname === '127.0.0.1';
+    
+    if (isDevEnvironment || forceDevForLocalhost) {
       // Add dev-mode class to body to show dev section
       document.body.classList.add('dev-mode');
       Logger.info('Added dev-mode class to body');
       
-      // Setup dev simulation button
-      const btnDevSimulate = document.getElementById('btnDevSimulate') as HTMLButtonElement;
-      Logger.info('Looking for btnDevSimulate:', btnDevSimulate);
-      if (btnDevSimulate) {
-        Logger.info('Found btnDevSimulate, adding event listener');
-        btnDevSimulate.addEventListener('click', (e) => {
-          e.preventDefault();
-          e.stopPropagation();
-          console.log('DEV SIMULATE CLICKED!');
-          Logger.info('Dev simulation button clicked');
-          this.simulateSelection('FY24_26|Q1-4|Tourism WA|WA |Always On Remarketing| 4LAOSO | SOC|Facebook_Instagram|Conversions:DJTDOM060725');
-        });
-        
-        // Also add onclick directly as backup
-        btnDevSimulate.onclick = (e) => {
-          e.preventDefault();
-          console.log('DEV SIMULATE ONCLICK!');
-          this.simulateSelection('FY24_26|Q1-4|Tourism WA|WA |Always On Remarketing| 4LAOSO | SOC|Facebook_Instagram|Conversions:DJTDOM060725');
-        };
-        
-        Logger.debug('Dev simulate button event handler registered');
-      } else {
-        Logger.error('btnDevSimulate not found!');
-      }
+      // ELITE APPROACH: Multi-layered event handling with global exposure
+      this.setupRobustDevHandlers();
       
-      // Setup dev targeting button
-      const btnDevTargeting = document.getElementById('btnDevTargeting') as HTMLButtonElement;
-      if (btnDevTargeting) {
-        btnDevTargeting.addEventListener('click', () => {
-          Logger.info('Dev targeting button clicked');
-          this.simulateTargeting('^ABC^ test string');
-        });
-        Logger.debug('Dev targeting button event handler registered');
-      }
-      
-      // Setup dev clear button  
-      const btnDevClear = document.getElementById('btnDevClear') as HTMLButtonElement;
-      if (btnDevClear) {
-        btnDevClear.addEventListener('click', () => {
-          Logger.info('Dev clear button clicked');
-          this.clearSelection();
-        });
-        Logger.debug('Dev clear button event handler registered');
-      }
-      
-      Logger.info('Development mode enabled');
+      Logger.info('Development mode enabled with robust handlers');
     } else {
       Logger.debug('Production mode - development features hidden');
+    }
+  }
+
+  // Elite-level robust development handler setup
+  private setupRobustDevHandlers(): void {
+    try {
+      // Strategy 1: Use the global functions that have intelligent waiting built-in
+      // These are already defined at module level with waitForInstance logic
+      
+      // Strategy 2: DOM ready state checking with multiple attachment attempts
+      const attachHandlers = () => {
+        console.log('🔧 Attempting to attach dev button handlers...');
+        
+        // Simulate button
+        const btnDevSimulate = document.getElementById('btnDevSimulate') as HTMLButtonElement;
+        if (btnDevSimulate) {
+          console.log('✅ Found btnDevSimulate, attaching handlers');
+          
+          // Multiple attachment strategies
+          btnDevSimulate.onclick = (e) => {
+            e.preventDefault();
+            console.log('📱 Simulate button clicked (onclick)');
+            (window as any).devSimulateData();
+          };
+          
+          btnDevSimulate.addEventListener('click', (e) => {
+            e.preventDefault();
+            console.log('📱 Simulate button clicked (addEventListener)');
+            (window as any).devSimulateData();
+          });
+        } else {
+          console.error('❌ btnDevSimulate not found');
+        }
+        
+        // Targeting button  
+        const btnDevTargeting = document.getElementById('btnDevTargeting') as HTMLButtonElement;
+        if (btnDevTargeting) {
+          console.log('✅ Found btnDevTargeting, attaching handlers');
+          
+          btnDevTargeting.onclick = (e) => {
+            e.preventDefault();
+            console.log('🎯 Targeting button clicked (onclick)');
+            (window as any).devSimulateTargeting();
+          };
+          
+          btnDevTargeting.addEventListener('click', (e) => {
+            e.preventDefault();
+            console.log('🎯 Targeting button clicked (addEventListener)');
+            (window as any).devSimulateTargeting();
+          });
+        } else {
+          console.error('❌ btnDevTargeting not found');
+        }
+        
+        // Clear button
+        const btnDevClear = document.getElementById('btnDevClear') as HTMLButtonElement;
+        if (btnDevClear) {
+          console.log('✅ Found btnDevClear, attaching handlers');
+          
+          btnDevClear.onclick = (e) => {
+            e.preventDefault();
+            console.log('🧹 Clear button clicked (onclick)');
+            (window as any).devClearData();
+          };
+          
+          btnDevClear.addEventListener('click', (e) => {
+            e.preventDefault();
+            console.log('🧹 Clear button clicked (addEventListener)');
+            (window as any).devClearData();
+          });
+        } else {
+          console.error('❌ btnDevClear not found');
+        }
+      };
+      
+      // Strategy 3: Multiple timing attempts
+      if (document.readyState === 'loading') {
+        document.addEventListener('DOMContentLoaded', attachHandlers);
+      } else {
+        attachHandlers();
+      }
+      
+      // Strategy 4: Backup timer-based attachment
+      setTimeout(attachHandlers, 100);
+      setTimeout(attachHandlers, 500);
+      setTimeout(attachHandlers, 1000);
+      
+      console.log('🎉 Robust dev handlers setup complete. Try: devSimulateData(), devSimulateTargeting(), devClearData()');
+      
+    } catch (error) {
+      console.error('💥 Error setting up dev handlers:', error);
     }
   }
 
@@ -799,7 +875,7 @@ class TaxonomyExtractor {
       const buttonLabel = button.querySelector('.ms-Button-label')!;
       
       if (segment && parsedData.originalText.includes('|')) {
-        buttonLabel.textContent = segment.length > 20 ? segment.substring(0, 20) + '...' : segment;
+        buttonLabel.textContent = segment.length > 35 ? segment.substring(0, 35) + '...' : segment;
         button.disabled = false;
         button.classList.remove('ms-Button--default');
         button.classList.add('ms-Button--primary');
@@ -821,16 +897,22 @@ class TaxonomyExtractor {
       this.btnActivationID.disabled = true;
     }
 
-    // Handle targeting button visibility (VBA overlay behavior)
+    // Handle targeting buttons visibility (VBA overlay behavior)
     const targetingLabel = this.btnTargeting.querySelector('.ms-Button-label')!;
+    const keepPatternLabel = this.btnKeepPattern.querySelector('.ms-Button-label')!;
     const targetingSection = document.getElementById('targetingSection')!;
     const sectionHeader = document.querySelector('.section-header') as HTMLElement;
     const specialButtons = document.querySelector('.special-buttons') as HTMLElement;
     
     if (parsedData.hasTargetingPattern) {
       targetingLabel.textContent = parsedData.targetingText;
+      keepPatternLabel.textContent = parsedData.targetingText;
       targetingSection.style.display = 'block';
       this.btnTargeting.disabled = false;
+      this.btnKeepPattern.disabled = false;
+      
+      // Add targeting-mode class to body to enable CSS targeting rules
+      document.body.classList.add('targeting-mode');
       
       // Hide segment buttons when targeting pattern detected
       this.segmentButtons.forEach(btn => btn.style.display = 'none');
@@ -841,7 +923,13 @@ class TaxonomyExtractor {
       if (specialButtons) specialButtons.style.display = 'none';
     } else {
       targetingLabel.textContent = 'N/A';
+      keepPatternLabel.textContent = 'N/A';
       targetingSection.style.display = 'none';
+      this.btnTargeting.disabled = true;
+      this.btnKeepPattern.disabled = true;
+      
+      // Remove targeting-mode class from body
+      document.body.classList.remove('targeting-mode');
       
       // Show segment buttons
       this.segmentButtons.forEach(btn => btn.style.display = 'block');
@@ -1120,6 +1208,54 @@ class TaxonomyExtractor {
     }
   }
 
+  // Keep only targeting pattern (^ABC^), remove everything else
+  public async keepTargetingPattern(): Promise<void> {
+    try {
+      await Excel.run(async (context) => {
+        const range = context.workbook.getSelectedRange();
+        range.load('address, values');
+        await context.sync();
+
+        // Add to undo stack BEFORE making changes
+        await this.addUndoOperation('Keep Targeting Pattern', range);
+
+        const values = range.values as any[][];
+        let processedCount = 0;
+
+        // Process each cell with targeting pattern
+        for (let row = 0; row < values.length; row++) {
+          for (let col = 0; col < values[row].length; col++) {
+            const cellValue = values[row][col];
+            
+            if (cellValue && typeof cellValue === 'string') {
+              // Extract only the targeting patterns (^ABC^ format)
+              const matches = cellValue.match(/\^[^^]+\^/g);
+              if (matches && matches.length > 0) {
+                // Join all patterns found with spaces
+                const keptPattern = matches.join(' ').trim();
+                if (keptPattern !== cellValue) {
+                  values[row][col] = keptPattern;
+                  processedCount++;
+                }
+              }
+            }
+          }
+        }
+
+        // Update the range with new values
+        range.values = values;
+        await context.sync();
+
+        // Update UI and show status
+        await this.onSelectionChange();
+        this.showStatus(`Kept targeting patterns from ${processedCount} cell(s)`);
+      });
+    } catch (error) {
+      console.error('Keep targeting pattern error:', error);
+      this.showStatus('Error keeping targeting pattern', true);
+    }
+  }
+
   // Undo last operation (replicates VBA undo system)
   public async undoLastOperation(): Promise<void> {
     if (this.undoStack.length === 0) return;
@@ -1167,6 +1303,154 @@ let taxonomyExtractor: TaxonomyExtractor;
 // Make DarkModeManager available globally for debugging
 (window as any).DarkModeManager = DarkModeManager;
 
+// Check if we're in development environment
+const isDevEnv = () => {
+  const isDev = window.location.hostname === 'localhost' || 
+                window.location.hostname === '127.0.0.1' ||
+                window.location.port === '3001' ||
+                window.location.href.includes('localhost') ||
+                window.location.href.includes('3001');
+  
+  // Debug logging to help troubleshoot
+  console.log(`🔍 Dev environment check: hostname=${window.location.hostname}, port=${window.location.port}, isDev=${isDev}`);
+  
+  return isDev;
+};
+
+// Helper function to wait for taxonomyExtractor or create fallback instance (DEV ONLY)
+const waitForInstance = (callback: () => void, maxAttempts: number = 50) => {
+  if (!isDevEnv()) {
+    console.warn('🚫 Dev functions disabled in production environment');
+    return;
+  }
+  
+  let attempts = 0;
+  const checkInstance = () => {
+    attempts++;
+    if (taxonomyExtractor) {
+      console.log(`✅ Instance ready after ${attempts} attempts`);
+      callback();
+    } else if (attempts < maxAttempts) {
+      console.log(`⏳ Waiting for instance... attempt ${attempts}`);
+      setTimeout(checkInstance, 100);
+    } else {
+      console.log('⚠️ Office.js timeout - creating standalone instance for browser testing');
+      // Create a fallback instance for standalone browser testing
+      taxonomyExtractor = new TaxonomyExtractor();
+      console.log('🔧 Fallback taxonomyExtractor instance created');
+      callback();
+    }
+  };
+  checkInstance();
+};
+
+// GLOBAL DEV FUNCTIONS - Only exposed in development environment
+if (isDevEnv()) {
+  (window as any).devSimulate = () => {
+    console.log('🚀 devSimulate called');
+    waitForInstance(() => {
+      (taxonomyExtractor as any).simulateSelection('FY24_26|Q1-4|Tourism WA|WA |Always On Remarketing| 4LAOSO | SOC|Facebook_Instagram|Conversions:DJTDOM060725');
+    });
+  };
+
+  (window as any).devTargeting = () => {
+    console.log('🎯 devTargeting called');
+    waitForInstance(() => {
+      (taxonomyExtractor as any).simulateTargeting('^ABC^ test string');
+    });
+  };
+
+  (window as any).devClear = () => {
+    console.log('🧹 devClear called');
+    waitForInstance(() => {
+      (taxonomyExtractor as any).clearSelection();
+    });
+  };
+
+  // Alternative names for the robust handler
+  (window as any).devSimulateData = (window as any).devSimulate;
+  (window as any).devSimulateTargeting = (window as any).devTargeting;
+  (window as any).devClearData = (window as any).devClear;
+
+  console.log('🌍 Global dev functions exposed:', ['devSimulate', 'devTargeting', 'devClear', 'devSimulateData', 'devSimulateTargeting', 'devClearData']);
+  
+  // FORCE DEV MODE UI - Make dev section visible immediately in browser testing
+  document.addEventListener('DOMContentLoaded', () => {
+    document.body.classList.add('dev-mode');
+    console.log('🟡 Dev mode UI enabled - yellow section should be visible');
+    
+    // Attach direct event handlers for immediate functionality - NO TIMEOUT
+    const attachDevHandlers = () => {
+      const btnDevSimulate = document.getElementById('btnDevSimulate') as HTMLButtonElement;
+      const btnDevTargeting = document.getElementById('btnDevTargeting') as HTMLButtonElement;
+      const btnDevClear = document.getElementById('btnDevClear') as HTMLButtonElement;
+      
+      if (btnDevSimulate) {
+        btnDevSimulate.onclick = () => {
+          console.log('📱 Direct dev simulate clicked');
+          (window as any).devSimulate();
+        };
+        console.log('✅ Dev simulate handler attached');
+      }
+      
+      if (btnDevTargeting) {
+        btnDevTargeting.onclick = () => {
+          console.log('🎯 Direct dev targeting clicked');
+          (window as any).devTargeting();
+        };
+        console.log('✅ Dev targeting handler attached');
+      }
+      
+      if (btnDevClear) {
+        btnDevClear.onclick = () => {
+          console.log('🧹 Direct dev clear clicked');
+          (window as any).devClear();
+        };
+        console.log('✅ Dev clear handler attached');
+      }
+      
+      console.log('⚡ Direct dev button handlers attached immediately');
+    };
+    
+    // Try immediately, then retry with setTimeout as fallback
+    attachDevHandlers();
+    setTimeout(attachDevHandlers, 50);
+    setTimeout(attachDevHandlers, 200);
+  });
+  
+  // Also try immediately in case DOM is already loaded
+  if (document.readyState === 'loading') {
+    // DOM still loading, event listener above will handle it
+  } else {
+    document.body.classList.add('dev-mode');
+    console.log('🟡 Dev mode UI enabled immediately - yellow section should be visible');
+    
+    // Attach handlers immediately if DOM is ready
+    const attachDevHandlers = () => {
+      const btnDevSimulate = document.getElementById('btnDevSimulate') as HTMLButtonElement;
+      const btnDevTargeting = document.getElementById('btnDevTargeting') as HTMLButtonElement;
+      const btnDevClear = document.getElementById('btnDevClear') as HTMLButtonElement;
+      
+      if (btnDevSimulate && !btnDevSimulate.onclick) {
+        btnDevSimulate.onclick = () => (window as any).devSimulate();
+        console.log('✅ Immediate dev simulate handler attached');
+      }
+      if (btnDevTargeting && !btnDevTargeting.onclick) {
+        btnDevTargeting.onclick = () => (window as any).devTargeting();
+        console.log('✅ Immediate dev targeting handler attached');
+      }
+      if (btnDevClear && !btnDevClear.onclick) {
+        btnDevClear.onclick = () => (window as any).devClear();
+        console.log('✅ Immediate dev clear handler attached');
+      }
+    };
+    
+    attachDevHandlers();
+  }
+} else {
+  console.log('🔒 Production mode: Dev functions disabled');
+}
+
 // Office.js initialization
 Office.onReady((info) => {
   Logger.info('Office.js is ready', info);
@@ -1177,6 +1461,7 @@ Office.onReady((info) => {
     // Initialize the taxonomy extractor
     taxonomyExtractor = new TaxonomyExtractor();
     Logger.info('TaxonomyExtractor instance created');
+    console.log('🎉 taxonomyExtractor instance created - global dev functions now ready!');
     
     // Register selection change event (replicates VBA modeless behavior)
     Excel.run(async (context) => {

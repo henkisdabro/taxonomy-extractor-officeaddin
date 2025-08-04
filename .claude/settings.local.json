@@ -37,7 +37,12 @@
       "Bash(diff:*)",
       "Bash(cmp:*)",
       "Bash(git config:*)",
-      "Bash(pkill:*)"
+      "Bash(pkill:*)",
+      "Bash(cat:*)",
+      "Bash(git reset:*)",
+      "WebFetch(domain:learn.microsoft.com)",
+      "Bash(kill:*)",
+      "Bash(open http://localhost:3001/debug-targeting.html)"
     ],
     "deny": []
   }

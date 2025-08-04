@@ -301,6 +301,128 @@ if (Office.context.requirements.isSetSupported('ExcelApi', '1.19')) {
 
 **Current Status: ExcelApi 1.12 remains optimal** for the IPG Taxonomy Extractor's current functionality and compatibility requirements.
 
+## 🎯 Enhanced Acronym Pattern Processing (August 2025)
+
+**Status: COMPLETED SUCCESSFULLY** ✅
+
+### **Dual-Function Targeting Mode**
+
+**Design Goals Achieved:**
+1. **Expanded acronym processing capabilities** - Added Keep functionality alongside existing Trim
+2. **Intuitive interface design** - Clear "Trim:" and "Keep:" prefixes with perfect alignment
+3. **Consistent user experience** - Same visual styling as all other buttons
+4. **Context-aware UI** - Only visible when ^ABC^ patterns are detected
+
+### **Key Implementation Details**
+
+#### **1. Enhanced Targeting Interface**
+```html
+<!-- Targeting section with dual functionality -->
+<div class="targeting-button-row">
+    <div class="button-with-prefix">
+        <span class="button-prefix">Trim:</span>
+        <button id="btnTargeting">Remove ^ABC^ pattern from text</button>
+    </div>
+    <div class="button-with-prefix">
+        <span class="button-prefix">Keep:</span>
+        <button id="btnKeepPattern">Keep only ^ABC^ pattern</button>
+    </div>
+</div>
+```
+
+#### **2. Perfect Button Alignment**
+```css
+/* Targeting button prefixes with consistent width */
+.targeting-button-row .button-prefix {
+  min-width: 40px;
+  text-align: right;
+}
+
+/* Targeting button row with same spacing as segment buttons */
+.targeting-button-row {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  margin-bottom: 12px;
+}
+```
+
+#### **3. Smart CSS Targeting**
+```css
+/* Hide segment button prefixes in targeting mode, keep targeting prefixes visible */
+.targeting-mode .button-row .button-prefix,
+.targeting-mode .special-buttons .button-prefix {
+  display: none;
+}
+```
+
+#### **4. Dual Processing Logic**
+```typescript
+// TRIM: Remove ^ABC^ pattern, keep everything else
+async cleanTargetingAcronyms(): Promise<void> {
+  const cleaned = cellValue.replace(/\^[^^]+\^ ?/g, '').trim();
+}
+
+// KEEP: Extract only ^ABC^ patterns, remove everything else  
+async keepTargetingPattern(): Promise<void> {
+  const matches = cellValue.match(/\^[^^]+\^/g);
+  const keptPattern = matches.join(' ').trim();
+}
+```
+
+### **Visual Result:**
+```
+Normal Mode:
+Extract Segments:
+1: [=== Segment Button ===]
+2: [=== Segment Button ===]
+...
+
+Targeting Mode (when ^ABC^ detected):
+Acronym Pattern:
+Trim: [=== Remove ^ABC^ patterns ===]
+       ↑ 6px gap ↓
+Keep: [=== Keep only ^ABC^ patterns ===]
+```
+
+### **Technical Achievements**
+
+#### **1. Context-Aware Interface Switching**
+- **Automatic detection**: Interface switches when ^ABC^ patterns found in selection
+- **Clean transitions**: Segment buttons hide, targeting buttons appear
+- **Perfect alignment**: 40px min-width ensures buttons start at same position
+- **Consistent spacing**: 6px gap matches segment button spacing
+
+#### **2. Enhanced Functionality**
+- **Trim operation**: Removes ^ABC^ patterns while preserving surrounding text
+- **Keep operation**: Extracts only ^ABC^ patterns, discards everything else
+- **Multiple pattern support**: Handles multiple ^ABC^ patterns in single cell
+- **Undo integration**: Both operations fully integrated with undo system
+
+#### **3. Production Safety**
+- **Hidden by default**: Targeting section only visible when patterns detected
+- **No homepage visibility**: Normal users never see targeting buttons
+- **Development testing**: Yellow simulation button for easy testing
+- **Responsive design**: Works across all screen sizes and Office platforms
+
+### **Performance Optimizations**
+
+#### **Ultra-Fast UI Transitions**
+```css
+/* Snappy animations for responsive feel */
+.segment-btn { transition: all 0.03s cubic-bezier(0.4, 0, 0.2, 1); }
+.ms-Button--compound { transition: all 0.03s cubic-bezier(0.4, 0, 0.2, 1); }
+.ms-MessageBar { animation: slideIn 0.06s cubic-bezier(0.4, 0, 0.2, 1); }
+```
+
+**Animation Speed Improvements:**
+- **Button interactions**: 80ms → 30ms (2.6x faster)
+- **Status messages**: 120ms → 60ms (2x faster)  
+- **Loading spinners**: 800ms → 400ms (2x faster)
+- **Theme transitions**: 80ms → 30ms (2.6x faster)
+
+**This enhancement provides users with comprehensive acronym pattern processing capabilities while maintaining the clean, intuitive interface design.**
+
 ## 🔧 Critical Webpack Configuration for Workers
 
 **IMPORTANT**: Cloudflare Workers requires specific webpack configuration to deploy successfully. The following settings are MANDATORY:
