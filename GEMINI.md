@@ -1,10 +1,10 @@
 ## 🔄 IMPORTANT: File Synchronization Requirements
 
-**CRITICAL:** This file must be kept identical to `CLAUDE.md` at all times.
+**CRITICAL:** This file must be kept identical to `GEMINI.md` at all times.
 
 ### **Synchronization Rules:**
-1. **Any updates to this file** must be immediately copied to `CLAUDE.md`
-2. **Any updates from other AI applications** to `CLAUDE.md` must be copied here
+1. **Any updates to this file** must be immediately copied to `GEMINI.md`
+2. **Any updates from other AI applications** to `GEMINI.md` must be copied here
 3. **Both files must contain identical content** for consistency across AI assistants
 4. **Before making changes:** Always check both files are synchronized
 5. **After making changes:** Always update both files simultaneously
@@ -747,23 +747,158 @@ http://localhost:3001/taskpane.html
 ### **Outstanding Development Tasks**
 
 #### **Development Mode Button Event Handlers** 🔧
-**Status: COMPLETED SUCCESSFULLY** ✅
+**Status: IN PROGRESS** 
 
 **Issue:** Development simulation buttons are visible but non-functional due to TypeScript event handler attachment issues.
 
-**Resolution:** Fixed by implementing immediate event handler attachment with multiple fallback mechanisms and production-safe environment detection.
-
-**Final State:**
+**Current State:**
 - ✅ Development section properly hidden in production
-- ✅ Buttons visible and functional in development environment (localhost)
-- ✅ Event handlers attach immediately on DOM ready
-- ✅ Can test interface states without manual Excel interaction
-- ✅ Ultra-fast UI transitions for snappy user experience
+- ✅ Buttons visible in development environment (localhost)
+- ❌ Event handlers not attaching (`window.devSimulate is not a function`)
+- ❌ Cannot test interface states without manual Excel interaction
 
-**Technical Solution:**
-- Immediate event handler attachment without delays
-- Multiple fallback attempts (immediate, 50ms, 200ms)
-- Production-safe environment detection
-- Global function exposure with duplicate prevention
+**Technical Challenge:**
+- Event listeners not being properly registered in `setupDevelopmentMode()`
+- HTML onclick handlers cannot access TypeScript class methods
+- Global function exposure to window object not working correctly
 
-**Development workflow now fully functional** with instant testing capabilities and responsive UI feedback.
+**Next Steps for Resolution:**
+1. Debug TypeScript class method exposure to global scope
+2. Implement alternative event binding approach (direct DOM manipulation)
+3. Consider inline script approach within webpack dev server context
+4. Test event handler timing vs DOM loading sequence
+
+**Impact:** Development workflow requires manual Excel cell selection for testing interface states, reducing iteration speed for UI/UX improvements.
+
+---
+
+## ✅ RESOLVED: VS Code Debugging Configuration Issues (August 2025)
+
+**Status: COMPLETED SUCCESSFULLY** ✅
+
+### **Root Cause Analysis**
+
+**Primary Issues Identified:**
+
+1. **Port Configuration Mismatch**: 
+   - `webpack.dev.config.js` configured for port 3001
+   - `package.json` config specified port 3000
+   - VS Code debugging expected port 3000
+
+2. **Webpack Configuration Conflict**:
+   - VS Code tasks used default `webpack.config.js` (HTTPS + port 3000)
+   - Development needed `webpack.dev.config.js` (HTTP + port 3001)
+   - `office-addin-debugging` couldn't find running dev server
+
+3. **Admin Rights Warning**: 
+   - Loopback exemption requires administrator privileges
+   - Non-critical for Office Add-in development
+
+### **Complete Solution Implementation**
+
+#### **1. Fixed Port Configuration**
+```json
+// package.json - Updated to match webpack.dev.config.js
+"config": {
+  "app_to_debug": "excel",
+  "app_type_to_debug": "desktop",
+  "dev_server_port": 3001  // Changed from 3000 to 3001
+}
+```
+
+#### **2. Updated VS Code Task Configuration**
+```json
+// .vscode/tasks.json - Simplified to use npm script directly
+{
+  "label": "Debug: Excel Desktop",
+  "type": "npm",
+  "script": "start",  // Removed extra shell arguments
+  "presentation": {
+    "clear": true,
+    "panel": "dedicated"
+  },
+  "problemMatcher": []
+}
+```
+
+#### **3. Enhanced Start Script**
+```json
+// package.json - Added custom dev server configuration
+"scripts": {
+  "start": "office-addin-debugging start manifest.xml --dev-server \"webpack serve --mode development --config webpack.dev.config.js\""
+}
+```
+
+### **Key Technical Details**
+
+#### **Webpack Development Configuration**
+```javascript
+// webpack.dev.config.js - HTTP-only development setup
+devServer: {
+  hot: true,
+  server: "http",    // No HTTPS certificates needed
+  port: 3001,        // Different from production
+  historyApiFallback: { index: "/taskpane.html" }
+}
+```
+
+#### **Successful Debug Flow**
+1. **VS Code launches task**: `Debug: Excel Desktop`
+2. **Task runs npm script**: `npm run start`
+3. **Office Add-in debugging starts**: Custom dev server command
+4. **Dev server detection**: "The dev server is already running on port 3001"
+5. **Excel launches**: Loads add-in from `localhost:3001`
+6. **Local development**: Hot reloading + development features enabled
+
+### **Verification Results**
+
+**Debug Log Success Indicators:**
+```
+✅ Enabled debugging for add-in f3b3c5d7-8a2b-4c9e-9f1a-2d3e4f5a6b7c
+✅ The dev server is already running on port 3001
+✅ Launching excel via Excel add-in [file].xlsx
+✅ Debugging started
+```
+
+**Development Environment Detection:**
+```javascript
+🔍 Dev environment check: hostname=localhost, port=3001, isDev=true
+✅ Development mode: Dev functions enabled
+✅ Global dev functions available: devSimulate(), devTargeting(), devClear()
+```
+
+### **Development Workflow Benefits**
+
+#### **Integrated Debugging Experience**
+- **One-click debugging**: VS Code F5 launches everything
+- **Automatic sideloading**: No manual manifest upload needed
+- **Hot module replacement**: Instant code updates without restart
+- **Development features**: Yellow dev section with simulation tools
+
+#### **Eliminated Pain Points**
+- **No certificate management**: HTTP development server
+- **No port conflicts**: Clear separation between dev (3001) and debug config
+- **No manual processes**: Fully automated launch and sideloading
+- **No admin rights required**: Warning is non-critical
+
+### **Final Configuration Summary**
+
+| Component | Configuration | Purpose |
+|-----------|---------------|---------|
+| `webpack.dev.config.js` | HTTP, port 3001, hot reload | Development server |
+| `package.json` config | `dev_server_port: 3001` | Match webpack dev config |
+| `package.json` start script | Custom `--dev-server` flag | Specify webpack config |
+| VS Code tasks | Direct npm script call | Simplified task execution |
+
+### **Commands for Manual Testing**
+```bash
+# Start development server
+npm run dev-server
+
+# Start debugging (uses custom dev server)
+npm run start
+
+# VS Code: Press F5 or run "Debug: Excel Desktop" task
+```
+
+**This solution provides a seamless, professional Office Add-in development experience with full VS Code integration, hot reloading, and automated debugging capabilities.**

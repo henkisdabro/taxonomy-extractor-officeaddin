@@ -75,7 +75,9 @@
       "WebFetch(domain:docs.microsoft.com)",
       "WebFetch(domain:docs.microsoft.com)",
       "WebFetch(domain:learn.microsoft.com)",
-      "WebFetch(domain:learn.microsoft.com)"
+      "WebFetch(domain:learn.microsoft.com)",
+      "Bash(taskkill:*)",
+      "mcp__ide__getDiagnostics"
     ],
     "deny": []
   }

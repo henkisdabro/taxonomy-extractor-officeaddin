@@ -54,22 +54,29 @@ A modern, production-ready Office Add-in that ports the functionality of the [VB
 
 3. **Start development server**
    ```bash
-   # Primary development server (hot-reloading, easy setup)
+   # Primary development server (HTTP, hot-reloading)
    npm run dev-server
    
-   # Alternative HTTPS server (if certificates needed)
-   npm start
+   # VS Code integrated debugging
+   npm start          # Or press F5 in VS Code
    ```
    
    **Development server features:**
    - **Hot reloading**: Instant CSS/TypeScript updates without refresh
-   - **HTTPS server**: `https://localhost:3000/taskpane.html` with auto-generated certificates
+   - **HTTP server**: `http://localhost:3001/taskpane.html` (no certificate issues)
+   - **VS Code integration**: One-click debugging with automatic Excel launch
    - **Development simulation**: Yellow dev section with test buttons (localhost only)
    - **Interface testing**: Simulate taxonomy data, targeting patterns, and selection states
    - **Production-safe**: Dev features automatically hidden in production environments
 
-4. **Sideload in Excel**
-   - Open Excel For Web (usually not possible on desktop)
+4. **Development with VS Code (Recommended)**
+   - Open project in VS Code
+   - Press **F5** or run **Debug: Excel Desktop** task
+   - Excel launches automatically with add-in pre-loaded
+   - Full debugging support with breakpoints and hot reloading
+   
+   **Manual sideloading (alternative):**
+   - Open Excel (Desktop or Online)
    - Go to Home → Add-ins → More Add-ins → My Add-ins → Upload My Add-in
    - Select the `manifest.xml` file from the project root
    - The add-in will appear in the "IPG Tools" group on the Home tab
@@ -128,8 +135,8 @@ FY24_26|Q1-4|Tourism WA|WA |Always On Remarketing| 4LAOSO | SOC|Facebook_Instagr
 
 ```bash
 # Development
-npm run dev-server     # Primary dev server with hot-reloading (HTTPS, port 3000)
-npm start              # Alternative dev server with auto-reload
+npm run dev-server     # Primary dev server with hot-reloading (HTTP, port 3001)
+npm start              # VS Code integrated debugging with Excel auto-launch
 npm run start:desktop  # Start for Excel Desktop
 npm run start:web      # Start for Excel Online
 
@@ -158,11 +165,12 @@ The development server includes powerful testing capabilities:
 - **Clear Selection**: Reset interface to initial state
 
 **Hot Development Workflow**:
-1. Run `npm run dev-server`
-2. Open `https://localhost:3000/taskpane.html` in browser
+1. **VS Code Integration**: Press F5 → Excel launches with add-in automatically loaded
+2. **Manual Browser Testing**: Run `npm run dev-server` → Open `http://localhost:3001/taskpane.html`
 3. Use yellow dev section to test different interface states
 4. Make code changes - see updates instantly without refresh
 5. Test all extraction and targeting functionality without Excel
+6. **Full debugging**: Set breakpoints in VS Code, inspect variables in running add-in
 
 ## 📊 Architecture
 

@@ -129,4 +129,4 @@ const addinConfig = async (env, options) => {
   };
 };
 
-module.exports = [addinConfig];
+module.exports = addinConfig;
