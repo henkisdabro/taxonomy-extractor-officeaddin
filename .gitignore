@@ -15,11 +15,14 @@ build/
 .env.test.local
 .env.production.local
 
-# Office Add-in certificates
+# Office Add-in certificates and development files
 certs/
+*.pfx
+*.p12
+*.dev.xml
+manifest.dev.xml
 
 # IDE files
-.vscode/
 .idea/
 *.swp
 *.swo
@@ -53,3 +56,12 @@ coverage/
 # Temporary folders
 tmp/
 temp/
+*.tmp
+
+# Package manager files
+package-lock.json.backup
+.pnpm-debug.log*
+.pnpm/
+
+# TypeScript
+*.tsbuildinfo

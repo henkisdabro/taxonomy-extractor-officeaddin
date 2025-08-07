@@ -1,0 +1,10 @@
+{
+  "recommendations": [
+    "esbenp.prettier-vscode",
+    "ms-vscode.vscode-typescript-next",
+    "ms-vscode.vscode-eslint",
+    "ms-vscode.vscode-json",
+    "ms-office-addin.office-addin-debugger",
+    "ms-vscode.vscode-xml"
+  ]
+}
