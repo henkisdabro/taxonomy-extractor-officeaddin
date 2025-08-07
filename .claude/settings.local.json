@@ -71,7 +71,11 @@
       "Bash(\"/c/Windows/System32/OpenSSH/ssh-add.exe\" -L)",
       "Bash(timeout 10 git ls-remote git@github.com:henkisdabro/taxonomy-extractor-officeaddin.git HEAD)",
       "Bash(timeout 30 git push origin master)",
-      "Bash(timeout 30 git fetch origin)"
+      "Bash(timeout 30 git fetch origin)",
+      "WebFetch(domain:docs.microsoft.com)",
+      "WebFetch(domain:docs.microsoft.com)",
+      "WebFetch(domain:learn.microsoft.com)",
+      "WebFetch(domain:learn.microsoft.com)"
     ],
     "deny": []
   }

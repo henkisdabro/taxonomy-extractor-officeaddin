@@ -14,9 +14,15 @@ async function getHttpsOptions() {
 const addinConfig = async (env, options) => {
   const dev = options.mode === "development";
   return {
-    devtool: "source-map",
+    devtool: dev ? "source-map" : false,
     entry: {
-      polyfill: ["core-js/stable", "regenerator-runtime/runtime"],
+      polyfill: [
+        "core-js/features/promise",
+        "core-js/features/array/includes",
+        "core-js/features/array/find",
+        "core-js/features/object/assign",
+        "core-js/features/string/includes"
+      ],
       taskpane: "./src/taskpane/taskpane.ts",
       commands: "./src/commands/commands.ts",
     },
@@ -81,6 +87,27 @@ const addinConfig = async (env, options) => {
         ],
       }),
     ],
+    optimization: {
+      splitChunks: {
+        chunks: 'all',
+        cacheGroups: {
+          vendor: {
+            test: /[\\/]node_modules[\\/]/,
+            name: 'vendor',
+            priority: 10,
+            reuseExistingChunk: true
+          },
+          common: {
+            name: 'common',
+            minChunks: 2,
+            priority: 5,
+            reuseExistingChunk: true
+          }
+        }
+      },
+      usedExports: true,
+      sideEffects: false
+    },
     devServer: {
       hot: true,
       headers: {
