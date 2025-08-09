@@ -18,7 +18,7 @@ interface InterpolationParams {
 
 export class LocalizationService {
   private static instance: LocalizationService;
-  private currentLocale: string = 'en-US';
+  private currentLocale: string = 'en-AU';
   private strings: Map<string, LocaleStrings> = new Map();
   private isInitialized: boolean = false;
 
@@ -40,9 +40,9 @@ export class LocalizationService {
     if (this.isInitialized) return;
 
     try {
-      // Import the default English locale
-      const enUS = await import('../locales/en-US.json');
-      this.strings.set('en-US', enUS.default || enUS);
+      // Import the default Australian English locale
+      const enAU = await import('../locales/en-AU.json');
+      this.strings.set('en-AU', enAU.default || enAU);
       this.isInitialized = true;
     } catch (error) {
       console.warn('[Localization] Failed to load default locale, using fallback keys');

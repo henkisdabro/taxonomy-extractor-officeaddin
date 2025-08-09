@@ -1,8 +1,8 @@
 {
   "ui.status.no_cells": "No cells selected",
   "ui.status.cells_selected": "{count} cell(s) selected",
-  "ui.status.taxonomy_detected": "{count} cell(s) selected - Taxonomy data detected",
-  "ui.status.targeting_detected": "{count} cell(s) selected - Targeting pattern detected",
+  "ui.status.taxonomy_detected": "{count} cell(s) selected - Taxonomy data recognised",
+  "ui.status.targeting_detected": "{count} cell(s) selected - Targeting pattern recognised",
   
   "ui.headers.extract_segments": "Extract Segments:",
   "ui.headers.extract_activation_id": "Extract Activation ID:",
@@ -29,13 +29,13 @@
   
   "ui.messages.success_segment": "Extracted segment {number} from {count} cell(s)",
   "ui.messages.success_activation": "Extracted activation ID from {count} cell(s)",
-  "ui.messages.success_targeting_trim": "Cleaned targeting acronyms from {count} cell(s)",
+  "ui.messages.success_targeting_trim": "Removed targeting acronyms from {count} cell(s)",
   "ui.messages.success_targeting_keep": "Kept targeting patterns from {count} cell(s)",
   "ui.messages.success_undo": "Undid: {operation} ({count} cells restored)",
   
   "ui.messages.error_segment": "Error extracting segment",
   "ui.messages.error_activation": "Error extracting activation ID",  
-  "ui.messages.error_targeting_trim": "Error cleaning targeting acronyms",
+  "ui.messages.error_targeting_trim": "Error removing targeting acronyms",
   "ui.messages.error_targeting_keep": "Error keeping targeting pattern",
   "ui.messages.error_undo": "Error during undo operation",
   
@@ -43,7 +43,7 @@
   
   "operations.extract_segment": "Extract Segment {number}",
   "operations.extract_activation": "Extract Activation ID",
-  "operations.clean_targeting": "Clean Targeting Acronyms", 
+  "operations.clean_targeting": "Remove Targeting Acronyms", 
   "operations.keep_targeting": "Keep Targeting Pattern",
   
   "accessibility.segment_button": "Extract segment {number}: {content}",
@@ -52,6 +52,21 @@
   "accessibility.targeting_keep_button": "Keep only targeting pattern: {content}",
   "accessibility.undo_button": "Undo last operation",
   "accessibility.undo_button_multiple": "Undo last operation ({count} operations available)",
+  
+  "ui.tooltips.extract_segment": "Extract segment {number}",
+  "ui.tooltips.extract_activation": "Extract activation ID: {id}",
+  "ui.tooltips.no_segment_data": "No segment {number} data available",
+  "ui.tooltips.no_activation_id": "No activation ID available",
+  "ui.tooltips.undo_operation": "Undo last operation",
+  "ui.tooltips.targeting_trim": "Remove ^ABC^ patterns from selected cells",
+  "ui.tooltips.targeting_keep": "Keep only ^ABC^ patterns in selected cells",
+  
+  "ui.announcements.selection_changed": "Selection changed: {status}",
+  "ui.announcements.extraction_complete": "Extraction complete: {message}",
+  "ui.announcements.undo_complete": "Undo complete: {message}",
+  "ui.announcements.mode_changed": "Interface mode changed to {mode}",
+  "ui.announcements.processing_start": "Processing started",
+  "ui.announcements.processing_complete": "Processing complete",
   
   "errors.office_api_unavailable": "Office.js API is not available",
   "errors.excel_operation_failed": "Excel operation failed",

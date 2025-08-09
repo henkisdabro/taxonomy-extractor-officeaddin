@@ -11,7 +11,8 @@ export { LocalizationService, localization } from '../services/Localization.serv
  * Available locale codes
  */
 export const AVAILABLE_LOCALES = {
-  'en-US': 'English (United States)'
+  'en-AU': 'English (Australia)',
+  'en-US': 'English (United States)' // Fallback
   // Future locales can be added here:
   // 'es-ES': 'Spanish (Spain)',
   // 'fr-FR': 'French (France)',
@@ -42,6 +43,6 @@ export function getDefaultLocale(): LocaleCode {
     return browserLocale;
   }
 
-  // Ultimate fallback
-  return 'en-US';
+  // Ultimate fallback to Australian English
+  return 'en-AU';
 }
