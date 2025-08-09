@@ -79,7 +79,8 @@
       "Bash(taskkill:*)",
       "mcp__ide__getDiagnostics",
       "Bash(git checkout:*)",
-      "Bash(sha256sum:*)"
+      "Bash(sha256sum:*)",
+      "Bash(git branch:*)"
     ],
     "deny": []
   }
