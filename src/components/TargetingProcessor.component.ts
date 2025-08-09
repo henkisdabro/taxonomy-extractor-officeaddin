@@ -69,7 +69,37 @@ export class TargetingProcessorComponent extends BaseComponent<TargetingProcesso
     this.addEventListener(this.btnTargeting, 'keydown', this.handleKeyNavigation.bind(this));
     this.addEventListener(this.btnKeepPattern, 'keydown', this.handleKeyNavigation.bind(this));
 
+    // Initialize accessibility
+    this.initializeAccessibility();
+
     this.log('DEBUG', 'TargetingProcessor elements bound successfully');
+  }
+
+  /**
+   * Initialize accessibility features
+   */
+  private initializeAccessibility(): void {
+    if (!this.btnTargeting || !this.btnKeepPattern) return;
+
+    // Set initial ARIA attributes for trim button
+    this.enhanceButtonAccessibility(this.btnTargeting, {
+      labelKey: 'accessibility.targeting_trim_button',
+      role: 'button'
+    });
+
+    // Set initial ARIA attributes for keep button
+    this.enhanceButtonAccessibility(this.btnKeepPattern, {
+      labelKey: 'accessibility.targeting_keep_button',
+      role: 'button'
+    });
+
+    // Set up ARIA live region for targeting section
+    if (this.targetingSection) {
+      this.targetingSection.setAttribute('role', 'region');
+      this.setAriaLabel(this.targetingSection, 'ui.headers.acronym_pattern');
+    }
+
+    this.log('DEBUG', 'TargetingProcessor accessibility initialized');
   }
 
   private subscribeToStateChanges(): void {
@@ -99,11 +129,16 @@ export class TargetingProcessorComponent extends BaseComponent<TargetingProcesso
       const result = await this.processTargetingPatterns('trim');
       
       if (result.success) {
-        this.notifySuccess(
-          this.getString('ui.messages.success_targeting_trim', { 
-            count: result.processedCount?.toString() || '0' 
-          })
-        );
+        const successMessage = this.getString('ui.messages.success_targeting_trim', { 
+          count: result.processedCount?.toString() || '0' 
+        });
+
+        this.notifySuccess(successMessage);
+        
+        // Announce to screen readers
+        this.announceKey('ui.announcements.extraction_complete', {
+          message: successMessage
+        });
       } else {
         this.notifyError(result.error || this.getString('ui.messages.error_targeting'));
       }
@@ -129,11 +164,16 @@ export class TargetingProcessorComponent extends BaseComponent<TargetingProcesso
       const result = await this.processTargetingPatterns('keep');
       
       if (result.success) {
-        this.notifySuccess(
-          this.getString('ui.messages.success_targeting_keep', { 
-            count: result.processedCount?.toString() || '0' 
-          })
-        );
+        const successMessage = this.getString('ui.messages.success_targeting_keep', { 
+          count: result.processedCount?.toString() || '0' 
+        });
+
+        this.notifySuccess(successMessage);
+        
+        // Announce to screen readers
+        this.announceKey('ui.announcements.extraction_complete', {
+          message: successMessage
+        });
       } else {
         this.notifyError(result.error || this.getString('ui.messages.error_targeting'));
       }

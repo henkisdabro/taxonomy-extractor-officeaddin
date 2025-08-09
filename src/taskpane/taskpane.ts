@@ -13,6 +13,7 @@
 
 // Import styles
 import './taskpane.css';
+import './accessibility.css';
 
 // Import localization service
 import { localization } from '../services/Localization.service';

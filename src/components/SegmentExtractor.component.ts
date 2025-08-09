@@ -60,6 +60,9 @@ export class SegmentExtractorComponent extends BaseComponent<SegmentExtractorPro
         this.addEventListener(btn, 'keydown', (event: KeyboardEvent) => {
           this.handleSegmentKeyNavigation(event, i as Segment);
         });
+
+        // Initialize accessibility for this button
+        this.initializeButtonAccessibility(btn, i as Segment);
       } else {
         this.log('WARN', `Segment button ${i} not found in DOM`);
       }
@@ -71,6 +74,25 @@ export class SegmentExtractorComponent extends BaseComponent<SegmentExtractorPro
     }
 
     this.log('DEBUG', `SegmentExtractor bound ${this.segmentButtons.length} segment buttons`);
+  }
+
+  /**
+   * Initialize accessibility features for a segment button
+   */
+  private initializeButtonAccessibility(button: HTMLButtonElement, segmentNumber: Segment): void {
+    // Set initial ARIA attributes
+    this.enhanceButtonAccessibility(button, {
+      labelKey: 'accessibility.segment_button_empty',
+      labelParams: { number: segmentNumber.toString() },
+      role: 'button'
+    });
+
+    // Ensure proper tabindex for keyboard navigation
+    if (!button.hasAttribute('tabindex')) {
+      button.setAttribute('tabindex', '0');
+    }
+
+    this.log('DEBUG', `Initialized accessibility for segment ${segmentNumber} button`);
   }
 
   private subscribeToStateChanges(): void {
@@ -105,12 +127,17 @@ export class SegmentExtractorComponent extends BaseComponent<SegmentExtractorPro
       const result = await this.extractSegment(segmentNumber);
       
       if (result.success) {
-        this.notifySuccess(
-          this.getString('ui.messages.success_segment', { 
-            number: segmentNumber.toString(),
-            count: result.processedCount?.toString() || '0' 
-          })
-        );
+        const successMessage = this.getString('ui.messages.success_segment', { 
+          number: segmentNumber.toString(),
+          count: result.processedCount?.toString() || '0' 
+        });
+
+        this.notifySuccess(successMessage);
+        
+        // Announce to screen readers
+        this.announceKey('ui.announcements.extraction_complete', {
+          message: successMessage
+        });
       } else {
         this.notifyError(result.error || this.getString('ui.messages.error_segment'));
       }
@@ -319,10 +346,24 @@ export class SegmentExtractorComponent extends BaseComponent<SegmentExtractorPro
       
       // Set title for full text on hover
       button.title = `${this.getString('ui.tooltips.extract_segment', { number: segmentNumber.toString() })}: ${segmentText}`;
+
+      // Update ARIA label with segment content
+      this.updateButtonAccessibilityState(button, {
+        labelKey: 'accessibility.segment_button',
+        labelParams: { number: segmentNumber.toString(), text: segmentText },
+        disabled: false
+      });
     } else {
       buttonLabel.textContent = segmentNumber.toString();
       button.classList.remove('has-data');
       button.title = this.getString('ui.tooltips.no_segment_data', { number: segmentNumber.toString() });
+
+      // Update ARIA label for empty segment
+      this.updateButtonAccessibilityState(button, {
+        labelKey: 'accessibility.segment_button_empty',
+        labelParams: { number: segmentNumber.toString() },
+        disabled: true
+      });
     }
   }
 

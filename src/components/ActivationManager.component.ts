@@ -48,7 +48,25 @@ export class ActivationManagerComponent extends BaseComponent<ActivationManagerP
     this.addEventListener(this.btnActivationID, 'click', this.handleExtractClick.bind(this));
     this.setupKeyboardNavigation();
 
+    // Initialize accessibility
+    this.initializeAccessibility();
+
     this.log('DEBUG', 'ActivationManager elements bound successfully');
+  }
+
+  /**
+   * Initialize accessibility features
+   */
+  private initializeAccessibility(): void {
+    if (!this.btnActivationID) return;
+
+    // Set initial ARIA attributes
+    this.enhanceButtonAccessibility(this.btnActivationID, {
+      labelKey: 'accessibility.activation_button_empty',
+      role: 'button'
+    });
+
+    this.log('DEBUG', 'ActivationManager accessibility initialized');
   }
 
   private subscribeToStateChanges(): void {
@@ -83,11 +101,16 @@ export class ActivationManagerComponent extends BaseComponent<ActivationManagerP
       const result = await this.extractActivationIDs();
       
       if (result.success) {
-        this.notifySuccess(
-          this.getString('ui.messages.success_activation', { 
-            count: result.processedCount?.toString() || '0' 
-          })
-        );
+        const successMessage = this.getString('ui.messages.success_activation', { 
+          count: result.processedCount?.toString() || '0' 
+        });
+
+        this.notifySuccess(successMessage);
+        
+        // Announce to screen readers
+        this.announceKey('ui.announcements.extraction_complete', {
+          message: successMessage
+        });
       } else {
         this.notifyError(result.error || this.getString('ui.messages.error_activation'));
       }
@@ -257,18 +280,29 @@ export class ActivationManagerComponent extends BaseComponent<ActivationManagerP
     // Update button text and state based on available data
     if (state.parsedData && state.parsedData.activationId) {
       buttonLabel.textContent = state.parsedData.activationId;
-      this.btnActivationID.disabled = state.isProcessing;
       this.btnActivationID.classList.add('has-data');
       
       // Set title for better UX
       this.btnActivationID.title = this.getString('ui.tooltips.extract_activation', {
         id: state.parsedData.activationId
       });
+
+      // Update accessibility state with activation ID
+      this.updateButtonAccessibilityState(this.btnActivationID, {
+        disabled: state.isProcessing,
+        labelKey: 'accessibility.activation_button',
+        labelParams: { content: state.parsedData.activationId }
+      });
     } else {
       buttonLabel.textContent = this.getString('ui.buttons.activation_id');
-      this.btnActivationID.disabled = true;
       this.btnActivationID.classList.remove('has-data');
       this.btnActivationID.title = this.getString('ui.tooltips.no_activation_id');
+
+      // Update accessibility state for empty activation ID
+      this.updateButtonAccessibilityState(this.btnActivationID, {
+        disabled: true,
+        labelKey: 'accessibility.activation_button_empty'
+      });
     }
 
     this.log('DEBUG', `Updated activation button state: ${this.btnActivationID.disabled ? 'disabled' : 'enabled'}`);

@@ -52,7 +52,32 @@ export class UndoSystemComponent extends BaseComponent<UndoSystemProps> {
     this.addEventListener(this.btnUndo, 'click', this.handleUndoClick.bind(this));
     this.setupKeyboardNavigation();
 
+    // Initialize accessibility
+    this.initializeAccessibility();
+
     this.log('DEBUG', 'UndoSystem elements bound successfully');
+  }
+
+  /**
+   * Initialize accessibility features
+   */
+  private initializeAccessibility(): void {
+    if (!this.btnUndo) return;
+
+    // Set initial ARIA attributes
+    this.enhanceButtonAccessibility(this.btnUndo, {
+      labelKey: 'accessibility.undo_button',
+      role: 'button'
+    });
+
+    // Set up ARIA live region for undo warnings
+    if (this.lblUndoWarning) {
+      this.lblUndoWarning.setAttribute('role', 'status');
+      this.lblUndoWarning.setAttribute('aria-live', 'polite');
+      this.lblUndoWarning.setAttribute('aria-atomic', 'true');
+    }
+
+    this.log('DEBUG', 'UndoSystem accessibility initialized');
   }
 
   private subscribeToStateChanges(): void {
@@ -123,12 +148,17 @@ export class UndoSystemComponent extends BaseComponent<UndoSystemProps> {
 
         await context.sync();
 
-        this.notifySuccess(
-          this.getString('ui.messages.success_undo', {
-            operation: lastOperation.description,
-            count: lastOperation.cellCount.toString()
-          })
-        );
+        const successMessage = this.getString('ui.messages.success_undo', {
+          operation: lastOperation.description,
+          count: lastOperation.cellCount.toString()
+        });
+
+        this.notifySuccess(successMessage);
+        
+        // Announce to screen readers
+        this.announceKey('ui.announcements.undo_complete', {
+          message: successMessage
+        });
 
         this.log('INFO', `Successfully undone operation ${lastOperation.operationId}`);
       });
@@ -225,7 +255,13 @@ export class UndoSystemComponent extends BaseComponent<UndoSystemProps> {
 
     if (undoCount === 0) {
       undoLabel.textContent = this.getString('ui.buttons.undo_last');
-      this.btnUndo.disabled = true;
+      
+      // Update accessibility state
+      this.updateButtonAccessibilityState(this.btnUndo, {
+        disabled: true,
+        labelKey: 'accessibility.undo_button'
+      });
+      
       this.btnUndo.classList.remove('undo-available');
       if (this.lblUndoWarning) {
         this.lblUndoWarning.style.display = 'none';
@@ -235,7 +271,13 @@ export class UndoSystemComponent extends BaseComponent<UndoSystemProps> {
         ? this.getString('ui.buttons.undo_last') 
         : this.getString('ui.buttons.undo_multiple', { count: undoCount.toString() });
       
-      this.btnUndo.disabled = state.isProcessing;
+      // Update accessibility state with operation count
+      this.updateButtonAccessibilityState(this.btnUndo, {
+        disabled: state.isProcessing,
+        labelKey: undoCount === 1 ? 'accessibility.undo_button' : 'accessibility.undo_button_multiple',
+        labelParams: { count: undoCount.toString() }
+      });
+      
       this.btnUndo.classList.add('undo-available');
 
       // Show warning if approaching capacity

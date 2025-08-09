@@ -11,6 +11,7 @@
 
 import { BaseComponentProps, StateChangeListener, LogLevel } from '../types/taxonomy.types';
 import { localization } from '../services/Localization.service';
+import { accessibility } from '../services/AccessibilityService';
 
 export abstract class BaseComponent<TProps extends BaseComponentProps = BaseComponentProps> {
   protected element: HTMLElement;
@@ -74,6 +75,73 @@ export abstract class BaseComponent<TProps extends BaseComponentProps = BaseComp
       this.log('WARN', `Failed to get localized string for key: ${key}`, error);
       return key; // Fallback to key
     }
+  }
+
+  /**
+   * Enhanced accessibility methods
+   */
+
+  /**
+   * Set ARIA label with localization support
+   */
+  protected setAriaLabel(element: HTMLElement, labelKey: string, params?: { [key: string]: string | number }): void {
+    accessibility.setAriaLabel(element, labelKey, params);
+  }
+
+  /**
+   * Set ARIA description with localization support
+   */
+  protected setAriaDescription(element: HTMLElement, descriptionKey: string, params?: { [key: string]: string | number }): void {
+    accessibility.setAriaDescription(element, descriptionKey, params);
+  }
+
+  /**
+   * Announce message to screen readers
+   */
+  protected announce(message: string, priority: 'polite' | 'assertive' | 'off' = 'polite'): void {
+    accessibility.announce(message, priority);
+  }
+
+  /**
+   * Announce using localization key
+   */
+  protected announceKey(key: string, params?: { [key: string]: string | number }, priority: 'polite' | 'assertive' | 'off' = 'polite'): void {
+    accessibility.announceKey(key, params, priority);
+  }
+
+  /**
+   * Enhance button with accessibility features
+   */
+  protected enhanceButtonAccessibility(button: HTMLButtonElement, options: {
+    labelKey: string;
+    labelParams?: { [key: string]: string | number };
+    descriptionKey?: string;
+    descriptionParams?: { [key: string]: string | number };
+    role?: string;
+    expanded?: boolean;
+    pressed?: boolean;
+  }): void {
+    accessibility.enhanceButton(button, options);
+  }
+
+  /**
+   * Update button accessibility state
+   */
+  protected updateButtonAccessibilityState(button: HTMLButtonElement, options: {
+    pressed?: boolean;
+    expanded?: boolean;
+    disabled?: boolean;
+    labelKey?: string;
+    labelParams?: { [key: string]: string | number };
+  }): void {
+    accessibility.updateButtonState(button, options);
+  }
+
+  /**
+   * Manage focus with accessibility considerations
+   */
+  protected manageFocus(element: HTMLElement, options?: { savePrevious?: boolean; restoreOnEscape?: boolean }): void {
+    accessibility.manageFocus(element, options);
   }
 
   /**

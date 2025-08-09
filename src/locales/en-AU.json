@@ -46,12 +46,14 @@
   "operations.clean_targeting": "Remove Targeting Acronyms", 
   "operations.keep_targeting": "Keep Targeting Pattern",
   
-  "accessibility.segment_button": "Extract segment {number}: {content}",
+  "accessibility.segment_button": "Extract segment {number}: {text}",
+  "accessibility.segment_button_empty": "Segment {number} button - no data available",
   "accessibility.activation_button": "Extract activation ID: {content}",
-  "accessibility.targeting_trim_button": "Remove targeting pattern: {content}",
-  "accessibility.targeting_keep_button": "Keep only targeting pattern: {content}",
+  "accessibility.activation_button_empty": "Activation ID button - no data available",
+  "accessibility.targeting_trim_button": "Remove targeting patterns from selected cells",
+  "accessibility.targeting_keep_button": "Keep only targeting patterns in selected cells",
   "accessibility.undo_button": "Undo last operation",
-  "accessibility.undo_button_multiple": "Undo last operation ({count} operations available)",
+  "accessibility.undo_button_multiple": "Undo last {count} operations",
   
   "ui.tooltips.extract_segment": "Extract segment {number}",
   "ui.tooltips.extract_activation": "Extract activation ID: {id}",
