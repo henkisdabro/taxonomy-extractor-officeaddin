@@ -1,0 +1,77 @@
+{
+  "ui.status.no_cells": "No cells selected",
+  "ui.status.cells_selected": "{count} cell(s) selected",
+  "ui.status.taxonomy_detected": "{count} cell(s) selected - Taxonomy data detected",
+  "ui.status.targeting_detected": "{count} cell(s) selected - Targeting pattern detected",
+  
+  "ui.headers.extract_segments": "Extract Segments:",
+  "ui.headers.extract_activation_id": "Extract Activation ID:",
+  "ui.headers.acronym_pattern": "Acronym Pattern:",
+  "ui.headers.undo_operations": "Undo Operations:",
+  "ui.headers.development_mode": "Development Mode:",
+  
+  "ui.buttons.segment_na": "N/A",
+  "ui.buttons.activation_id": "N/A",
+  "ui.buttons.targeting_trim": "N/A",
+  "ui.buttons.targeting_keep": "N/A",
+  "ui.buttons.undo_last": "Undo Last",
+  "ui.buttons.undo_multiple": "Undo Last ({count})",
+  "ui.buttons.processing": "Processing...",
+  
+  "ui.prefixes.segment_number": "{number}:",
+  "ui.prefixes.activation_id": "ID:",
+  "ui.prefixes.targeting_trim": "Trim:",
+  "ui.prefixes.targeting_keep": "Keep:",
+  
+  "ui.dev.simulate_data": "Simulate: FY24_26|Q1-4|Tourism WA|WA|Always On Remarketing|4LAOSO|SOC|Facebook_Instagram|Conversions:DJTDOM060725",
+  "ui.dev.simulate_targeting": "Simulate Targeting: ^ABC^ test string",
+  "ui.dev.clear_selection": "Clear Selection",
+  
+  "ui.messages.success_segment": "Extracted segment {number} from {count} cell(s)",
+  "ui.messages.success_activation": "Extracted activation ID from {count} cell(s)",
+  "ui.messages.success_targeting_trim": "Cleaned targeting acronyms from {count} cell(s)",
+  "ui.messages.success_targeting_keep": "Kept targeting patterns from {count} cell(s)",
+  "ui.messages.success_undo": "Undid: {operation} ({count} cells restored)",
+  
+  "ui.messages.error_segment": "Error extracting segment",
+  "ui.messages.error_activation": "Error extracting activation ID",  
+  "ui.messages.error_targeting_trim": "Error cleaning targeting acronyms",
+  "ui.messages.error_targeting_keep": "Error keeping targeting pattern",
+  "ui.messages.error_undo": "Error during undo operation",
+  
+  "ui.warnings.undo_capacity": "Undo stack at capacity (10/10)",
+  
+  "operations.extract_segment": "Extract Segment {number}",
+  "operations.extract_activation": "Extract Activation ID",
+  "operations.clean_targeting": "Clean Targeting Acronyms", 
+  "operations.keep_targeting": "Keep Targeting Pattern",
+  
+  "accessibility.segment_button": "Extract segment {number}: {content}",
+  "accessibility.activation_button": "Extract activation ID: {content}",
+  "accessibility.targeting_trim_button": "Remove targeting pattern: {content}",
+  "accessibility.targeting_keep_button": "Keep only targeting pattern: {content}",
+  "accessibility.undo_button": "Undo last operation",
+  "accessibility.undo_button_multiple": "Undo last operation ({count} operations available)",
+  
+  "errors.office_api_unavailable": "Office.js API is not available",
+  "errors.excel_operation_failed": "Excel operation failed",
+  "errors.generic_operation_failed": "Operation failed",
+  
+  "logging.selection_changed": "Selection changed event triggered",
+  "logging.segment_clicked": "Segment button {number} clicked", 
+  "logging.activation_clicked": "Activation ID button clicked",
+  "logging.targeting_clicked": "Targeting button clicked",
+  "logging.keep_pattern_clicked": "Keep Pattern button clicked",
+  "logging.undo_clicked": "Undo button clicked",
+  "logging.ui_initialized": "UI elements initialized",
+  "logging.event_handlers_setup": "Event handlers setup complete",
+  "logging.office_ready": "Office.js is ready",
+  "logging.excel_detected": "Excel host detected, initializing taxonomy extractor",
+  "logging.selection_handler_registered": "Selection change event handler registered successfully",
+  "logging.initial_analysis": "Triggering initial selection analysis",
+  "logging.initialization_complete": "IPG Taxonomy Extractor initialization complete",
+  "logging.not_excel": "Not running in Excel, taxonomy extractor will not be initialized",
+  "logging.dev_environment": "Dev environment check: hostname={hostname}, port={port}, isDev={isDev}",
+  "logging.dev_mode_enabled": "Development mode enabled with robust handlers",
+  "logging.production_mode": "Production mode - development features hidden"
+}

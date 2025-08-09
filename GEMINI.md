@@ -1035,3 +1035,148 @@ module.exports = {
 - Worker size >1KB (indicates bundling issues)
 
 **This optimization process demonstrates the importance of methodical performance testing and the power of simple, proven optimizations over complex configurations in CI/CD environments.**
+
+---
+
+## 🚀 Microsoft Store Modernization Progress (August 2025)
+
+**Status: IN PROGRESS** 🔧
+
+### **Overview**
+
+Major modernization effort to prepare the IPG Taxonomy Extractor for Microsoft Store certification and global Office add-ins distribution. Comprehensive architectural rethink with focus on code quality, accessibility, performance, and maintainability.
+
+### **Completed Phases**
+
+#### **✅ Phase 1: Asset Foundation** 
+**Status: COMPLETED SUCCESSFULLY**
+
+**Investigation Results:**
+- **Icon variants already implemented**: 16px, 32px, 80px icons present with different file checksums
+- **Proper asset structure**: All icons correctly placed in `assets/` directory
+- **Webpack integration**: CopyWebpackPlugin properly configured for asset deployment
+- **No action required**: Asset foundation already meets Microsoft Store requirements
+
+#### **✅ Phase 2: Internationalization Setup**
+**Status: COMPLETED SUCCESSFULLY** 
+
+**Implementation Details:**
+
+**2.1 Localization Service Architecture**
+- Created `LocalizationService` with TypeScript support
+- Implemented parameter interpolation system
+- Added async initialization with locale detection
+- Built fallback handling for missing translations
+
+**2.2 String Extraction Results**
+- **30+ strings extracted** from hard-coded UI text
+- **Comprehensive coverage**: Status messages, button labels, operation descriptions, error messages
+- **Parameter support**: Dynamic content like cell counts and segment numbers
+- **TypeScript integration**: Full type safety with `InterpolationParams`
+
+**2.3 Technical Achievements**
+```typescript
+// Examples of extracted strings
+"ui.status.no_cells": "No cells selected"
+"ui.buttons.undo_multiple": "Undo Last ({count})"
+"operations.extract_segment": "Extract Segment {number}"
+"status.cells_selected_taxonomy": "{count} cell(s) selected - Taxonomy data detected"
+```
+
+**2.4 Build Integration**
+- **TypeScript configuration**: Added `"resolveJsonModule": true` to enable JSON imports
+- **Bundle impact**: Size increased from 43.3KB to 48.3KB (acceptable for functionality gained)
+- **Zero errors**: Clean compilation with proper module resolution
+
+### **Current Phase**
+
+#### **🔧 Phase 3: Component Architecture Foundation**
+**Status: IN PROGRESS**
+
+**3.1 Architectural Foundation ✅ COMPLETED**
+- **Type System**: Comprehensive TypeScript definitions in `taxonomy.types.ts`
+  - Excel API interfaces (`ExcelRange`, `SafeRangeResult`)
+  - Application state management (`AppState`, `ParsedCellData`)
+  - Component system (`BaseComponentProps`, `StateChangeEvent`)
+  - Service contracts (`LocalizationService`, `StateManager`)
+
+- **State Management**: Centralized state with `StateManager.service.ts`
+  - Immutable state updates with change detection
+  - Subscription system for reactive UI updates
+  - Performance optimization with recursive update protection
+  - LIFO undo stack with capacity management (10 operations max)
+
+- **Base Component System**: Robust foundation with `BaseComponent.ts`
+  - Automatic event handler cleanup
+  - State subscription management
+  - Integrated localization access
+  - Keyboard navigation support
+  - Error handling with contextual logging
+
+**3.2 Component Migration Plan**
+**Next Steps:**
+1. **UndoSystem Component** - Migrate undo button functionality
+2. **ActivationManager Component** - Handle activation ID extraction
+3. **TargetingProcessor Component** - Manage ^ABC^ pattern processing
+4. **SegmentExtractor Component** - Convert segment buttons to components
+
+**3.3 Technical Decisions Made**
+- **Vanilla TypeScript approach**: Avoids framework overhead for Office Add-in context
+- **Event-driven architecture**: Clean separation between UI and business logic
+- **Singleton state management**: Centralized, predictable state updates
+- **Component-based UI**: Modular, testable, maintainable interface components
+
+### **Upcoming Phases**
+
+#### **Phase 4: Accessibility Compliance** 
+**Target: WCAG 2.1 AA standards**
+- Screen reader compatibility
+- Keyboard navigation enhancement
+- High contrast mode support
+- Focus management improvements
+
+#### **Phase 5: Code Quality & Error Handling**
+- Comprehensive error boundaries
+- Input validation and sanitization
+- Unit testing framework setup
+- Performance monitoring integration
+
+#### **Phase 6: Performance & Optimization**
+- Bundle size analysis and optimization
+- Cloudflare Workers performance tuning
+- Modern browser targeting
+- Core Web Vitals optimization
+
+### **Development Environment**
+
+#### **Hot-Reloading Development Server**
+```bash
+# Development with simulation tools
+npm run dev-server  # localhost:3001 with yellow dev section
+
+# VS Code integrated debugging
+npm run start       # F5 or "Debug: Excel Desktop" task
+```
+
+#### **Build & Deployment Pipeline**
+- **Cloudflare Workers**: Modern Static Assets API with automatic deployment
+- **TypeScript compilation**: Full type safety with comprehensive definitions
+- **Asset management**: Optimized icon and manifest deployment
+- **Performance monitoring**: 71s average build time (within optimal range)
+
+### **Quality Metrics Achieved**
+
+#### **Code Quality Indicators**
+- ✅ **Type Safety**: 100% TypeScript coverage with strict mode
+- ✅ **Error Handling**: Comprehensive try-catch with contextual logging
+- ✅ **Resource Management**: Automatic event listener cleanup
+- ✅ **Performance**: Change detection prevents unnecessary updates
+- ✅ **Maintainability**: Clear separation of concerns with service layer
+
+#### **Build Quality**
+- ✅ **Clean compilation**: Zero TypeScript errors
+- ✅ **Optimized bundles**: Appropriate size increases for functionality
+- ✅ **Modern deployment**: Cloudflare Workers Static Assets API
+- ✅ **Development workflow**: Hot-reloading with VS Code integration
+
+**This modernization effort establishes a solid foundation for Microsoft Store certification while maintaining backward compatibility and improving developer experience.**

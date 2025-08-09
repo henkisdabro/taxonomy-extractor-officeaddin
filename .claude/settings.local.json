@@ -77,7 +77,9 @@
       "WebFetch(domain:learn.microsoft.com)",
       "WebFetch(domain:learn.microsoft.com)",
       "Bash(taskkill:*)",
-      "mcp__ide__getDiagnostics"
+      "mcp__ide__getDiagnostics",
+      "Bash(git checkout:*)",
+      "Bash(sha256sum:*)"
     ],
     "deny": []
   }

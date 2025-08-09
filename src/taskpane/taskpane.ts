@@ -14,6 +14,9 @@
 // Import styles
 import './taskpane.css';
 
+// Import localization service
+import { localization } from '../services/Localization.service';
+
 // Enhanced logging system
 class Logger {
   private static readonly LOG_LEVELS = {
@@ -376,10 +379,79 @@ class TaxonomyExtractor {
   private statusText!: HTMLElement;
 
   constructor() {
+    this.initializeLocalization();
     this.initializeUI();
     this.setupEventHandlers();
     // Dark mode disabled - using CSS-only light mode default
     // this.initializeDarkMode();
+  }
+
+  private async initializeLocalization(): Promise<void> {
+    try {
+      await localization.initialize();
+      Logger.info('Localization service initialized');
+      this.initializeHTMLStrings();
+    } catch (error) {
+      Logger.error('Failed to initialize localization service:', error);
+    }
+  }
+
+  private initializeHTMLStrings(): void {
+    // Initialize section headers
+    const extractSegmentsHeader = document.getElementById('extractSegmentsHeader');
+    if (extractSegmentsHeader) {
+      extractSegmentsHeader.textContent = localization.getString('ui.headers.extract_segments');
+    }
+
+    const activationHeader = document.querySelector('.special-buttons .section-header');
+    if (activationHeader) {
+      activationHeader.textContent = localization.getString('ui.headers.extract_activation_id');
+    }
+
+    const targetingHeader = document.querySelector('#targetingSection .section-header');
+    if (targetingHeader) {
+      targetingHeader.textContent = localization.getString('ui.headers.acronym_pattern');
+    }
+
+    const undoHeader = document.querySelector('.undo-section .ms-font-m');
+    if (undoHeader) {
+      undoHeader.textContent = localization.getString('ui.headers.undo_operations');
+    }
+
+    const devHeader = document.querySelector('.dev-section .ms-font-m');
+    if (devHeader) {
+      devHeader.textContent = localization.getString('ui.headers.development_mode');
+    }
+
+    // Initialize undo warning
+    const undoWarning = document.getElementById('lblUndoWarning');
+    if (undoWarning) {
+      undoWarning.textContent = localization.getString('ui.warnings.undo_capacity');
+    }
+
+    // Initialize development button labels
+    const devSimulateButton = document.querySelector('#btnDevSimulate .ms-Button-label');
+    if (devSimulateButton) {
+      devSimulateButton.textContent = localization.getString('ui.dev.simulate_data');
+    }
+
+    const devTargetingButton = document.querySelector('#btnDevTargeting .ms-Button-label');
+    if (devTargetingButton) {
+      devTargetingButton.textContent = localization.getString('ui.dev.simulate_targeting');
+    }
+
+    const devClearButton = document.querySelector('#btnDevClear .ms-Button-label');
+    if (devClearButton) {
+      devClearButton.textContent = localization.getString('ui.dev.clear_selection');
+    }
+
+    // Initialize default cell count
+    const cellCountLabel = document.getElementById('lblCellCount');
+    if (cellCountLabel) {
+      cellCountLabel.textContent = localization.getString('ui.status.no_cells');
+    }
+
+    Logger.info('HTML strings initialized with localization');
   }
   
   private initializeDarkMode(): void {
@@ -847,13 +919,19 @@ class TaxonomyExtractor {
   private updateInterface(parsedData: ParsedCellData): void {
     // Update cell count with status
     if (parsedData.selectedCellCount === 0) {
-      this.lblCellCount.textContent = 'No cells selected';
+      this.lblCellCount.textContent = localization.getString('ui.status.no_cells');
     } else if (parsedData.hasTargetingPattern) {
-      this.lblCellCount.textContent = `${parsedData.selectedCellCount} cell(s) selected - Targeting pattern detected`;
+      this.lblCellCount.textContent = localization.getString('ui.status.targeting_detected', { 
+        count: parsedData.selectedCellCount 
+      });
     } else if (parsedData.originalText.includes('|')) {
-      this.lblCellCount.textContent = `${parsedData.selectedCellCount} cell(s) selected - Taxonomy data detected`;
+      this.lblCellCount.textContent = localization.getString('ui.status.taxonomy_detected', { 
+        count: parsedData.selectedCellCount 
+      });
     } else {
-      this.lblCellCount.textContent = `${parsedData.selectedCellCount} cell(s) selected`;
+      this.lblCellCount.textContent = localization.getString('ui.status.cells_selected', { 
+        count: parsedData.selectedCellCount 
+      });
     }
 
     // Update segment buttons (matching VBA dynamic captions)
@@ -873,7 +951,7 @@ class TaxonomyExtractor {
         button.classList.remove('ms-Button--default');
         button.classList.add('ms-Button--primary');
       } else {
-        buttonLabel.textContent = 'N/A';
+        buttonLabel.textContent = localization.getString('ui.buttons.segment_na');
         button.disabled = true;
         button.classList.remove('ms-Button--primary');
         button.classList.add('ms-Button--default');
@@ -886,7 +964,7 @@ class TaxonomyExtractor {
       activationLabel.textContent = parsedData.activationId;
       this.btnActivationID.disabled = false;
     } else {
-      activationLabel.textContent = 'N/A';
+      activationLabel.textContent = localization.getString('ui.buttons.activation_id');
       this.btnActivationID.disabled = true;
     }
 
@@ -915,8 +993,8 @@ class TaxonomyExtractor {
       if (sectionHeader) sectionHeader.style.display = 'none';
       if (specialButtons) specialButtons.style.display = 'none';
     } else {
-      targetingLabel.textContent = 'N/A';
-      keepPatternLabel.textContent = 'N/A';
+      targetingLabel.textContent = localization.getString('ui.buttons.targeting_trim');
+      keepPatternLabel.textContent = localization.getString('ui.buttons.targeting_keep');
       targetingSection.style.display = 'none';
       this.btnTargeting.disabled = true;
       this.btnKeepPattern.disabled = true;
@@ -1009,12 +1087,14 @@ class TaxonomyExtractor {
     const undoLabel = this.btnUndo.querySelector('.ms-Button-label')!;
     
     if (this.undoStack.length === 0) {
-      undoLabel.textContent = 'Undo Last';
+      undoLabel.textContent = localization.getString('ui.buttons.undo_last');
       this.btnUndo.disabled = true;
       this.btnUndo.classList.remove('undo-available');
       this.lblUndoWarning.style.display = 'none';
     } else {
-      undoLabel.textContent = this.undoStack.length === 1 ? 'Undo Last' : `Undo Last (${this.undoStack.length})`;
+      undoLabel.textContent = this.undoStack.length === 1 
+        ? localization.getString('ui.buttons.undo_last') 
+        : localization.getString('ui.buttons.undo_multiple', { count: this.undoStack.length });
       this.btnUndo.disabled = false;
       this.btnUndo.classList.add('undo-available');
       
@@ -1053,7 +1133,10 @@ class TaxonomyExtractor {
         Logger.debug(`Selected range: ${range.address}, values: ${JSON.stringify(range.values)}`);
 
         // Add to undo stack BEFORE making changes
-        await this.addUndoOperation(`Extract Segment ${segmentNumber}`, range);
+        await this.addUndoOperation(
+          localization.getString('operations.extract_segment', { number: segmentNumber }), 
+          range
+        );
 
         const values = range.values as any[][];
         let processedCount = 0;
@@ -1082,13 +1165,18 @@ class TaxonomyExtractor {
 
         // Update UI and show status
         await this.onSelectionChange();
-        this.showStatus(`Extracted segment ${segmentNumber} from ${processedCount} cell(s)`);
+        this.showStatus(
+          localization.getString('ui.messages.success_segment', { 
+            number: segmentNumber, 
+            count: processedCount 
+          })
+        );
         
         PerformanceMonitor.endOperation(`extract-segment-${segmentNumber}`);
       });
     } catch (error) {
       Logger.error('Extract segment error:', error);
-      this.showStatus('Error extracting segment', true);
+      this.showStatus(localization.getString('ui.messages.error_segment'), true);
       PerformanceMonitor.endOperation(`extract-segment-${segmentNumber}`);
     }
   }
@@ -1122,7 +1210,7 @@ class TaxonomyExtractor {
         await context.sync();
 
         // Add to undo stack BEFORE making changes
-        await this.addUndoOperation('Extract Activation ID', range);
+        await this.addUndoOperation(localization.getString('operations.extract_activation'), range);
 
         const values = range.values as any[][];
         let processedCount = 0;
@@ -1149,11 +1237,13 @@ class TaxonomyExtractor {
 
         // Update UI and show status
         await this.onSelectionChange();
-        this.showStatus(`Extracted activation ID from ${processedCount} cell(s)`);
+        this.showStatus(
+          localization.getString('ui.messages.success_activation', { count: processedCount })
+        );
       });
     } catch (error) {
       console.error('Extract activation ID error:', error);
-      this.showStatus('Error extracting activation ID', true);
+      this.showStatus(localization.getString('ui.messages.error_activation'), true);
     }
   }
 
@@ -1166,7 +1256,7 @@ class TaxonomyExtractor {
         await context.sync();
 
         // Add to undo stack BEFORE making changes
-        await this.addUndoOperation('Clean Targeting Acronyms', range);
+        await this.addUndoOperation(localization.getString('operations.clean_targeting'), range);
 
         const values = range.values as any[][];
         let processedCount = 0;
@@ -1193,11 +1283,13 @@ class TaxonomyExtractor {
 
         // Update UI and show status
         await this.onSelectionChange();
-        this.showStatus(`Cleaned targeting acronyms from ${processedCount} cell(s)`);
+        this.showStatus(
+          localization.getString('ui.messages.success_targeting_trim', { count: processedCount })
+        );
       });
     } catch (error) {
       console.error('Clean targeting acronyms error:', error);
-      this.showStatus('Error cleaning targeting acronyms', true);
+      this.showStatus(localization.getString('ui.messages.error_targeting_trim'), true);
     }
   }
 
@@ -1210,7 +1302,7 @@ class TaxonomyExtractor {
         await context.sync();
 
         // Add to undo stack BEFORE making changes
-        await this.addUndoOperation('Keep Targeting Pattern', range);
+        await this.addUndoOperation(localization.getString('operations.keep_targeting'), range);
 
         const values = range.values as any[][];
         let processedCount = 0;
@@ -1241,11 +1333,13 @@ class TaxonomyExtractor {
 
         // Update UI and show status
         await this.onSelectionChange();
-        this.showStatus(`Kept targeting patterns from ${processedCount} cell(s)`);
+        this.showStatus(
+          localization.getString('ui.messages.success_targeting_keep', { count: processedCount })
+        );
       });
     } catch (error) {
       console.error('Keep targeting pattern error:', error);
-      this.showStatus('Error keeping targeting pattern', true);
+      this.showStatus(localization.getString('ui.messages.error_targeting_keep'), true);
     }
   }
 
@@ -1257,7 +1351,7 @@ class TaxonomyExtractor {
       // Show processing state
       const undoLabel = this.btnUndo.querySelector('.ms-Button-label')!;
       const originalText = undoLabel.textContent;
-      undoLabel.textContent = 'Processing...';
+      undoLabel.textContent = localization.getString('ui.buttons.processing');
       this.btnUndo.disabled = true;
 
       await Excel.run(async (context) => {
@@ -1278,11 +1372,16 @@ class TaxonomyExtractor {
         // Update UI
         this.updateUndoButton();
         await this.onSelectionChange();
-        this.showStatus(`Undid: ${lastOperation.description} (${lastOperation.cellCount} cells restored)`);
+        this.showStatus(
+          localization.getString('ui.messages.success_undo', {
+            operation: lastOperation.description,
+            count: lastOperation.cellCount
+          })
+        );
       });
     } catch (error) {
       console.error('Undo operation error:', error);
-      this.showStatus('Error during undo operation', true);
+      this.showStatus(localization.getString('ui.messages.error_undo'), true);
       
       // Restore button state on error
       this.updateUndoButton();
