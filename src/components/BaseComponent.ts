@@ -12,6 +12,7 @@
 import { BaseComponentProps, StateChangeListener, LogLevel } from '../types/taxonomy.types';
 import { localization } from '../services/Localization.service';
 import { accessibility } from '../services/AccessibilityService';
+import { errorHandler } from '../services/ErrorHandler.service';
 
 export abstract class BaseComponent<TProps extends BaseComponentProps = BaseComponentProps> {
   protected element: HTMLElement;
@@ -142,6 +143,60 @@ export abstract class BaseComponent<TProps extends BaseComponentProps = BaseComp
    */
   protected manageFocus(element: HTMLElement, options?: { savePrevious?: boolean; restoreOnEscape?: boolean }): void {
     accessibility.manageFocus(element, options);
+  }
+
+  /**
+   * Enhanced error handling methods
+   */
+
+  /**
+   * Handle error with proper categorization and user feedback
+   */
+  protected handleError(
+    error: Error | string,
+    category: 'office_api' | 'excel_operation' | 'validation' | 'component' = 'component',
+    severity: 'low' | 'medium' | 'high' | 'critical' = 'medium',
+    context?: string
+  ): void {
+    const taxonomyError = typeof error === 'string' 
+      ? errorHandler.createError(error, category, severity, context || this.constructor.name)
+      : errorHandler.createError(error.message, category, severity, context || this.constructor.name, undefined, error);
+
+    errorHandler.handleError(taxonomyError);
+  }
+
+  /**
+   * Safe async operation wrapper with error handling
+   */
+  protected async safeExecute<T>(
+    operation: () => Promise<T>,
+    errorMessage: string = 'Operation failed',
+    category: 'office_api' | 'excel_operation' | 'validation' | 'component' = 'component',
+    fallbackValue?: T
+  ): Promise<T | undefined> {
+    try {
+      return await operation();
+    } catch (error) {
+      this.handleError(error instanceof Error ? error : new Error(String(error)), category, 'medium');
+      return fallbackValue;
+    }
+  }
+
+  /**
+   * Validate component state before operations
+   */
+  protected validateState(): boolean {
+    if (this.isDestroyed) {
+      this.handleError('Attempted operation on destroyed component', 'component', 'high');
+      return false;
+    }
+
+    if (!this.element) {
+      this.handleError('Component element is not available', 'component', 'high');
+      return false;
+    }
+
+    return true;
   }
 
   /**
