@@ -1,85 +1,93 @@
-# IPG Taxonomy Extractor v2.0.0 - Office Add-in
+# IPG Taxonomy Extractor v2.0.0
 
 ![TypeScript](https://img.shields.io/badge/TypeScript-5.3+-blue)
 ![Office.js](https://img.shields.io/badge/Office.js-1.12+-green)
 ![Node.js](https://img.shields.io/badge/Node.js-16+-brightgreen)
-![License](https://img.shields.io/badge/License-MIT-yellow)
-![Status](https://img.shields.io/badge/Status-Deployed-brightgreen)
+![Status](https://img.shields.io/badge/Status-Production-brightgreen)
 ![Cloudflare](https://img.shields.io/badge/Cloudflare-Workers-orange)
 
-A modern, production-ready Office Add-in that ports the functionality of the [VBA-based IPG Taxonomy Extractor](https://github.com/henkisdabro/excel-taxonomy-cleaner) to work seamlessly across Excel Online, Windows, and Mac platforms. Currently deployed on **Cloudflare Workers** with enhanced features and 2024/2025 compliance standards.
+A production-ready Office Add-in for extracting segments from pipe-delimited taxonomy data across Excel Web, Desktop, and Mac platforms.
 
 **🚀 Live Deployment:** [https://ipg-taxonomy-extractor-addin.wookstar.com](https://ipg-taxonomy-extractor-addin.wookstar.com)
 
-## 🌟 Features
+## ✨ Features
 
-### ✅ **Complete VBA Feature Parity + Enhanced Features**
+### Core Functionality
 - **9 Segment Extraction**: Extract any of the first 9 pipe-delimited segments
-- **Activation ID Extraction**: Extract unique identifiers after colon characters
-- **Multi-Step Undo System**: LIFO stack supporting up to 10 operations with dynamic button captions
+- **Activation ID Extraction**: Extract identifiers after colon characters  
+- **Multi-Step Undo System**: LIFO stack supporting up to 10 operations
+- **Acronym Pattern Processing**: Handle `^ABC^` patterns with Trim/Keep operations
 - **Real-time Updates**: Instant UI updates when selecting different cells
-- **Enhanced Acronym Pattern Processing**: Smart detection of `^ABC^` patterns with dual functionality:
-  - **Trim**: Remove `^ABC^` patterns while keeping surrounding text
-  - **Keep**: Extract only `^ABC^` patterns while removing everything else
-- **Batch Processing**: Process multiple selected cells efficiently
+- **Batch Processing**: Efficiently process multiple selected cells
 
-### 🚀 **Modern Enhancements**
-- **Cross-Platform Compatibility**: Works on Excel Online, Windows, and Mac
-- **Professional Fluent UI**: Native Microsoft design system integration
-- **Enhanced Error Handling**: Comprehensive logging and error recovery
-- **Performance Monitoring**: Built-in performance tracking and optimization
-- **Responsive Design**: Adapts to different task pane sizes
-- **Snappy UI Animations**: Ultra-fast transitions (30ms) for responsive feel
-- **Smart Interface States**: Context-aware UI that adapts based on data patterns
+### Technical Excellence
+- **Cross-Platform**: Works on Excel Online, Windows, and Mac
+- **Modern UI**: Fluent UI design system with responsive layout
+- **Performance Optimized**: <50ms response times, handles 1000+ cells
+- **Accessibility Ready**: WCAG 2.1 AA compliance foundation
+- **Hot Reloading**: Development server with instant code updates
 
-## 🛠️ Development Setup
+## 🚀 Quick Start
 
 ### Prerequisites
-- **Node.js** 16.0.0 or higher
-- **npm** 8.0.0 or higher
-- **Excel** (Desktop, Online, or Mac)
+- Node.js 16.0.0 or higher
+- npm 8.0.0 or higher
+- Excel (Desktop, Online, or Mac)
 
-### Quick Start
+### Development Setup
+```bash
+# Clone and install
+git clone https://github.com/henkisdabro/taxonomy-extractor-officeaddin.git
+cd taxonomy-extractor-officeaddin
+npm install
 
-1. **Clone the repository**
-   ```bash
-   git clone https://github.com/henkisdabro/taxonomy-extractor-officeaddin.git
-   cd taxonomy-extractor-officeaddin
-   ```
+# Start development server
+npm run dev-server    # HTTP server at localhost:3001
 
-2. **Install dependencies**
-   ```bash
-   npm install
-   ```
+# OR VS Code integrated debugging
+npm start             # Press F5 in VS Code for auto-launch
+```
 
-3. **Start development server**
-   ```bash
-   # Primary development server (HTTP, hot-reloading)
-   npm run dev-server
-   
-   # VS Code integrated debugging
-   npm start          # Or press F5 in VS Code
-   ```
-   
-   **Development server features:**
-   - **Hot reloading**: Instant CSS/TypeScript updates without refresh
-   - **HTTP server**: `http://localhost:3001/taskpane.html` (no certificate issues)
-   - **VS Code integration**: One-click debugging with automatic Excel launch
-   - **Development simulation**: Yellow dev section with test buttons (localhost only)
-   - **Interface testing**: Simulate taxonomy data, targeting patterns, and selection states
-   - **Production-safe**: Dev features automatically hidden in production environments
+### Using the Add-in
+1. **Select cells** containing pipe-delimited taxonomy data
+2. **Task pane updates** automatically showing data preview
+3. **Extract segments** by clicking numbered buttons (1-9) or "Activation ID"
+4. **Process patterns** when `^ABC^` patterns detected (Trim/Keep operations)
+5. **Use "Undo Last"** to reverse operations
 
-4. **Development with VS Code (Recommended)**
-   - Open project in VS Code
-   - Press **F5** or run **Debug: Excel Desktop** task
-   - Excel launches automatically with add-in pre-loaded
-   - Full debugging support with breakpoints and hot reloading
-   
-   **Manual sideloading (alternative):**
-   - Open Excel (Desktop or Online)
-   - Go to Home → Add-ins → More Add-ins → My Add-ins → Upload My Add-in
-   - Select the `manifest.xml` file from the project root
-   - The add-in will appear in the "IPG Tools" group on the Home tab
+## 📊 Data Format
+
+**Input Format:**
+```
+segment1|segment2|segment3|segment4|segment5|segment6|segment7|segment8|segment9:activationID
+```
+
+**Example:**
+```
+FY24_26|Q1-4|Tourism WA|WA|Always On Remarketing|4LAOSO|SOC|Facebook_Instagram|Conversions:DJTDOM060725
+```
+
+**Available Extractions:**
+- **Segment 1**: `FY24_26`
+- **Segment 3**: `Tourism WA`  
+- **Segment 8**: `Facebook_Instagram`
+- **Activation ID**: `DJTDOM060725`
+
+## 🛠️ Developer Commands
+
+```bash
+# Development
+npm run dev-server     # HTTP hot-reload server (recommended)
+npm start              # VS Code integrated debugging with Excel launch
+npm run validate       # Validate Office Add-in manifest
+
+# Production
+npm run build          # Full production build (add-in + worker)
+npm run clean          # Clean build directory
+
+# Deployment (Cloudflare Workers)
+git push origin main   # Auto-deploys via GitHub integration
+```
 
 ## 📁 Project Structure
 
@@ -87,252 +95,105 @@ A modern, production-ready Office Add-in that ports the functionality of the [VB
 taxonomy-extractor-officeaddin/
 ├── src/
 │   ├── taskpane/
-│   │   ├── taskpane.html          # Main UI layout
+│   │   ├── taskpane.ts            # Core application logic
 │   │   ├── taskpane.css           # Fluent UI styles
-│   │   └── taskpane.ts            # Core application logic
-│   └── commands/
-│       ├── commands.html          # Command functions
-│       └── commands.ts            # Ribbon button handlers
-├── manifest.xml                   # Office Add-in manifest
-├── webpack.config.js              # Build configuration
-├── package.json                   # Dependencies and scripts
-└── README.md                      # This file
+│   │   └── taskpane.html          # Main UI layout
+│   ├── commands/
+│   │   └── commands.ts            # Ribbon button handlers
+│   ├── components/                # Component architecture (modernization)
+│   ├── services/                  # State management and utilities
+│   └── worker.ts                  # Cloudflare Workers handler
+├── manifest.xml                   # Office Add-in configuration
+├── webpack.config.js              # Production build configuration
+├── webpack.dev.config.js          # Development server configuration
+└── wrangler.toml                  # Cloudflare Workers deployment config
 ```
 
-## 🎯 Usage
+## 🔧 Development Features
 
-### Data Format
-The add-in processes IPG Interact Taxonomy format:
-```
-segment1|segment2|segment3|segment4|segment5|segment6|segment7|segment8|segment9:activationID
-```
+### Hot Development Workflow
+- **VS Code Integration**: Press F5 → Excel launches with add-in loaded
+- **Hot Module Replacement**: Code changes reflect instantly without refresh
+- **Development Simulation**: Test interface without Excel (localhost only)
+- **Production-Safe**: Dev features automatically hidden in production
 
-### Example
-```
-FY24_26|Q1-4|Tourism WA|WA |Always On Remarketing| 4LAOSO | SOC|Facebook_Instagram|Conversions:DJTDOM060725
-```
+### Testing Capabilities
+- **Simulate Taxonomy Data**: Test with sample pipe-delimited data
+- **Simulate Targeting Patterns**: Test `^ABC^` pattern detection
+- **Interface State Testing**: Clear selection, test different scenarios
+- **Cross-Platform Testing**: Verify functionality across Excel platforms
 
-### Extraction Results
-- **Segment 1**: `FY24_26`
-- **Segment 3**: `Tourism WA`
-- **Segment 5**: `Always On Remarketing`
-- **Segment 8**: `Facebook_Instagram`
-- **Segment 9**: `Conversions`
-- **Activation ID**: `DJTDOM060725`
+## 🌐 Deployment
 
-### Workflow
-1. **Select cells** containing pipe-delimited taxonomy data
-2. **Task pane updates** automatically showing segment previews
-3. **Extract segments** by clicking numbered buttons (1-9) or "Activation ID"
-4. **Process acronym patterns** when `^ABC^` patterns are detected:
-   - Interface automatically switches to "Acronym Pattern" mode
-   - **Trim**: Remove `^ABC^` patterns, keep surrounding text
-   - **Keep**: Extract only `^ABC^` patterns, remove everything else
-5. **Use "Undo Last"** to reverse operations (up to 10 steps)
-6. **Continue processing** different ranges without closing the task pane
+### Production (Current)
+- **Platform**: Cloudflare Workers with Static Assets
+- **URL**: `https://ipg-taxonomy-extractor-addin.wookstar.com`
+- **Auto-Deploy**: GitHub → Cloudflare integration
+- **Global CDN**: Worldwide distribution with edge caching
 
-## 🔧 Development Commands
+### Manual Installation
+1. Download `manifest.xml` from this repository
+2. In Excel: Home → Add-ins → More Add-ins → My Add-ins → Upload My Add-in
+3. Select the `manifest.xml` file
+4. Add-in loads from live Cloudflare deployment
 
-```bash
-# Development
-npm run dev-server     # Primary dev server with hot-reloading (HTTP, port 3001)
-npm start              # VS Code integrated debugging with Excel auto-launch
-npm run start:desktop  # Start for Excel Desktop
-npm run start:web      # Start for Excel Online
-
-# Building
-npm run build:dev      # Development build
-npm run build          # Production build
-npm run build:prod     # Production build with analysis
-
-# Validation
-npm run validate       # Validate manifest.xml
-npm run lint           # Run linting (when configured)
-npm run test           # Run tests (when configured)
-
-# Utilities
-npm run clean          # Clean dist folder
-npm run stop           # Stop debugging session
-```
-
-### 🧪 Development Testing Features
-
-The development server includes powerful testing capabilities:
-
-**Dev Simulation Buttons** (visible only on localhost):
-- **Simulate Taxonomy Data**: Test interface with sample pipe-delimited data
-- **Simulate Targeting Pattern**: Test `^ABC^` pattern detection and processing
-- **Clear Selection**: Reset interface to initial state
-
-**Hot Development Workflow**:
-1. **VS Code Integration**: Press F5 → Excel launches with add-in automatically loaded
-2. **Manual Browser Testing**: Run `npm run dev-server` → Open `http://localhost:3001/taskpane.html`
-3. Use yellow dev section to test different interface states
-4. Make code changes - see updates instantly without refresh
-5. Test all extraction and targeting functionality without Excel
-6. **Full debugging**: Set breakpoints in VS Code, inspect variables in running add-in
-
-## 📊 Architecture
+## 🏗️ Architecture
 
 ### Core Technologies
 - **TypeScript**: Type-safe development with strict mode
-- **Office.js API**: Excel integration and workbook manipulation
-- **Webpack**: Module bundling and development server
-- **Fluent UI**: Microsoft's design system
+- **Office.js API**: Excel integration (ExcelApi 1.12)
+- **Webpack**: Module bundling and hot-reload development
+- **Cloudflare Workers**: Global edge deployment
 
 ### Key Components
-
-**Real-time Selection Handler**
 ```typescript
-// Monitors Excel selection changes
+// Real-time selection monitoring
 context.workbook.worksheets.onSelectionChanged.add(onSelectionChange);
-```
 
-**Multi-Step Undo System**
-```typescript
-// LIFO stack with operation tracking
+// Multi-step undo system
 class UndoManager {
   private static readonly MAX_OPERATIONS = 10;
   private operations: UndoOperation[] = [];
 }
-```
 
-**Data Validation Engine**
-```typescript
-// Smart taxonomy format detection
+// Smart data detection
 const hasPipes = cellText.includes('|');
 const hasTargeting = /\^[^^]+\^ ?/.test(cellText);
 ```
 
-## 🚀 Deployment
-
-### 🌐 Production Deployment (Current)
-
-**Status: LIVE ON CLOUDFLARE WORKERS** ✅
-
-The Office Add-in is currently deployed and fully functional at:
-- **Main URL**: `https://ipg-taxonomy-extractor-addin.wookstar.com`
-- **Task Pane**: `https://ipg-taxonomy-extractor-addin.wookstar.com/taskpane`
-- **Commands**: `https://ipg-taxonomy-extractor-addin.wookstar.com/commands`
-
-**Deployment Architecture:**
-- **Platform**: Cloudflare Workers with Static Assets
-- **Auto-Deploy**: GitHub → Cloudflare integration
-- **Build Time**: ~12 seconds
-- **Global CDN**: Automatic worldwide distribution
-
-**To use the deployed add-in:**
-1. Download the production `manifest.xml` from the repository
-2. In Excel For Web: Home → Add-ins → More Add-ins → My Add-ins → Upload My Add-in → Select `manifest.xml`
-3. The add-in will load from the live Cloudflare deployment
-
-**Future Deployment Plans:**
-- **Organization Add-ins Repository**: Plans are underway to deploy this add-in through the organization's centralized add-ins repository for automatic installation across all user accounts, eliminating the need for manual sideloading
-
-### Development Testing
-1. **Install dependencies**: `npm install`
-2. **Start development server**: `npm start`
-   - Generates SSL certificates automatically
-   - Opens browser with dev server URL
-   - Enables hot reload for development
-3. **Sideload in Excel**:
-   - **Excel For Web**: Home → Add-ins → More Add-ins → My Add-ins → Upload My Add-in → Select `manifest.xml`
-   - **Desktop Excel**: Usually not possible for custom add-ins
-   - **Mac Excel**: Insert → Add-ins → My Add-ins → Upload My Add-in → Select `manifest.xml`
-4. **Test with sample data**:
-   ```
-   FY24_26|Q1-4|Tourism WA|WA |Always On Remarketing| 4LAOSO | SOC|Facebook_Instagram|Conversions:DJTDOM060725
-   FY25|Q2|Brand Campaign|NSW|Video Content|ABC123|Social|YouTube|Awareness:TEST12345
-   ^AT^ testing string
-   ```
-5. **Verify functionality**:
-   - Real-time selection updates
-   - All 9 segment extractions
-   - Activation ID extraction
-   - Targeting acronym removal
-   - Multi-step undo system
-
-### Manual Production Deployment (Alternative)
-If you want to deploy to your own infrastructure:
-1. **Build for production**: `npm run build`
-2. **Host on secure server**: Upload `dist` folder to HTTPS-enabled hosting
-3. **Update manifest**: Change URLs in `manifest.xml` to your domain
-4. **Deploy via Office 365 Admin Center** (Centralized Deployment) or distribute manifest file
-5. **Validate deployment**: Use `npm run validate` to check manifest compliance
-
-### Cloudflare Workers Deployment (Current Setup)
-The project uses modern **Cloudflare Workers Static Assets** for optimal performance:
-```toml
-[assets]
-directory = "./dist"
-binding = "ASSETS"
-```
-
-**Deployment Process:**
-1. Push changes to GitHub `master` branch
-2. Cloudflare automatically detects changes
-3. Runs `npm run build` in cloud environment
-4. Deploys worker with static assets globally
-5. Updates are live within 1-2 minutes
-
 ## 📈 Performance
 
-- **Real-time Updates**: < 50ms response time for selection changes
-- **Batch Processing**: Handles 1000+ cells efficiently
-- **Memory Management**: Automatic cleanup of undo operations
-- **Optimized Bundle**: Minified production build < 500KB
+- **Bundle Size**: ~105KB (minified + gzipped)
+- **Load Time**: <2 seconds first load
+- **Response Time**: <50ms for selection updates
+- **Memory Usage**: Efficient with automatic cleanup
+- **Cross-Platform**: Consistent performance across Excel variants
 
-## 🔒 Security
+## 🤝 Contributing
 
-- **HTTPS Required**: All communications use SSL/TLS
-- **Trusted Certificates**: Development certificates for localhost
-- **Content Security Policy**: Prevents XSS attacks
-- **Manifest Validation**: Strict XML schema compliance
-
-## 📝 Contributing
-
-We welcome contributions! Please follow these guidelines:
-
-### Development Workflow
 1. **Fork** the repository
-2. **Clone** your fork: `git clone https://github.com/YOUR_USERNAME/taxonomy-extractor-officeaddin.git`
-3. **Install dependencies**: `npm install`
-4. **Create feature branch**: `git checkout -b feature/your-feature-name`
-5. **Make changes** and test thoroughly in Excel
-6. **Run validation**: `npm run validate` and `npm run build`
-7. **Commit** with descriptive message: `git commit -m 'Add: new segment validation feature'`
-8. **Push** to your fork: `git push origin feature/your-feature-name`
-9. **Create Pull Request** with detailed description
+2. **Create feature branch**: `git checkout -b feature/your-feature`
+3. **Test thoroughly**: Verify across Excel platforms
+4. **Run validation**: `npm run validate && npm run build`
+5. **Submit Pull Request** with detailed description
 
-### Code Standards
-- **TypeScript**: Use strict type checking
-- **Office.js**: Follow Microsoft's best practices
-- **Error handling**: Comprehensive try-catch blocks
-- **Performance**: Optimize for large data sets
-- **Testing**: Test across Excel Desktop, Online, and Mac
-
-### Debugging Tips
-- Use browser dev tools (F12) in Excel Online
-- Enable Office.js logging: `Office.context.requirements.isSetSupported('Logging', '1.1')`
-- Test with various data formats and edge cases
-- Verify undo functionality works correctly
+### Development Standards
+- TypeScript strict mode compliance
+- Comprehensive error handling
+- Performance optimization for large datasets
+- Cross-platform compatibility testing
 
 ## 📄 License
 
-MIT License - see LICENSE file for details.
+MIT License - see [LICENSE](LICENSE) file for details.
 
-## 🔗 Related Projects
+## 🔗 Links
 
-- [VBA IPG Taxonomy Extractor](https://github.com/henkisdabro/excel-taxonomy-cleaner) - Original VBA version
-- [Office Add-ins Documentation](https://learn.microsoft.com/en-us/office/dev/add-ins/) - Microsoft's official docs
-
-## 🆘 Support
-
-For issues, questions, or feature requests:
-1. Check the [Issues](https://github.com/henkisdabro/taxonomy-extractor-officeaddin/issues) page
-2. Create a new issue with detailed information
-3. Include your Office version and platform details
+- [Live Add-in](https://ipg-taxonomy-extractor-addin.wookstar.com) - Production deployment
+- [Issues](https://github.com/henkisdabro/taxonomy-extractor-officeaddin/issues) - Bug reports and feature requests
+- [Original VBA Version](https://github.com/henkisdabro/excel-taxonomy-cleaner) - Legacy VBA implementation
+- [Office Add-ins Documentation](https://learn.microsoft.com/en-us/office/dev/add-ins/) - Microsoft's official documentation
 
 ---
 
-**Ready to streamline your taxonomy data extraction across all Excel platforms! 🚀**
+**Ready to streamline taxonomy data extraction across all Excel platforms! 🚀**
