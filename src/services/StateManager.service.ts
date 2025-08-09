@@ -9,9 +9,9 @@
  * - Type safety
  */
 
-import { AppState, ParsedCellData, UndoOperation, StateChangeEvent, StateChangeListener } from '../types/taxonomy.types';
+import { AppState, ParsedCellData, UndoOperation, StateChangeEvent, StateChangeListener, StateManager as IStateManager } from '../types/taxonomy.types';
 
-export class StateManager {
+export class StateManager implements IStateManager {
   private static instance: StateManager;
   private state: AppState;
   private listeners: Set<StateChangeListener> = new Set();

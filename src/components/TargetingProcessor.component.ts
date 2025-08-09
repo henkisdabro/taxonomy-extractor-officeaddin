@@ -66,8 +66,20 @@ export class TargetingProcessorComponent extends BaseComponent<TargetingProcesso
     this.addEventListener(this.btnKeepPattern, 'click', () => this.handleKeepClick());
     
     // Setup keyboard navigation for both buttons
-    this.addEventListener(this.btnTargeting, 'keydown', this.handleKeyNavigation.bind(this));
-    this.addEventListener(this.btnKeepPattern, 'keydown', this.handleKeyNavigation.bind(this));
+    this.addEventListener(this.btnTargeting, 'keydown', (event: Event) => {
+      const keyboardEvent = event as KeyboardEvent;
+      if (keyboardEvent.key === 'Enter' || keyboardEvent.key === ' ') {
+        keyboardEvent.preventDefault();
+        this.handleTrimClick();
+      }
+    });
+    this.addEventListener(this.btnKeepPattern, 'keydown', (event: Event) => {
+      const keyboardEvent = event as KeyboardEvent;
+      if (keyboardEvent.key === 'Enter' || keyboardEvent.key === ' ') {
+        keyboardEvent.preventDefault();
+        this.handleKeepClick();
+      }
+    });
 
     // Initialize accessibility
     this.initializeAccessibility();

@@ -7,6 +7,7 @@ This document outlines the **exact requirements** for deploying Office Add-ins t
 ## Problem Statement
 
 Cloudflare Workers requires specific webpack and TypeScript configurations to properly bundle and deploy ES modules. Incorrect configurations result in:
+
 - Empty worker.js files (0 bytes)
 - "No event handlers were registered" deployment errors (code 10021)
 - Failed deployments despite successful builds
@@ -16,26 +17,26 @@ Cloudflare Workers requires specific webpack and TypeScript configurations to pr
 ### 1. `webpack.worker.config.js` - CRITICAL CONFIGURATION
 
 ```javascript
-const path = require("path");
+const path = require('path');
 
 module.exports = {
   entry: {
-    worker: "./src/worker.ts",
+    worker: './src/worker.ts',
   },
-  target: "webworker",
-  mode: "production",
+  target: 'webworker',
+  mode: 'production',
   output: {
-    filename: "[name].js",
-    path: path.resolve(__dirname, "dist"),
+    filename: '[name].js',
+    path: path.resolve(__dirname, 'dist'),
     library: {
-      type: "module",        // ESSENTIAL: Enables ES module output
+      type: 'module', // ESSENTIAL: Enables ES module output
     },
   },
   experiments: {
-    outputModule: true,      // ESSENTIAL: Required for ES module support
+    outputModule: true, // ESSENTIAL: Required for ES module support
   },
   resolve: {
-    extensions: [".ts", ".js"],
+    extensions: ['.ts', '.js'],
   },
   module: {
     rules: [
@@ -43,9 +44,9 @@ module.exports = {
         test: /\.ts$/,
         exclude: /node_modules/,
         use: {
-          loader: "ts-loader",
+          loader: 'ts-loader',
           options: {
-            configFile: "tsconfig.worker.json",
+            configFile: 'tsconfig.worker.json',
             transpileOnly: false,
           },
         },
@@ -56,6 +57,7 @@ module.exports = {
 ```
 
 **Key Points:**
+
 - `library.type: "module"` is MANDATORY for proper ES module output
 - `experiments.outputModule: true` is REQUIRED for webpack to support ES modules
 - Without these, worker.js will be empty (0 bytes)
@@ -65,8 +67,8 @@ module.exports = {
 ```json
 {
   "compilerOptions": {
-    "target": "es2022",              // IMPORTANT: Must be es2022, not esnext
-    "module": "es2022",              // IMPORTANT: Must match target
+    "target": "es2022", // IMPORTANT: Must be es2022, not esnext
+    "module": "es2022", // IMPORTANT: Must match target
     "lib": ["es2022"],
     "moduleResolution": "node",
     "esModuleInterop": true,
@@ -84,6 +86,7 @@ module.exports = {
 ```
 
 **Key Points:**
+
 - Must use `es2022`, not `esnext` for better Cloudflare Workers compatibility
 - `module` and `target` must match
 
@@ -105,7 +108,7 @@ export default {
       let pathname = new URL(request.url).pathname;
       return new Response(`"${pathname}" not found`, {
         status: 404,
-        statusText: "not found",
+        statusText: 'not found',
       });
     }
   },
@@ -113,6 +116,7 @@ export default {
 ```
 
 **Key Points:**
+
 - Must use `export default` with object containing `fetch` handler
 - ASSETS binding must be properly typed in Env interface
 - Error handling for 404 responses is recommended
@@ -122,7 +126,7 @@ export default {
 ```toml
 name = "ipg-taxonomy-extractor-addin"
 main = "dist/worker.js"
-compatibility_date = "2024-12-06"
+compatibility_date = "2025-08-03"
 
 [assets]
 directory = "./dist"
@@ -130,6 +134,7 @@ binding = "ASSETS"
 ```
 
 **Key Points:**
+
 - `main` must point to the built worker.js file
 - `[assets]` section enables Static Assets API (not deprecated `[site]`)
 - `binding = "ASSETS"` must match the interface in worker.ts
@@ -148,27 +153,32 @@ binding = "ASSETS"
 ```
 
 **Key Points:**
+
 - Worker build MUST use webpack, not direct TypeScript compilation
 - Separate configurations ensure proper bundling for each target
 
 ## Verification Steps
 
 ### 1. Local Build Verification
+
 ```bash
 npm run build:worker
 ```
 
 **Expected Output:**
+
 ```
 asset worker.js 388 bytes [emitted] [javascript module] [minimized] (name: worker)
 ```
 
 **❌ Failed Output:**
+
 ```
 asset worker.js 0 bytes [emitted] [minimized] (name: worker)
 ```
 
 ### 2. Worker Content Verification
+
 ```bash
 cat dist/worker.js
 ```
@@ -179,6 +189,7 @@ cat dist/worker.js
 ### 3. Deployment Success Indicators
 
 **✅ Successful Deployment Log:**
+
 ```
 🌀 Found 1 new or modified static asset to upload. Proceeding with upload...
 + /worker.js
@@ -186,14 +197,15 @@ cat dist/worker.js
 Total Upload: 0.77 KiB / gzip: 0.45 KiB
 
 Your Worker has access to the following bindings:
-Binding            Resource      
-env.ASSETS         Assets        
+Binding            Resource
+env.ASSETS         Assets
 
 Uploaded ipg-taxonomy-extractor-addin (5.91 sec)
 Deployed ipg-taxonomy-extractor-addin triggers (0.28 sec)
 ```
 
 **❌ Failed Deployment:**
+
 ```
 ✘ [ERROR] A request to the Cloudflare API failed.
 No event handlers were registered. This script does nothing.
@@ -227,6 +239,7 @@ If deployment fails:
 - **Assets Uploaded**: 14-15 files including worker.js
 
 This configuration has been tested and verified to work with:
+
 - Webpack 5.101.0
 - Wrangler 4.27.0
 - Node.js 22.16.0

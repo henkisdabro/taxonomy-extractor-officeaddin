@@ -57,8 +57,8 @@ export class SegmentExtractorComponent extends BaseComponent<SegmentExtractorPro
         this.addEventListener(btn, 'click', () => this.handleSegmentClick(i as Segment));
         
         // Setup keyboard navigation
-        this.addEventListener(btn, 'keydown', (event: KeyboardEvent) => {
-          this.handleSegmentKeyNavigation(event, i as Segment);
+        this.addEventListener(btn, 'keydown', (event: Event) => {
+          this.handleSegmentKeyNavigation(event as KeyboardEvent, i as Segment);
         });
 
         // Initialize accessibility for this button

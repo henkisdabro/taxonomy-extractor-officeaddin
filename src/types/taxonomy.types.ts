@@ -95,6 +95,14 @@ export interface StateManager {
   setState(updates: Partial<AppState>): void;
   subscribe(listener: StateChangeListener): () => void;
   reset(): void;
+  setParsedData(data: ParsedCellData | null): void;
+  addUndoOperation(operation: UndoOperation): void;
+  popUndoOperation(): UndoOperation | null;
+  clearUndoStack(): void;
+  setProcessing(isProcessing: boolean): void;
+  setInitialized(): void;
+  getListenerCount(): number;
+  getStateSummary(): string;
 }
 
 // Operation results
@@ -144,6 +152,7 @@ export const CONSTANTS = {
 export type Segment = 1 | 2 | 3 | 4 | 5 | 6 | 7 | 8 | 9;
 export type LogLevel = 'ERROR' | 'WARN' | 'INFO' | 'DEBUG';
 export type OperationType = 'extract_segment' | 'extract_activation' | 'clean_targeting' | 'keep_targeting';
+
 
 // Re-export for convenience
 export { LocalizationService as ILocalizationService } from '../services/Localization.service';

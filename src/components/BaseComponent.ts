@@ -327,11 +327,12 @@ export abstract class BaseComponent<TProps extends BaseComponentProps = BaseComp
    * Setup keyboard navigation support
    */
   protected setupKeyboardNavigation(): void {
-    this.addEventListener(this.element, 'keydown', (event: KeyboardEvent) => {
-      switch (event.key) {
+    this.addEventListener(this.element, 'keydown', (event: Event) => {
+      const keyboardEvent = event as KeyboardEvent;
+      switch (keyboardEvent.key) {
         case 'Enter':
         case ' ':
-          event.preventDefault();
+          keyboardEvent.preventDefault();
           this.handleActivation();
           break;
         case 'Escape':

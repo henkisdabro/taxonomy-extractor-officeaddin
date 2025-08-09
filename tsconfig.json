@@ -11,7 +11,7 @@
     "allowSyntheticDefaultImports": true,
     "experimentalDecorators": true,
     "resolveJsonModule": true,
-    "types": ["@cloudflare/workers-types", "@types/office-js"]
+    "types": ["@cloudflare/workers-types", "@types/office-js", "node"]
   },
   "include": ["src/**/*.ts"],
   "exclude": ["node_modules"]

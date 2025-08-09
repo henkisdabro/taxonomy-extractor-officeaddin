@@ -182,7 +182,8 @@ export class ErrorHandlerService {
     // Preserve original stack trace if available
     if (originalError) {
       error.stack = originalError.stack;
-      error.cause = originalError;
+      // Use safe property assignment for cause (TypeScript compatibility)
+      (error as any).cause = originalError;
     }
 
     return error;
