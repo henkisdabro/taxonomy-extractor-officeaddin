@@ -3,10 +3,15 @@ node_modules/
 npm-debug.log*
 yarn-debug.log*
 yarn-error.log*
+lerna-debug.log*
+.pnpm-debug.log*
 
 # Build output
 dist/
 build/
+out/
+*.tgz
+*.tar.gz
 
 # Environment variables
 .env
@@ -15,17 +20,48 @@ build/
 .env.test.local
 .env.production.local
 
-# Office Add-in certificates and development files
+# Office Add-in specific files
 certs/
 *.pfx
 *.p12
 *.dev.xml
 manifest.dev.xml
+manifest.*.xml
+!manifest.xml
 
-# IDE files
+# Webpack
+.webpack/
+webpack-stats.json
+webpack.*.js.map
+
+# TypeScript
+*.tsbuildinfo
+.tscache/
+tsconfig.*.tsbuildinfo
+
+# ESLint
+.eslintcache
+
+# Testing
+coverage/
+.nyc_output
+.jest/
+test-results/
+junit.xml
+
+# IDE and Editor files
+.vscode/*.code-workspace
 .idea/
 *.swp
 *.swo
+*~
+.project
+.classpath
+.c9/
+*.launch
+.settings/
+*.sublime-workspace
+*.sublime-project
 
 # OS generated files
 .DS_Store
@@ -35,33 +71,62 @@ manifest.dev.xml
 .Trashes
 ehthumbs.db
 Thumbs.db
+Desktop.ini
+$RECYCLE.BIN/
 
 # Logs
-logs
+logs/
 *.log
 dev-server.log
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
 
 # Runtime data
-pids
+pids/
 *.pid
 *.seed
 *.pid.lock
 
-# Coverage directory used by tools like istanbul
-coverage/
-
-# nyc test coverage
-.nyc_output
-
-# Temporary folders
+# Temporary folders and files
 tmp/
 temp/
 *.tmp
+*.temp
+.cache/
 
-# Package manager files
+# Package managers
 package-lock.json.backup
-.pnpm-debug.log*
+yarn.lock.backup
 .pnpm/
+.yarn/
+!.yarn/releases
+!.yarn/plugins
+!.yarn/sdks
+!.yarn/versions
 
-# TypeScript
-*.tsbuildinfo
+# Cloudflare
+.wrangler/
+wrangler.toml.backup
+
+# AI Assistant settings
+.claude/settings.local.json
+.cursor/
+.aider*
+
+# Local development certificates
+*.pem
+*.crt
+*.key
+localhost.*
+
+# Backup files
+*.bak
+*.backup
+*.orig
+
+# Security and sensitive files
+.secrets
+secrets.json
+*.p8
+*.mobileprovision
