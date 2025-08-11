@@ -275,6 +275,7 @@ git add . && git commit -m "message" && git push
 - `src/taskpane/taskpane.css` - Styles (**VERSION CRITICAL**)
 - `webpack.dev.config.js` - Development server configuration
 - `wrangler.toml` - Cloudflare Workers deployment configuration
+- `CLOUDFLARE-WORKER-REQUIREMENTS.md` - Deployment requirements and setup
 - `.vscode/tasks.json` - VS Code debugging integration
 
 ### **Testing URLs**

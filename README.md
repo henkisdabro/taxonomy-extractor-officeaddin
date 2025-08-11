@@ -84,55 +84,55 @@ git push origin master # Auto-deploys via GitHub integration
 taxonomy-extractor-officeaddin/
 ├── src/
 │   ├── taskpane/
-│   │   ├── taskpane.ts            # Core application logic
-│   │   ├── taskpane.css           # Fluent UI styles
-│   │   ├── taskpane.html          # Main UI layout
-│   │   └── accessibility.css     # WCAG 2.1 AA accessibility styles
+│   │   ├── taskpane.ts                    # Core application logic
+│   │   ├── taskpane.css                   # Fluent UI styles
+│   │   ├── taskpane.html                  # Main UI layout
+│   │   └── accessibility.css             # WCAG 2.1 AA accessibility styles
 │   ├── commands/
-│   │   ├── commands.ts            # Ribbon button handlers
-│   │   └── commands.html          # Command UI templates
-│   ├── components/                # Modern component architecture
-│   │   ├── BaseComponent.ts       # Base component class
-│   │   ├── UndoSystem.component.ts # Undo/redo functionality
+│   │   ├── commands.ts                    # Ribbon button handlers
+│   │   └── commands.html                  # Command UI templates
+│   ├── components/                        # Modern component architecture
+│   │   ├── BaseComponent.ts               # Base component class
+│   │   ├── UndoSystem.component.ts        # Undo/redo functionality
 │   │   ├── ActivationManager.component.ts # Activation ID handling
-│   │   ├── SegmentExtractor.component.ts # Segment extraction logic
+│   │   ├── SegmentExtractor.component.ts  # Segment extraction logic
 │   │   ├── TargetingProcessor.component.ts # Targeting pattern processing
-│   │   └── index.ts               # Component exports
-│   ├── services/                  # Core services and utilities
-│   │   ├── StateManager.service.ts # Centralized state management
-│   │   ├── Localization.service.ts # Internationalization support
-│   │   ├── AccessibilityService.ts # WCAG compliance utilities
-│   │   └── ErrorHandler.service.ts # Error handling and logging
-│   ├── locales/                   # Internationalization files
-│   │   ├── en-AU.json             # Australian English (primary)
-│   │   └── index.ts               # Locale exports
+│   │   └── index.ts                       # Component exports
+│   ├── services/                          # Core services and utilities
+│   │   ├── StateManager.service.ts        # Centralized state management
+│   │   ├── Localization.service.ts        # Internationalization support
+│   │   ├── AccessibilityService.ts        # WCAG compliance utilities
+│   │   └── ErrorHandler.service.ts        # Error handling and logging
+│   ├── locales/                           # Internationalization files
+│   │   ├── en-AU.json                     # Australian English (primary)
+│   │   └── index.ts                       # Locale exports
 │   ├── types/
-│   │   └── taxonomy.types.ts      # TypeScript type definitions
+│   │   └── taxonomy.types.ts              # TypeScript type definitions
 │   ├── utils/
-│   │   └── validation.utils.ts    # Data validation utilities
-│   └── worker.ts                  # Cloudflare Workers handler
-├── assets/                        # Add-in icons and media
-│   ├── icon-16.png                # 16x16 manifest icon
-│   ├── icon-32.png                # 32x32 manifest icon
-│   └── icon-80.png                # 80x80 manifest icon
-├── dist/                          # Build output directory
-├── node_modules/                  # Dependencies
-├── .vscode/                       # VS Code configuration
-├── manifest.xml                   # Office Add-in configuration
-├── package.json                   # Node.js dependencies and scripts
-├── package-lock.json              # Dependency lock file
-├── tsconfig.json                  # TypeScript configuration (main)
-├── tsconfig.worker.json           # TypeScript configuration (worker)
-├── eslint.config.js               # ESLint configuration
-├── webpack.config.js              # Production build configuration
-├── webpack.dev.config.js          # Development server configuration
-├── webpack.worker.config.js       # Cloudflare Worker build configuration
-├── wrangler.toml                  # Cloudflare Workers deployment config
-├── CLAUDE.md                      # AI assistant instructions
-├── GEMINI.md                      # AI assistant instructions (Gemini)
-├── DEVELOPMENT.md                 # Development documentation
-├── MODERNIZATION-ROLLOUT-PLAN.md  # Architecture modernization plan
-└── README.md                      # Project documentation
+│   │   └── validation.utils.ts            # Data validation utilities
+│   └── worker.ts                          # Cloudflare Workers handler
+├── assets/                                # Add-in icons and media
+│   ├── icon-16.png                        # 16x16 manifest icon
+│   ├── icon-32.png                        # 32x32 manifest icon
+│   └── icon-80.png                        # 80x80 manifest icon
+├── dist/                                  # Build output directory
+├── node_modules/                          # Dependencies
+├── .vscode/                               # VS Code configuration
+├── manifest.xml                           # Office Add-in configuration
+├── package.json                           # Node.js dependencies and scripts
+├── package-lock.json                      # Dependency lock file
+├── tsconfig.json                          # TypeScript configuration (main)
+├── tsconfig.worker.json                   # TypeScript configuration (worker)
+├── eslint.config.js                       # ESLint configuration
+├── webpack.config.js                      # Production build configuration
+├── webpack.dev.config.js                  # Development server configuration
+├── webpack.worker.config.js               # Cloudflare Worker build configuration
+├── wrangler.toml                          # Cloudflare Workers deployment config
+├── CLAUDE.md                              # AI assistant instructions
+├── GEMINI.md                              # AI assistant instructions (Gemini)
+├── DEVELOPMENT.md                         # Development documentation
+├── CLOUDFLARE-WORKER-REQUIREMENTS.md     # Cloudflare deployment requirements
+└── README.md                              # Project documentation
 ```
 
 ## 🚀 Quick Start
