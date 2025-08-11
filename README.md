@@ -8,7 +8,6 @@
 
 A production-ready Office Add-in for extracting segments from pipe-delimited taxonomy data across Excel Web, Desktop, and Mac platforms.
 
-**🚀 Live Deployment:** [https://ipg-taxonomy-extractor-addin.wookstar.com](https://ipg-taxonomy-extractor-addin.wookstar.com)
 
 ## ✨ Features
 
@@ -33,6 +32,7 @@ A production-ready Office Add-in for extracting segments from pipe-delimited tax
 - Node.js 16.0.0 or higher
 - npm 8.0.0 or higher
 - Excel (Desktop, Online, or Mac)
+- Git for version control
 
 ### Development Setup
 ```bash
@@ -83,10 +83,16 @@ npm run validate       # Validate Office Add-in manifest
 
 # Production
 npm run build          # Full production build (add-in + worker)
+npm run build:addin    # Build only the Office Add-in
+npm run build:worker   # Build only the Cloudflare Worker
 npm run clean          # Clean build directory
 
+# Quality Assurance
+npm run lint           # Code linting (not configured yet)
+npm run test           # Run tests (not configured yet)
+
 # Deployment (Cloudflare Workers)
-git push origin main   # Auto-deploys via GitHub integration
+git push origin master # Auto-deploys via GitHub integration
 ```
 
 ## 📁 Project Structure
@@ -97,16 +103,53 @@ taxonomy-extractor-officeaddin/
 │   ├── taskpane/
 │   │   ├── taskpane.ts            # Core application logic
 │   │   ├── taskpane.css           # Fluent UI styles
-│   │   └── taskpane.html          # Main UI layout
+│   │   ├── taskpane.html          # Main UI layout
+│   │   └── accessibility.css     # WCAG 2.1 AA accessibility styles
 │   ├── commands/
-│   │   └── commands.ts            # Ribbon button handlers
-│   ├── components/                # Component architecture (modernization)
-│   ├── services/                  # State management and utilities
+│   │   ├── commands.ts            # Ribbon button handlers
+│   │   └── commands.html          # Command UI templates
+│   ├── components/                # Modern component architecture
+│   │   ├── BaseComponent.ts       # Base component class
+│   │   ├── UndoSystem.component.ts # Undo/redo functionality
+│   │   ├── ActivationManager.component.ts # Activation ID handling
+│   │   ├── SegmentExtractor.component.ts # Segment extraction logic
+│   │   ├── TargetingProcessor.component.ts # Targeting pattern processing
+│   │   └── index.ts               # Component exports
+│   ├── services/                  # Core services and utilities
+│   │   ├── StateManager.service.ts # Centralized state management
+│   │   ├── Localization.service.ts # Internationalization support
+│   │   ├── AccessibilityService.ts # WCAG compliance utilities
+│   │   └── ErrorHandler.service.ts # Error handling and logging
+│   ├── locales/                   # Internationalization files
+│   │   ├── en-AU.json             # Australian English (primary)
+│   │   └── index.ts               # Locale exports
+│   ├── types/
+│   │   └── taxonomy.types.ts      # TypeScript type definitions
+│   ├── utils/
+│   │   └── validation.utils.ts    # Data validation utilities
 │   └── worker.ts                  # Cloudflare Workers handler
+├── assets/                        # Add-in icons and media
+│   ├── icon-16.png                # 16x16 manifest icon
+│   ├── icon-32.png                # 32x32 manifest icon
+│   └── icon-80.png                # 80x80 manifest icon
+├── dist/                          # Build output directory
+├── node_modules/                  # Dependencies
+├── .vscode/                       # VS Code configuration
 ├── manifest.xml                   # Office Add-in configuration
+├── package.json                   # Node.js dependencies and scripts
+├── package-lock.json              # Dependency lock file
+├── tsconfig.json                  # TypeScript configuration (main)
+├── tsconfig.worker.json           # TypeScript configuration (worker)
+├── eslint.config.js               # ESLint configuration
 ├── webpack.config.js              # Production build configuration
 ├── webpack.dev.config.js          # Development server configuration
-└── wrangler.toml                  # Cloudflare Workers deployment config
+├── webpack.worker.config.js       # Cloudflare Worker build configuration
+├── wrangler.toml                  # Cloudflare Workers deployment config
+├── CLAUDE.md                      # AI assistant instructions
+├── GEMINI.md                      # AI assistant instructions (Gemini)
+├── DEVELOPMENT.md                 # Development documentation
+├── MODERNIZATION-ROLLOUT-PLAN.md  # Architecture modernization plan
+└── README.md                      # Project documentation
 ```
 
 ## 🔧 Development Features
@@ -127,7 +170,6 @@ taxonomy-extractor-officeaddin/
 
 ### Production (Current)
 - **Platform**: Cloudflare Workers with Static Assets
-- **URL**: `https://ipg-taxonomy-extractor-addin.wookstar.com`
 - **Auto-Deploy**: GitHub → Cloudflare integration
 - **Global CDN**: Worldwide distribution with edge caching
 
@@ -135,7 +177,7 @@ taxonomy-extractor-officeaddin/
 1. Download `manifest.xml` from this repository
 2. In Excel: Home → Add-ins → More Add-ins → My Add-ins → Upload My Add-in
 3. Select the `manifest.xml` file
-4. Add-in loads from live Cloudflare deployment
+4. Add-in loads from the deployed Cloudflare Workers instance
 
 ## 🏗️ Architecture
 
@@ -189,7 +231,6 @@ MIT License - see [LICENSE](LICENSE) file for details.
 
 ## 🔗 Links
 
-- [Live Add-in](https://ipg-taxonomy-extractor-addin.wookstar.com) - Production deployment
 - [Issues](https://github.com/henkisdabro/taxonomy-extractor-officeaddin/issues) - Bug reports and feature requests
 - [Original VBA Version](https://github.com/henkisdabro/excel-taxonomy-cleaner) - Legacy VBA implementation
 - [Office Add-ins Documentation](https://learn.microsoft.com/en-us/office/dev/add-ins/) - Microsoft's official documentation
