@@ -1,10 +1,12 @@
 # IPG Taxonomy Extractor v2.0.0
 
-![TypeScript](https://img.shields.io/badge/TypeScript-5.3+-blue)
-![Office.js](https://img.shields.io/badge/Office.js-1.12+-green)
-![Node.js](https://img.shields.io/badge/Node.js-16+-brightgreen)
-![Status](https://img.shields.io/badge/Status-Production-brightgreen)
-![Cloudflare](https://img.shields.io/badge/Cloudflare-Workers-orange)
+![Version](https://img.shields.io/badge/Version-2.0.0-blue)
+![TypeScript](https://img.shields.io/badge/TypeScript-5.3.3-3178C6?logo=typescript&logoColor=white)
+![Office.js](https://img.shields.io/badge/Office.js-ExcelApi%201.12-217346?logo=microsoft-office&logoColor=white)
+![Node.js](https://img.shields.io/badge/Node.js-16.0.0+-339933?logo=node.js&logoColor=white)
+![Webpack](https://img.shields.io/badge/Webpack-5.90.3-8DD6F9?logo=webpack&logoColor=white)
+![Cloudflare Workers](https://img.shields.io/badge/Cloudflare-Workers-F38020?logo=cloudflare&logoColor=white)
+![Status](https://img.shields.io/badge/Status-Production%20Ready-success)
 
 A production-ready Office Add-in for extracting segments from pipe-delimited taxonomy data across Excel Web, Desktop, and Mac platforms.
 
@@ -26,27 +28,8 @@ A production-ready Office Add-in for extracting segments from pipe-delimited tax
 - **Accessibility Ready**: WCAG 2.1 AA compliance foundation
 - **Hot Reloading**: Development server with instant code updates
 
-## 🚀 Quick Start
 
-### Prerequisites
-- Node.js 16.0.0 or higher
-- npm 8.0.0 or higher
-- Excel (Desktop, Online, or Mac)
-- Git for version control
-
-### Development Setup
-```bash
-# Clone and install
-git clone https://github.com/henkisdabro/taxonomy-extractor-officeaddin.git
-cd taxonomy-extractor-officeaddin
-npm install
-
-# Start development server
-npm run dev-server    # HTTP server at localhost:3001
-
-# OR VS Code integrated debugging
-npm start             # Press F5 in VS Code for auto-launch
-```
+## 📊 Data Format & Usage
 
 ### Using the Add-in
 1. **Select cells** containing pipe-delimited taxonomy data
@@ -55,7 +38,7 @@ npm start             # Press F5 in VS Code for auto-launch
 4. **Process patterns** when `^ABC^` patterns detected (Trim/Keep operations)
 5. **Use "Undo Last"** to reverse operations
 
-## 📊 Data Format
+### Data Format
 
 **Input Format:**
 ```
@@ -152,6 +135,28 @@ taxonomy-extractor-officeaddin/
 └── README.md                      # Project documentation
 ```
 
+## 🚀 Quick Start
+
+### Prerequisites
+- Node.js 16.0.0 or higher
+- npm 8.0.0 or higher
+- Excel (Desktop, Online, or Mac)
+- Git for version control
+
+### Development Setup
+```bash
+# Clone and install
+git clone https://github.com/henkisdabro/taxonomy-extractor-officeaddin.git
+cd taxonomy-extractor-officeaddin
+npm install
+
+# Start development server
+npm run dev-server    # HTTP server at localhost:3001
+
+# OR VS Code integrated debugging
+npm start             # Press F5 in VS Code for auto-launch
+```
+
 ## 🔧 Development Features
 
 ### Hot Development Workflow
@@ -227,7 +232,7 @@ const hasTargeting = /\^[^^]+\^ ?/.test(cellText);
 
 ## 📄 License
 
-MIT License - see [LICENSE](LICENSE) file for details.
+License details to be determined.
 
 ## 🔗 Links
 
