@@ -103,5 +103,12 @@
   "logging.not_excel": "Not running in Excel, taxonomy extractor will not be initialized",
   "logging.dev_environment": "Dev environment check: hostname={hostname}, port={port}, isDev={isDev}",
   "logging.dev_mode_enabled": "Development mode enabled with robust handlers",
-  "logging.production_mode": "Production mode - development features hidden"
+  "logging.production_mode": "Production mode - development features hidden",
+  
+  "ui.version.label": "v{version}",
+  "ui.support.github_title": "View on GitHub",
+  "ui.support.readme_text": "README",
+  "ui.support.issues_text": "Issue",
+  "ui.support.message": "For support & feature requests, visit the {readme} or submit an {issues}",
+  "ui.version.maintenance_note": "IMPORTANT: Remember to update version number when releasing new versions"
 }

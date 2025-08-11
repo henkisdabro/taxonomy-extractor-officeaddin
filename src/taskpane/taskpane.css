@@ -119,7 +119,7 @@ body {
   background-color: var(--bg-accent);
   border: 1px solid var(--border-accent);
   border-radius: 4px;
-  padding: 14px;
+  padding: 8px 12px;
   margin-bottom: 16px;
   box-shadow: 0 1px 3px var(--shadow-light);
 }
@@ -397,7 +397,7 @@ body.dev-mode .dev-section {
 
 /* Undo section - simplified design with separator */
 .undo-section {
-  margin: 0px 8px;
+  margin: 0px 0px;
 }
 
 .undo-section .ms-font-m {
@@ -509,9 +509,8 @@ body.dev-mode .dev-section {
   }
   
   .undo-section {
-    margin-left: 16px;
-    margin-right: 16px;
-    padding: 14px 16px;
+    margin: 0;
+    padding: 0;
   }
   
   .button-row,
@@ -542,9 +541,8 @@ body.dev-mode .dev-section {
   }
   
   .undo-section {
-    margin-left: 12px;
-    margin-right: 12px;
-    padding: 12px;
+    margin: 0;
+    padding: 0;
   }
 }
 
@@ -664,6 +662,154 @@ body.dev-mode .dev-section {
   font-weight: 500;
   text-align: center;
   line-height: 1.3;
+}
+
+/* Version & Support Section Styles */
+.version-support-section {
+  margin: 20px 20px 16px 20px;
+  padding: 16px 0 8px 0;
+  border-top: 1px solid var(--border-subtle);
+}
+
+/* Version Pill */
+.version-pill {
+  display: flex;
+  justify-content: center;
+  margin-bottom: 12px;
+}
+
+.version-pill span {
+  display: inline-block;
+  padding: 4px 10px;
+  background-color: #ffffff;
+  color: #8a8886;
+  border-radius: 12px;
+  font-size: 10px;
+  font-weight: 500;
+  letter-spacing: 0.02em;
+  user-select: none;
+  border: 1px solid #c8c6c4;
+}
+
+/* Support Footer */
+.support-footer {
+  margin-top: 8px;
+}
+
+.support-row {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  font-size: 10px;
+  color: #605e5c;
+  line-height: 1.4;
+}
+
+/* GitHub Link */
+.github-link {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 16px;
+  height: 16px;
+  border-radius: 50%;
+  background-color: transparent;
+  border: none;
+  transition: all 0.03s cubic-bezier(0.4, 0, 0.2, 1);
+  text-decoration: none;
+  flex-shrink: 0;
+}
+
+.github-link:hover {
+  transform: scale(1.1);
+}
+
+.github-icon {
+  fill: #605e5c;
+  width: 14px;
+  height: 14px;
+  transition: fill 0.03s ease;
+}
+
+.github-link:hover .github-icon {
+  fill: #0078d4;
+}
+
+/* Support Text & Links */
+.support-text {
+  flex: 1;
+  word-wrap: break-word;
+  overflow-wrap: break-word;
+}
+
+.support-link {
+  color: #0078d4;
+  text-decoration: underline;
+  text-underline-offset: 2px;
+  text-decoration-thickness: 1px;
+  transition: color 0.03s ease;
+}
+
+.support-link:hover {
+  color: #106ebe;
+  text-decoration-color: #106ebe;
+}
+
+/* Dark mode CSS removed - currently using light mode only for Office Add-in compatibility */
+
+/* Responsive adjustments for version/support section */
+@media (max-width: 380px) {
+  .version-support-section {
+    margin: 16px 16px 12px 16px;
+    padding: 12px 0 6px 0;
+  }
+  
+  .support-row {
+    font-size: 9px;
+    gap: 6px;
+  }
+  
+  .github-link {
+    width: 18px;
+    height: 18px;
+  }
+  
+  .github-icon {
+    width: 12px;
+    height: 12px;
+  }
+  
+  .version-pill span {
+    font-size: 9px;
+    padding: 3px 8px;
+  }
+}
+
+@media (max-width: 320px) {
+  .version-support-section {
+    margin: 12px 12px 8px 12px;
+    padding: 8px 0 4px 0;
+  }
+  
+  .support-row {
+    font-size: 8px;
+    gap: 4px;
+  }
+  
+  .github-link {
+    width: 16px;
+    height: 16px;
+  }
+  
+  .github-icon {
+    width: 10px;
+    height: 10px;
+  }
+  
+  .version-pill span {
+    font-size: 8px;
+    padding: 2px 6px;
+  }
 }
 
 /* Smooth transitions for theme switching */

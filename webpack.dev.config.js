@@ -2,7 +2,7 @@ const path = require("path");
 const CopyWebpackPlugin = require("copy-webpack-plugin");
 const HtmlWebpackPlugin = require("html-webpack-plugin");
 
-const urlDev = "http://localhost:3000/";
+const urlDev = "http://localhost:3001/";
 
 const addinConfig = (env, options) => {
   const dev = options.mode === "development";
@@ -64,8 +64,20 @@ const addinConfig = (env, options) => {
       new CopyWebpackPlugin({
         patterns: [
           {
-            from: "manifest*.xml",
-            to: "[name]" + (dev ? ".dev" : "") + "[ext]",
+            from: "manifest.xml",
+            to: dev ? "manifest.dev.xml" : "manifest.xml",
+            transform(content) {
+              if (dev) {
+                // Replace production URLs with localhost for development
+                return content
+                  .toString()
+                  .replace(/https:\/\/ipg-taxonomy-extractor-addin\.wookstar\.com\/taskpane/g, urlDev + 'taskpane.html')
+                  .replace(/https:\/\/ipg-taxonomy-extractor-addin\.wookstar\.com\/commands/g, urlDev + 'commands.html')
+                  .replace(/https:\/\/ipg-taxonomy-extractor-addin\.wookstar\.com\/assets/g, urlDev + 'assets')
+                  .replace(/https:\/\/ipg-taxonomy-extractor-addin\.wookstar\.com/g, urlDev.slice(0, -1));
+              }
+              return content;
+            },
           },
           {
             from: "assets",

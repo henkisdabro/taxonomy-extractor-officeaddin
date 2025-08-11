@@ -382,6 +382,7 @@ class TaxonomyExtractor {
   constructor() {
     this.initializeLocalization();
     this.initializeUI();
+    this.initializeVersionAndSupport();
     this.setupEventHandlers();
     // Dark mode disabled - using CSS-only light mode default
     // this.initializeDarkMode();
@@ -537,6 +538,60 @@ class TaxonomyExtractor {
     }
     
     Logger.info(`UI initialization complete. Found ${this.segmentButtons.filter(b => b).length} segment buttons`);
+  }
+
+  private initializeVersionAndSupport(): void {
+    Logger.info('Initializing version and support elements...');
+    
+    try {
+      // Update version number from manifest.xml version
+      // Note: In production, this should be set during build process
+      const versionElement = document.getElementById('versionNumber');
+      if (versionElement) {
+        // Extract version from manifest.xml (currently hardcoded to match manifest)
+        const manifestVersion = '2.0.0.0';
+        versionElement.textContent = `v${manifestVersion}`;
+        Logger.debug(`Version updated to: v${manifestVersion}`);
+      } else {
+        Logger.warn('Version element not found - using hardcoded version');
+      }
+
+      // Update support text with hardcoded strings for reliability
+      const supportTextElement = document.querySelector('.support-text');
+      if (supportTextElement) {
+        // Use hardcoded text to avoid localization issues
+        supportTextElement.innerHTML = `
+          For support & feature requests, visit the 
+          <a href="https://github.com/henkisdabro/taxonomy-extractor-officeaddin#readme" 
+             target="_blank" 
+             rel="noopener noreferrer" 
+             class="support-link">README</a> 
+          or submit an 
+          <a href="https://github.com/henkisdabro/taxonomy-extractor-officeaddin/issues" 
+             target="_blank" 
+             rel="noopener noreferrer" 
+             class="support-link">Issue</a>
+        `;
+        Logger.debug('Support text updated with hardcoded values');
+      } else {
+        Logger.warn('Support text element not found');
+      }
+
+      // Update GitHub link title
+      const githubLink = document.querySelector('.github-link');
+      if (githubLink) {
+        githubLink.setAttribute('title', 'View on GitHub');
+        Logger.debug('GitHub link title updated');
+      } else {
+        Logger.warn('GitHub link element not found');
+      }
+
+    } catch (error) {
+      Logger.error('Failed to initialize version and support elements:', error);
+      // Fallback: Keep hardcoded values in HTML
+    }
+
+    Logger.info('Version and support initialization complete');
   }
 
   private setupEventHandlers(): void {

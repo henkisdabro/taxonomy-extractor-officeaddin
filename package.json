@@ -10,7 +10,7 @@
     "build:dev": "webpack --mode development --config webpack.dev.config.js",
     "build:prod": "webpack --mode production --analyze",
     "dev-server": "webpack serve --mode development --config webpack.dev.config.js",
-    "start": "office-addin-debugging start manifest.xml --dev-server \"webpack serve --mode development --config webpack.dev.config.js\"",
+    "start": "npm run build:dev && office-addin-debugging start dist/manifest.dev.xml --dev-server \"npm run dev-server\"",
     "start:desktop": "office-addin-dev-certs verify && webpack serve --mode development --config webpack.config.js",
     "start:web": "office-addin-dev-certs verify && webpack serve --mode development --config webpack.config.js --env WEBPACK_BUILD=web",
     "watch": "webpack --mode development --config webpack.config.js --watch",

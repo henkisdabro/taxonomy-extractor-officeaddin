@@ -260,9 +260,19 @@ npm run build         # Full production build
 git add . && git commit -m "message" && git push
 ```
 
+### **Version Management**
+**CRITICAL:** When releasing new versions, update version numbers in **ALL** these locations:
+1. `manifest.xml` - Line 8: `<Version>2.0.0.0</Version>`
+2. `src/taskpane/taskpane.ts` - Line 552: `const manifestVersion = '2.0.0.0';`
+3. `src/taskpane/taskpane.css` - Line 1: `/* IPG Taxonomy Extractor v2.0.0 - Modern Fluent UI Styles */`
+4. `src/taskpane/taskpane.ts` - Line 2: `* IPG Taxonomy Extractor v2.0.0`
+
+**Note:** Version pill automatically displays the current version from the code. Failure to update all locations will result in version inconsistencies in the UI.
+
 ### **Key Files**
-- `manifest.xml` - Office Add-in configuration
-- `src/taskpane/taskpane.ts` - Core application logic
+- `manifest.xml` - Office Add-in configuration (**VERSION CRITICAL**)
+- `src/taskpane/taskpane.ts` - Core application logic (**VERSION CRITICAL**)
+- `src/taskpane/taskpane.css` - Styles (**VERSION CRITICAL**)
 - `webpack.dev.config.js` - Development server configuration
 - `wrangler.toml` - Cloudflare Workers deployment configuration
 - `.vscode/tasks.json` - VS Code debugging integration
