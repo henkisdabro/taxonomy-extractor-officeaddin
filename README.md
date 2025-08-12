@@ -10,6 +10,9 @@
 
 A production-ready Office Add-in for extracting segments from pipe-delimited taxonomy data across Excel Web, Desktop, and Mac platforms.
 
+## 💻 Demonstration
+
+![msedge_nZjh924QSr](https://github.com/user-attachments/assets/a9e684c4-8e5d-43f5-ba81-035f1fc699cd)
 
 ## ✨ Features
 
