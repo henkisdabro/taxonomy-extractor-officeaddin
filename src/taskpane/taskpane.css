@@ -3,7 +3,7 @@
 /* CSS Custom Properties for Dynamic Theming */
 :root {
   /* Light Theme Colors */
-  --bg-primary: #ffffff;
+  --bg-primary: #fffff8;
   --bg-secondary: #faf9f8;
   --bg-tertiary: #f3f2f1;
   --bg-accent: #deecf9;
@@ -16,7 +16,7 @@
   --border-subtle: #d2d0ce;
   --shadow-light: rgba(0, 0, 0, 0.1);
   --shadow-medium: rgba(0, 0, 0, 0.15);
-  
+
   /* Button Colors - Excel-like neutral styling */
   --btn-primary-bg: #ffffff;
   --btn-primary-hover: #f3f2f1;
@@ -26,12 +26,12 @@
   --btn-default-text: #323130;
   --btn-disabled-bg: #f8f6f4;
   --btn-disabled-text: #8a8886;
-  
+
   /* Undo button orange state */
   --btn-undo-active-bg: #f7630c;
   --btn-undo-active-hover: #d85200;
   --btn-undo-active-text: #ffffff;
-  
+
   /* Status Colors */
   --success-bg: #dff6dd;
   --success-border: #92c353;
@@ -67,7 +67,13 @@ body {
   height: 100%;
   margin: 0;
   padding: 0;
-  font-family: 'Segoe UI', -apple-system, BlinkMacSystemFont, 'Roboto', 'Helvetica Neue', sans-serif;
+  font-family:
+    'Segoe UI',
+    -apple-system,
+    BlinkMacSystemFont,
+    'Roboto',
+    'Helvetica Neue',
+    sans-serif;
   background-color: var(--bg-primary);
   color: var(--text-primary);
   overflow-x: hidden;
@@ -273,7 +279,6 @@ body {
 .activation-section {
   margin-bottom: 12px;
 }
-
 
 .ms-Button--compound {
   min-height: 32px;
@@ -503,21 +508,21 @@ body.dev-mode .dev-section {
   .ms-Grid-row {
     padding: 0 16px;
   }
-  
+
   .app-header {
     padding: 14px 16px;
   }
-  
+
   .undo-section {
     margin: 0;
     padding: 0;
   }
-  
+
   .button-row,
   .targeting-button-row {
     gap: 4px;
   }
-  
+
   .segment-btn {
     min-height: 28px;
     font-size: 11px;
@@ -531,15 +536,15 @@ body.dev-mode .dev-section {
     font-size: 10px;
     padding: 5px 8px;
   }
-  
+
   .app-header {
     padding: 12px 12px;
   }
-  
+
   .ms-Grid-row {
     padding: 0 12px;
   }
-  
+
   .undo-section {
     margin: 0;
     padding: 0;
@@ -592,8 +597,12 @@ body.dev-mode .dev-section {
 }
 
 @keyframes spin {
-  0% { transform: rotate(0deg); }
-  100% { transform: rotate(360deg); }
+  0% {
+    transform: rotate(0deg);
+  }
+  100% {
+    transform: rotate(360deg);
+  }
 }
 
 /* Enhanced button feedback */
@@ -649,7 +658,9 @@ body.dev-mode .dev-section {
 }
 
 /* Ensure all text uses the design system colors */
-.ms-font-m, .ms-font-xl, .ms-font-s {
+.ms-font-m,
+.ms-font-xl,
+.ms-font-s {
   color: var(--text-primary);
 }
 
@@ -763,22 +774,22 @@ body.dev-mode .dev-section {
     margin: 16px 16px 12px 16px;
     padding: 12px 0 6px 0;
   }
-  
+
   .support-row {
     font-size: 9px;
     gap: 6px;
   }
-  
+
   .github-link {
     width: 18px;
     height: 18px;
   }
-  
+
   .github-icon {
     width: 12px;
     height: 12px;
   }
-  
+
   .version-pill span {
     font-size: 9px;
     padding: 3px 8px;
@@ -790,22 +801,22 @@ body.dev-mode .dev-section {
     margin: 12px 12px 8px 12px;
     padding: 8px 0 4px 0;
   }
-  
+
   .support-row {
     font-size: 8px;
     gap: 4px;
   }
-  
+
   .github-link {
     width: 16px;
     height: 16px;
   }
-  
+
   .github-icon {
     width: 10px;
     height: 10px;
   }
-  
+
   .version-pill span {
     font-size: 8px;
     padding: 2px 6px;
@@ -814,5 +825,8 @@ body.dev-mode .dev-section {
 
 /* Smooth transitions for theme switching */
 * {
-  transition: background-color 0.03s ease, color 0.03s ease, border-color 0.03s ease;
+  transition:
+    background-color 0.03s ease,
+    color 0.03s ease,
+    border-color 0.03s ease;
 }
